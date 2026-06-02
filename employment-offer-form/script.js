@@ -256,17 +256,23 @@ function renderPdfAndOpenGmail(fileSaveName, fullName, sYear, eYear) {
         printElement.style.display = 'none';
     });
 }
-// ====== PART 5: SUBMISSION AUTOMATION ENGINE ======
+// ====== PART 5: SUBMISSION AUTOMATION ENGINE (UPDATED EMAIL COPY) ======
 
 function launchGmailTab(fullName, sYear, eYear, fileSaveName) {
-    // We point the destination directly to HR as requested
+    // Point the destination directly to HR as requested
     const targetHR = "hr@eps73.net";
     
-    // Built cleanly with plain text strings to prevent gateway timeouts
-    const mailSubject = "Terms of Employment Offer Profile - " + fullName;
-    const mailBody = "Hello " + fullName + ",\n\nPlease find your attached Terms of Employment Offer profile for the " + sYear + "-" + eYear + " school year.\n\nPlease review the terms, digitally sign the document using your PDF viewer (Adobe, Preview, DocuSign, etc.), and reply back to this email with the completed copy.\n\nWelcome to East Prairie School District 73!";
+    // Updated clean subject line
+    const mailSubject = "Completed Terms of Employment - " + fullName;
     
-    // Assemble the clean email string container safely
+    // Updated email body structure exactly matching your request
+    const mailBody = "Hello,\n\n" +
+                     "Please find my signed Terms of Employment for the " + sYear + "-" + eYear + " school year.\n\n" +
+                     "I have reviewed the details and digitally signed the document.\n\n" +
+                     "Sincerely,\n" + 
+                     fullName;
+    
+    // Assemble the email link string container safely
     const finalEmailLink = "https://mail.google.com/mail/?view=cm&fs=1&to=" + 
                            encodeURIComponent(targetHR) + 
                            "&su=" + encodeURIComponent(mailSubject) + 
