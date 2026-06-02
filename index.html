@@ -3,71 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Business Office Forms Hub</title>
+    <title>East Prairie School District 73 - Business Office Hub</title>
+    <!-- External Dependencies matching our form styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            text-align: center;
-        }
-        h1 {
-            color: #1e293b;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #64748b;
-            margin-bottom: 30px;
-        }
-        .form-list {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .form-btn {
-            display: block;
-            background-color: #0284c7;
-            color: white;
-            text-decoration: none;
-            padding: 16px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-        .form-btn:hover {
-            background-color: #0369a1;
-            transform: translateY(-1px);
-        }
-        .form-btn:active {
-            transform: translateY(1px);
+            font-family: 'Inter', sans-serif;
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen p-4 md:p-8 flex flex-col items-center">
 
-    <div class="container">
-        <h1>East Prairie Business Office</h1>
-        <p>Select a fillable form from the list below to get started.</p>
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-8 border-teal-600">
         
-        <div class="form-list">
-            <a class="form-btn" href="./employee-reimbursement-form/">
-                Employee Reimbursement Form
-            </a>
+        <!-- Header Section -->
+        <header class="text-center mb-10 border-b pb-6">
+            <div class="mx-auto h-20 w-20 mb-4 overflow-hidden shadow-md border rounded-xl bg-white flex items-center justify-center">
+                <!-- Fallback typographic branding icon if graphic layer is absent -->
+                <span class="text-2xl font-bold text-teal-600">EP</span>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Business Office Forms Portal</h1>
+            <p class="text-gray-500">East Prairie School District 73 Central Dashboard</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            <!-- SECTION 1: BLUE BUTTONS (Staff Forms) -->
+            <section class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="h-3 w-3 rounded-full bg-blue-500"></div>
+                        <h2 class="text-lg font-bold text-gray-800">Staff Requests & Forms</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-6">General submission portals, reimbursement tracking, and operational templates for campus employees.</p>
+                </div>
+                
+                <div class="space-y-3">
+                    <!-- Link to your active reimbursement form project folder -->
+                    <a href="./employee-reimbursement-form/" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                        Employee Reimbursement Form
+                    </a>
+                    
+                    <button disabled class="block w-full text-center bg-gray-200 text-gray-400 font-medium py-3 px-4 rounded-xl cursor-not-allowed text-sm border border-dashed border-gray-300">
+                        + Add Staff Form (Placeholder)
+                    </button>
+                </div>
+            </section>
+
+            <!-- SECTION 2: GREEN BUTTONS (Business Office Operations) -->
+            <section class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="h-3 w-3 rounded-full bg-emerald-500"></div>
+                        <h2 class="text-lg font-bold text-gray-800">Business Office Admin</h2>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-6">Internal operational records, salary assignment schedules, and employment terms acknowledgments[cite: 3].</p>
+                </div>
+                
+                <div class="space-y-3">
+                    <!-- Placeholder link pointing toward your upcoming employment offer system layout -->
+                    <a href="./employment-offer-form/" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                        Employment Offer Profile
+                    </a>
+                    
+                    <button disabled class="block w-full text-center bg-gray-200 text-gray-400 font-medium py-3 px-4 rounded-xl cursor-not-allowed text-sm border border-dashed border-gray-300">
+                        + Add Admin Form (Placeholder)
+                    </button>
+                </div>
+            </section>
+
         </div>
+
+        <!-- Footer Notice -->
+        <footer class="mt-12 pt-6 border-t text-center text-xs text-gray-400">
+            Secure Institutional Processing Panel • Access restricted to authorized personnel.
+        </footer>
     </div>
 
 </body>
