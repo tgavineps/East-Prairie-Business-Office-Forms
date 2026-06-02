@@ -13,35 +13,38 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen p-4 md:p-8 flex flex-col items-center">
+<body class="bg-gray-100 min-h-screen p-4 md:p-8 flex flex-col items-center">
 
-    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-8 border-teal-600">
+    <!-- Main Container Accent: Deep Slate Blue/Navy Top Border -->
+    <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl p-6 md:p-10 border-t-8 border-slate-900">
         
         <!-- Header Section -->
         <header class="text-center mb-10 border-b pb-6">
-            <div class="mx-auto h-20 w-20 mb-4 overflow-hidden shadow-md border rounded-xl bg-white flex items-center justify-center">
-                <!-- Fallback typographic branding icon if graphic layer is absent -->
-                <span class="text-2xl font-bold text-teal-600">EP</span>
+            <div class="mx-auto h-20 w-20 mb-4 overflow-hidden shadow-md border rounded-xl bg-white flex items-center justify-center border-slate-200">
+                <!-- Branding icon matching the new navy accent color -->
+                <span class="text-2xl font-bold text-slate-900">EP</span>
             </div>
             <h1 class="text-3xl font-bold text-gray-900 mb-2">East Prairie Business Office Dashboard</h1>
-            <p class="text-gray-500">District 73</p>
+            <!-- Subtitle dropped down to a crisp District Grey -->
+            <p class="text-slate-500 font-bold uppercase tracking-wider text-sm">District 73</p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             
-            <!-- SECTION 1: BLUE BUTTONS (Staff Forms) -->
-            <section class="bg-blue-50/50 p-6 rounded-2xl border border-blue-100 flex flex-col justify-between">
+            <!-- SECTION 1: STAFF REQUESTS & FORMS -->
+            <section class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="h-3 w-3 rounded-full bg-blue-500"></div>
+                        <!-- Grey Status Dot -->
+                        <div class="h-3 w-3 rounded-full bg-slate-400"></div>
                         <h2 class="text-lg font-bold text-gray-800">Staff Requests & Forms</h2>
                     </div>
                     <p class="text-sm text-gray-600 mb-6">East Prairie Staff Forms</p>
                 </div>
                 
                 <div class="space-y-3">
-                    <!-- Link to your active reimbursement form project folder -->
-                    <a href="./employee-reimbursement-form/" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    <!-- Button: Balanced Grey accent with Navy Hover -->
+                    <a href="./employee-reimbursement-form/" class="block w-full text-center bg-slate-600 hover:bg-slate-900 text-white font-semibold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0">
                         Employee Reimbursement Form
                     </a>
                     
@@ -51,19 +54,20 @@
                 </div>
             </section>
 
-            <!-- SECTION 2: GREEN BUTTONS (Business Office Operations) -->
-            <section class="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100 flex flex-col justify-between">
+            <!-- SECTION 2: BUSINESS OFFICE ADMIN -->
+            <section class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center gap-2 mb-4">
-                        <div class="h-3 w-3 rounded-full bg-emerald-500"></div>
+                        <!-- Navy Status Dot -->
+                        <div class="h-3 w-3 rounded-full bg-slate-900"></div>
                         <h2 class="text-lg font-bold text-gray-800">Business Office Admin</h2>
                     </div>
                     <p class="text-sm text-gray-600 mb-6">For East Prairie Business Office Use Only</p>
                 </div>
                 
                 <div class="space-y-3">
-                    <!-- Placeholder link pointing toward your upcoming employment offer system layout -->
-                    <a href="./employment-offer-form/" class="block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0">
+                    <!-- Button: Solid Deep Navy with Grey Hover -->
+                    <a href="./employment-offer-form/" class="block w-full text-center bg-slate-900 hover:bg-slate-700 text-white font-semibold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0">
                         Terms of Employment
                     </a>
                     
