@@ -187,7 +187,7 @@ function executePdfPipeline() {
     const fName = document.getElementById('firstName').value.trim();
     const lName = document.getElementById('lastName').value.trim();
     const fullName = `${fName} ${lName}`.trim() || '[Employee Name]';
-    const fileSaveName = `Employment_Offer_${fullName.replace(/\s+/g, '_')}.pdf`;
+    const fileSaveName = `Terms_Of_Employment_${fullName.replace(/\s+/g, '_')}.pdf`;
 
     // Map screen parameters into hidden target print layout variables
     document.getElementById('print-lbl-fullname').innerText = fullName;
