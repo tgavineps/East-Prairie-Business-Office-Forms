@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>East Prairie School District 73 - Employment Offer Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="p-4 md:p-8 bg-gray-50 min-h-screen">
+
+    <div id="form-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10 border-4 border-emerald-600">
+        
+        <!-- Workflow Dynamic Banner State -->
+        <div id="workflow-banner" class="mb-6 p-4 rounded-xl text-sm font-medium bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-between">
+            <div>
+                <span class="font-bold">📋 Admin Mode:</span> Fill out the offer variables, then click "Generate New Hire Link" at the bottom.
+            </div>
+        </div>
+
+        <header class="text-center mb-8">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Terms of Employment</h1>
+            <p class="text-emerald-700 font-semibold">East Prairie School District 73</p>
+        </header>
+
+        <!-- Section 1: Demographics -->
+        <section class="mb-6">
+            <div class="border-b pb-3 mb-3 border-emerald-200">
+                <h2 class="text-xl font-semibold text-gray-800">1. Employee Demographics</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex flex-col">
+                    <label for="firstName" class="text-gray-700 font-medium mb-1 text-sm">First Name</label>
+                    <input type="text" id="firstName" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="lastName" class="text-gray-700 font-medium mb-1 text-sm">Last Name</label>
+                    <input type="text" id="lastName" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col md:col-span-2">
+                    <label for="streetAddress" class="text-gray-700 font-medium mb-1 text-sm">Street Address</label>
+                    <input type="text" id="streetAddress" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="city" class="text-gray-700 font-medium mb-1 text-sm">City</label>
+                    <input type="text" id="city" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="flex flex-col">
+                        <label for="state" class="text-gray-700 font-medium mb-1 text-sm">State</label>
+                        <input type="text" id="state" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" value="IL">
+                    </div>
+                    <div class="flex flex-col">
+                        <label for="zipCode" class="text-gray-700 font-medium mb-1 text-sm">Zip Code</label>
+                        <input type="text" id="zipCode" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <label for="phone" class="text-gray-700 font-medium mb-1 text-sm">Phone Number</label>
+                    <input type="tel" id="phone" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="email" class="text-gray-700 font-medium mb-1 text-sm">Email Address</label>
+                    <input type="email" id="email" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="birthDate" class="text-gray-700 font-medium mb-1 text-sm">Birth Date</label>
+                    <input type="date" id="birthDate" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="iein" class="text-gray-700 font-medium mb-1 text-sm">IEIN # (if applicable)</label>
+                    <input type="text" id="iein" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Position & Terms -->
+        <section class="mb-6">
+            <div class="border-b pb-3 mb-3 border-emerald-200">
+                <h2 class="text-xl font-semibold text-gray-800">2. Assignment Details & Compensation</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col md:col-span-2">
+                    <label for="position" class="text-gray-700 font-medium mb-1 text-sm">Position</label>
+                    <input type="text" id="position" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="education" class="text-gray-700 font-medium mb-1 text-sm">Education Track</label>
+                    <select id="education" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                        <option value="BA">BA</option>
+                        <option value="MA">MA</option>
+                        <option value="MA+Endorsement">MA+Endorsement</option>
+                        <option value="MA+2 Endorsements">MA+2 Endorsements</option>
+                        <option value="MA+32">MA+32</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="longevity" class="text-gray-700 font-medium mb-1 text-sm">Years Towards Longevity</label>
+                    <input type="number" id="longevity" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="startDate" class="text-gray-700 font-medium mb-1 text-sm">Start / Hire Date</label>
+                    <input type="date" id="startDate" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="salary" class="text-gray-700 font-medium mb-1 text-sm">Annual Salary / Hourly Rate</label>
+                    <input type="text" id="salary" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors" placeholder="0.00">
+                </div>
+                <div class="flex flex-col">
+                    <label for="sickDays" class="text-gray-700 font-medium mb-1 text-sm">Sick Days Allotted</label>
+                    <input type="number" id="sickDays" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="personalDays" class="text-gray-700 font-medium mb-1 text-sm">Personal Days Allotted</label>
+                    <input type="number" id="personalDays" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+                <div class="flex flex-col">
+                    <label for="vacationDays" class="text-gray-700 font-medium mb-1 text-sm">Vacation Days Allotted</label>
+                    <input type="number" id="vacationDays" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors">
+                </div>
+            </div>
+            <div class="mt-4 bg-emerald-50 p-4 rounded-xl border border-emerald-200">
+                <label class="text-gray-800 font-medium block text-sm mb-2">School Assignment Term Year</label>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="schoolYearStart" class="border border-gray-300 rounded-lg p-2 w-24 text-center" placeholder="2026">
+                    <span class="text-gray-500">—</span>
+                    <input type="text" id="schoolYearEnd" class="border border-gray-300 rounded-lg p-2 w-24 text-center" placeholder="2027">
+                    <span class="text-sm text-gray-600">School Year</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Acknowledgment & Signature -->
+        <section id="signature-section" class="mb-6 style-disabled opacity-40 pointer-events-none">
+            <div class="border-b pb-3 mb-3 border-emerald-200">
+                <h2 class="text-xl font-semibold text-gray-800">3. Acknowledgment & Sign-Off</h2>
+            </div>
+            <p class="text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg border">
+                By signing below, you acknowledge and accept the terms of this employment offer and commit to fulfilling your responsibilities at East Prairie School District 73 for the duration of the designated school year.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="flex flex-col justify-end">
+                    <label class="text-gray-700 font-medium mb-1 text-sm">Employee Signature</label>
+                    <div class="border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden relative">
+                        <canvas id="employeeCanvas" class="w-full h-36 block cursor-crosshair bg-white touch-none"></canvas>
+                    </div>
+                    <button type="button" id="clearCanvasBtn" class="text-xs text-red-500 hover:text-red-700 font-semibold mt-1 self-end">
+                        Clear Signature
+                    </button>
+                </div>
+                <div class="flex flex-col justify-end">
+                    <label for="signatureDate" class="text-gray-700 font-medium mb-1 text-sm">Date Signed</label>
+                    <input type="date" id="signatureDate" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors w-full">
+                </div>
+            </div>
+        </section>
+
+        <!-- Action Control Buttons Wrapper -->
+        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+            <!-- Admin Button View Only -->
+            <button type="button" id="adminGenLinkBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full text-md shadow-lg transition-transform transform hover:scale-105">
+                Generate New Hire Link
+            </button>
+            <!-- New Hire Button View Only (Hidden initially) -->
+            <button type="button" id="sendOfficeBtn" style="display: none;" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full text-md shadow-lg transition-transform transform hover:scale-105">
+                Submit Signed Contract
+            </button>
+        </div>
+    </div>
+
+    <!-- Hidden High-Precision Print Document Template Layer -->
+    <div id="hidden-print-template" style="display: none; box-sizing: border-box; width: 7.5in; font-family: Arial, sans-serif; color: #111827; line-height: 1.4;">
+        <div style="border: 3px solid #059669; border-radius: 12px; padding: 24px; background-color: #fff; box-sizing: border-box;">
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr>
+                    <td style="vertical-align: middle; text-align: left;">
+                        <h1 style="margin: 0; font-size: 22px; font-weight: bold; color: #047857; letter-spacing: 0.5px;">Terms of Employment Offer Profile</h1>
+                        <p style="margin: 4px 0 0 0; font-size: 13px; color: #4b5563; font-weight: bold;">East Prairie School District 73</p>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin-bottom: 20px;">
+                <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; margin-bottom: 10px;">
+                    <h2 style="font-size: 13px; font-weight: bold; color: #111827; margin: 0;">1. Employee Demographics</h2>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                    <tr>
+                        <td style="padding: 4px 0; width: 50%;"><strong>Full Name:</strong> <span id="print-lbl-fullname"></span></td>
+                        <td style="padding: 4px 0; width: 50%;"><strong>IEIN #:</strong> <span id="print-lbl-iein"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 4px 0;"><strong>Street Address:</strong> <span id="print-lbl-address"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>City, State Zip:</strong> <span id="print-lbl-citystatezip"></span></td>
+                        <td style="padding: 4px 0;"><strong>Birth Date:</strong> <span id="print-lbl-birthdate"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Phone:</strong> <span id="print-lbl-phone"></span></td>
+                        <td style="padding: 4px 0;"><strong>Email:</strong> <span id="print-lbl-email"></span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; margin-bottom: 10px;">
+                    <h2 style="font-size: 13px; font-weight: bold; color: #111827; margin: 0;">2. Assignment Details & Compensation</h2>
+                </div>
+                <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                    <tr>
+                        <td style="padding: 4px 0; width: 50%;"><strong>Position:</strong> <span id="print-lbl-position"></span></td>
+                        <td style="padding: 4px 0; width: 50%;"><strong>Education Track:</strong> <span id="print-lbl-education"></span></td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 4px 0;"><strong>Years Towards Longevity:</strong> <span id="print-lbl-longevity"></span></td>
+                        <td style="padding: 4px 0;"><strong>Start / Hire Date:</strong> <span id="print-lbl-startdate"></span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="padding: 6px 0; font-size: 13px; color: #047857;"><strong>Annual Salary / Hourly Rate:</strong> <span id="print-lbl-salary" style="font-weight: bold;"></span></td>
+                    </tr>
+                </table>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 8px; border: 1px solid #e5e7eb; text-align: center;">
+                    <tr style="background-color: #f0fdf4; font-weight: bold;">
+                        <td style="border: 1px solid #e5e7eb; padding: 6px;">Sick Days Allotted</td>
+                        <td style="border: 1px solid #e5e7eb; padding: 6px;">Personal Days Allotted</td>
+                        <td style="border: 1px solid #e5e7eb; padding: 6px;">Vacation Days Allotted</td>
+                    </tr>
+                    <tr>
+                        <td id="print-lbl-sick" style="border: 1px solid #e5e7eb; padding: 6px; font-size: 13px;"></td>
+                        <td id="print-lbl-personal" style="border: 1px solid #e5e7eb; padding: 6px; font-size: 13px;"></td>
+                        <td id="print-lbl-vacation" style="border: 1px solid #e5e7eb; padding: 6px; font-size: 13px;"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <div style="border-bottom: 1px solid #e5e7eb; padding-bottom: 4px; margin-bottom: 10px;">
+                    <h2 style="font-size: 13px; font-weight: bold; color: #111827; margin: 0;">3. Terms & Acknowledgment Sign-Off</h2>
+                </div>
+                <p style="font-size: 11px; color: #374151; line-height: 1.4; margin: 0 0 15px 0; background-color: #f9fafb; padding: 10px; border-radius: 6px; border: 1px solid #f3f4f6;">
+                    By signing below, you acknowledge and accept the terms of this employment offer and commit to fulfilling your responsibilities at East Prairie School District 73 for the duration of the <span id="print-lbl-term-range" style="font-weight: bold; text-decoration: underline;"></span> school year.
+                </p>
+                <div style="margin-top: 20px;">
+                    <span style="font-size: 11px; font-weight: bold; color: #4b5563; display: block; margin-bottom: 4px;">Employee Signature</span>
+                    <div style="border: 1px solid #d1d5db; border-radius: 6px; height: 70px; background-color: #fff; overflow: hidden; margin-bottom: 6px; max-width: 320px;">
+                        <img id="print-sig-image" style="height: 100%; max-width: 100%; object-fit: contain; display: none;" alt="Employee Signature">
+                    </div>
+                    <p style="font-size: 12px; margin: 4px 0 0 0;"><strong>Date Signed:</strong> <span id="print-lbl-sigdate"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
