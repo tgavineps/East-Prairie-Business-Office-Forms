@@ -28,15 +28,18 @@ function setupWorkflowUI() {
     const hireBtn = document.getElementById('sendOfficeBtn');
 
     if (isNewHireMode) {
-        // Shift UI to New Hire Mode: Lock down offer details, unlock signature
+        // Shift UI to New Hire Mode
         banner.className = "mb-6 p-4 rounded-xl text-sm font-medium bg-emerald-50 border border-emerald-200 text-emerald-800";
-        banner.innerHTML = "✍️ <strong>New Hire Review:</strong> Please review your offer details, fill in your demographics, sign below, and submit.";
+        banner.innerHTML = "✍️ <strong>New Hire Review:</strong> Please review your offer details, verify or complete your demographics, sign below, and submit.";
         
         sigSection.classList.remove('style-disabled', 'opacity-40', 'pointer-events-none');
         adminBtn.style.display = 'none';
         hireBtn.style.display = 'block';
 
-        // Pre-fill locked contract variables passed from the admin assistant
+        // ACTIVATION FIX: Connect the submit button click to the execution pipeline
+        hireBtn.addEventListener('click', executePdfPipeline);
+
+        // Pre-fill locked contract variables passed from assistant
         document.getElementById('position').value = getUrlParam('pos') || '';
         document.getElementById('education').value = getUrlParam('edu') || 'BA';
         document.getElementById('longevity').value = getUrlParam('long') || '0';
@@ -48,15 +51,25 @@ function setupWorkflowUI() {
         document.getElementById('schoolYearStart').value = getUrlParam('y-start') || '2026';
         document.getElementById('schoolYearEnd').value = getUrlParam('y-end') || '2027';
 
-        // Disable input fields for Section 2 so details cannot be altered by new hire
-        const fields = ['position', 'education', 'longevity', 'startDate', 'salary', 'sickDays', 'personalDays', 'vacationDays', 'schoolYearStart', 'schoolYearEnd'];
-        fields.forEach(id => document.getElementById(id).disabled = true);
+        // NEW HIRE FILL FIX: Pre-fill demographics but leave them completely UNLOCKED/EDITABLE
+        document.getElementById('firstName').value = getUrlParam('fn') || '';
+        document.getElementById('lastName').value = getUrlParam('ln') || '';
+        document.getElementById('streetAddress').value = getUrlParam('ad') || '';
+        document.getElementById('city').value = getUrlParam('ct') || '';
+        document.getElementById('zipCode').value = getUrlParam('zp') || '';
+        document.getElementById('phone').value = getUrlParam('ph') || '';
+        document.getElementById('email').value = getUrlParam('em') || '';
+        document.getElementById('birthDate').value = getUrlParam('bd') || '';
+        document.getElementById('iein').value = getUrlParam('in') || '';
+
+        // Disable ONLY the internal compensation/contract fields
+        const lockFields = ['position', 'education', 'longevity', 'startDate', 'salary', 'sickDays', 'personalDays', 'vacationDays', 'schoolYearStart', 'schoolYearEnd'];
+        lockFields.forEach(id => document.getElementById(id).disabled = true);
     } else {
         // Admin Assistant View
         adminBtn.addEventListener('click', generateSharedLink);
     }
 }
-
 // Live Signature Canvas Drawing Logic
 let drawing = false;
 const canvas = document.getElementById('employeeCanvas');
@@ -129,8 +142,10 @@ function formatDate(rawDate) {
 }
 // ====== PART 2: ADMIN LINK GENERATION ENGINE ======
 
+// ====== PART 2: ADMIN LINK GENERATION ENGINE (UPDATED) ======
+
 function generateSharedLink() {
-    // Collect the administrative/contract fields entered by the assistant
+    // Collect administrative contract fields
     const pos = encodeURIComponent(document.getElementById('position').value.trim());
     const edu = encodeURIComponent(document.getElementById('education').value);
     const lg = encodeURIComponent(document.getElementById('longevity').value || '0');
@@ -142,16 +157,27 @@ function generateSharedLink() {
     const yStart = encodeURIComponent(document.getElementById('schoolYearStart').value.trim() || '2026');
     const yEnd = encodeURIComponent(document.getElementById('schoolYearEnd').value.trim() || '2027');
 
-    // Construct the payload URL pointing back to this exact page with parameters
-    const baseUrl = window.location.origin + window.location.pathname;
-    const securePayloadUrl = `${baseUrl}?mode=newhire&pos=${pos}&edu=${edu}&long=${lg}&start=${start}&sal=${sal}&sick=${sick}&pers=${pers}&vac=${vac}&y-start=${yStart}&y-end=${yEnd}`;
+    // Collect prefilled demographic fields from the assistant
+    const fName = encodeURIComponent(document.getElementById('firstName').value.trim());
+    const lName = encodeURIComponent(document.getElementById('lastName').value.trim());
+    const addr = encodeURIComponent(document.getElementById('streetAddress').value.trim());
+    const city = encodeURIComponent(document.getElementById('city').value.trim());
+    const zip = encodeURIComponent(document.getElementById('zipCode').value.trim());
+    const phone = encodeURIComponent(document.getElementById('phone').value.trim());
+    const email = encodeURIComponent(document.getElementById('email').value.trim());
+    const bday = encodeURIComponent(document.getElementById('birthDate').value);
+    const iein = encodeURIComponent(document.getElementById('iein').value.trim());
 
-    // Copy the generated onboarding workflow link directly to the assistant's clipboard
+    // Construct the comprehensive deployment URL payload
+    const baseUrl = window.location.origin + window.location.pathname;
+    const securePayloadUrl = `${baseUrl}?mode=newhire&pos=${pos}&edu=${edu}&long=${lg}&start=${start}&sal=${sal}&sick=${sick}&pers=${pers}&vac=${vac}&y-start=${yStart}&y-end=${yEnd}` +
+                             `&fn=${fName}&ln=${lName}&ad=${addr}&ct=${city}&zp=${zip}&ph=${phone}&em=${email}&bd=${bday}&in=${iein}`;
+
+    // Copy the generated onboarding workflow link directly to the clipboard
     navigator.clipboard.writeText(securePayloadUrl).then(() => {
-        alert("🎉 Success!\n\nThe personalized onboarding link has been copied to your clipboard.\n\nYou can now paste (Ctrl+V or Cmd+V) and email this directly to the new hire!");
+        alert("🎉 Success!\n\nThe personalized onboarding link has been copied to your clipboard.\n\nDemographics and contract data are saved! Paste and email this to the new hire.");
     }).catch(err => {
-        console.error("Clipboard routing restriction encountered: ", err);
-        // Fallback if browser security blocks automated clipboard access
+        console.error("Clipboard routing restriction: ", err);
         prompt("Copy this complete onboarding link to email to the new hire:", securePayloadUrl);
     });
 }
