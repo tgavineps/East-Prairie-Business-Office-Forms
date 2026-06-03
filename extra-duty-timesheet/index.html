@@ -50,6 +50,10 @@
             .unlogged-day-row {
                 display: none !important;
             }
+            header {
+                height: 110px !important;
+                margin-bottom: 10px !important;
+            }
             section {
                 page-break-inside: avoid;
             }
@@ -60,14 +64,14 @@
 
     <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-4 pb-8 border-t-8 border-[#002855]">
         
-        <!-- Cleaned Header Section: Negative Margin Override to Defeat Invisible Image Borders -->
-        <header class="text-center -mt-12 -mb-12 flex flex-col items-center justify-center">
-            <div class="mx-auto flex items-center justify-center px-4">
+        <!-- Collapsed Header Container: Strips out image padding gaps -->
+        <header class="relative w-full text-center h-[130px] md:h-[140px] overflow-hidden flex flex-col items-center justify-end mb-4">
+            <div class="absolute inset-x-0 top-[-55px] md:top-[-70px] flex items-center justify-center pointer-events-none">
                 <img src="../logo.png" 
                      alt="East Prairie School District 73 Business Office" 
                      class="w-64 max-w-full h-auto object-contain md:w-80">
             </div>
-            <h1 class="text-xl font-bold text-gray-900 -mt-6 mb-4">Extra Duty Timesheet</h1>
+            <h1 class="text-xl font-bold text-gray-900 z-10 bg-white px-4 relative">Extra Duty Timesheet</h1>
         </header>
 
         <!-- Section 1: Employee & Pay Period Information -->
@@ -112,7 +116,6 @@
                     <p class="text-xs text-slate-500 mt-0.5 no-print">Tip: Leave unused days completely blank—they will automatically hide when printing or saving as a PDF.</p>
                 </div>
                 <div class="flex items-center gap-4 no-print select-none">
-                    <!-- Weekend Toggle Wrapper -->
                     <label class="inline-flex items-center cursor-pointer bg-slate-100 px-3 py-1.5 rounded-lg border border-gray-200">
                         <input type="checkbox" id="toggleWeekends" onchange="generateCalendarRows()" class="sr-only peer">
                         <div class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#002855]"></div>
@@ -138,7 +141,6 @@
                         </tr>
                     </thead>
                     <tbody id="timesheetLedgerBody" class="bg-white divide-y divide-gray-200">
-                        <!-- Days dynamically inserted here -->
                     </tbody>
                 </table>
             </div>
@@ -166,7 +168,6 @@
             <!-- Approval Signatures Block -->
             <div class="border-t pt-8 border-gray-200">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
-                    <!-- Employee Column -->
                     <div class="flex flex-col space-y-6">
                         <div class="flex flex-col">
                             <div class="border-b-2 border-gray-400 h-12"></div>
@@ -178,7 +179,6 @@
                         </div>
                     </div>
                     
-                    <!-- Supervisor Column -->
                     <div class="flex flex-col space-y-6">
                         <div class="flex flex-col">
                             <div class="border-b-2 border-gray-400 h-12"></div>
