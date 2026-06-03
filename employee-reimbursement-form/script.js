@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Set default signature date to today
+    // Standard initialization rules: auto-fill signatures with current calendar dates
     const dateInput = document.getElementById('employeeSignatureDate');
     if (dateInput) dateInput.valueAsDate = new Date();
 
@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (initialRow) attachRowListeners(initialRow);
     }
 
-    // Dynamic Row Generation
+    // Dynamic row generation management processes
     if (addRowBtn) {
         addRowBtn.addEventListener('click', () => {
             const newRow = document.createElement('tr');
-            newRow.className = 'input-row-focus transition-colors';
+            newRow.className = 'transition-colors';
             newRow.innerHTML = `
                 <td class="p-1 border-r border-gray-200 text-center">
                     <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="p-1 border-r border-gray-200 text-center">
                     <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
                 </td>
-                <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-semibold text-gray-600">0.00</td>
-                <td class="p-1 text-center no-print">
+                <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-bold text-gray-700">0.00</td>
+                <td class="p-1 text-center no-print-pdf">
                     <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
                 </td>
             `;
@@ -144,15 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Structural Background PDF Handshake Framework
+// Structural Compilation PDF Workflow Engine
 function executeDownloadWorkflow() {
     const empName = document.getElementById('employeeName').value.trim();
     const purpose = document.getElementById('purpose').value.trim();
-    const dateVal = document.getElementById('employeeSignatureDate').value;
     
     const canvas = document.getElementById('employeeCanvas');
     const isCanvasDirty = canvas && canvas.dataset.dirty === "true";
     const submitBtn = document.getElementById('btnSubmitReimbursement');
+    const targetFormElement = document.getElementById('reimbursement-form-container');
 
     if (!empName) {
         alert("Please enter the Employee Name before submitting.");
@@ -169,68 +169,12 @@ function executeDownloadWorkflow() {
         return;
     }
 
+    // Toggle execution states
     submitBtn.disabled = true;
     submitBtn.innerText = "Compiling PDF Voucher...";
 
-    // --- SYNC WORKFLOW: Populate the Hidden Print Template HTML ---
-    document.getElementById('print-lbl-name').innerText = empName;
-    document.getElementById('print-lbl-purpose').innerText = purpose;
-    
-    // Clear formatted date strings
-    if (dateVal) {
-        const d = new Date(dateVal + 'T00:00:00');
-        document.getElementById('print-lbl-date').innerText = d.toLocaleDateString('en-US', {
-            month: '2-digit', day: '2-digit', year: 'numeric'
-        });
-    } else {
-        document.getElementById('print-lbl-date').innerText = '';
-    }
-
-    // Dynamic processing loop for line logs
-    const printTableBody = document.getElementById('print-table-body');
-    printTableBody.innerHTML = '';
-    
-    const webRows = document.querySelectorAll('#purchaseTableBody tr');
-    webRows.forEach(row => {
-        const rDate = row.querySelector('.date-input').value;
-        const rDesc = row.querySelector('.desc-input').value.trim();
-        const rTotal = parseFloat(row.querySelector('.total-input').value) || 0;
-        const rTax = parseFloat(row.querySelector('.tax-input').value) || 0;
-        const rNet = parseFloat(row.querySelector('.reimburse-amount-cell').innerText) || 0;
-
-        let formattedDate = '';
-        if (rDate) {
-            const d = new Date(rDate + 'T00:00:00');
-            formattedDate = d.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
-        }
-
-        const printRow = document.createElement('tr');
-        printRow.style.borderBottom = '1px solid #e2e8f0';
-        printRow.innerHTML = `
-            <td style="padding: 7px 8px; text-align: center; border-right: 1px solid #e2e8f0;">${formattedDate}</td>
-            <td style="padding: 7px 8px; border-right: 1px solid #e2e8f0; white-space: normal; word-break: break-word;">${rDesc || '—'}</td>
-            <td style="padding: 7px 8px; text-align: right; border-right: 1px solid #e2e8f0;">$${rTotal.toFixed(2)}</td>
-            <td style="padding: 7px 8px; text-align: right; border-right: 1px solid #e2e8f0;">$${rTax.toFixed(2)}</td>
-            <td style="padding: 7px 8px; text-align: right; font-weight: 600;">$${rNet.toFixed(2)}</td>
-        `;
-        printTableBody.appendChild(printRow);
-    });
-
-    // Populate Grand Financial Display Summary
-    const grandTotalText = document.getElementById('totalReimbursementAmount').innerText;
-    document.getElementById('print-lbl-grandtotal').innerText = grandTotalText;
-
-    // Output Canvas Drawing Strokes directly to Image URL variables
-    const sigImage = document.getElementById('print-sig-image');
-    sigImage.src = canvas.toDataURL('image/png');
-    sigImage.style.display = 'inline-block';
-
-    // Target print viewport visibility
-    const printElement = document.getElementById('hidden-print-template');
-
-    // CRITICAL FIX: Instead of toggling display blocks, we change the offscreen absolute positioning parameters
-    printElement.style.position = 'static';
-    printElement.style.left = '0';
+    // Apply strict rendering frame overrides directly to active DOM layout 
+    targetFormElement.classList.add('printing-pdf-active');
 
     const options = {
         margin:       [0.4, 0.4, 0.4, 0.4],
@@ -240,17 +184,14 @@ function executeDownloadWorkflow() {
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    // Handoff to file systems workflow
-    html2pdf().set(options).from(printElement).save().then(() => {
-        // Restore offscreen absolute positioning safety tracks
-        printElement.style.position = 'absolute';
-        printElement.style.left = '-9999px';
+    // Compile, save, and restore interface styling state contexts
+    html2pdf().set(options).from(targetFormElement).save().then(() => {
+        targetFormElement.classList.remove('printing-pdf-active');
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     }).catch(err => {
         console.error("PDF Compilation Failure: ", err);
-        printElement.style.position = 'absolute';
-        printElement.style.left = '-9999px';
+        targetFormElement.classList.remove('printing-pdf-active');
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     });
