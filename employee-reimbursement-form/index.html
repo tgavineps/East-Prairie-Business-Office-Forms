@@ -12,48 +12,63 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        .input-row-focus:focus-within {
-            background-color: #f8fafc;
-        }
-        
-        /* CRITICAL FIX: Keep the blueprint element rendered so the layout bounds compute perfectly, 
-          but hide it far off-screen so web users never see it.
-        */
-        #hidden-print-template {
-            position: absolute;
-            left: -9999px;
-            top: 0;
-            width: 7.5in;
-            box-sizing: border-box;
+
+        /* HARD-FIX RENDERING ENGINE ANCHOR: 
+           This class overrides responsive screen rules during the capture phase, 
+           enforcing strict document dimensions and formatting properties. */
+        .printing-pdf-active {
+            width: 7.5in !important;
+            max-width: 7.5in !important;
+            min-width: 7.5in !important;
+            padding: 32px !important;
+            margin: 0 auto !important;
+            box-shadow: none !important;
+            border: 1px solid #e5e7eb !important;
+            border-top: 8px solid #002855 !important;
+            border-radius: 16px !important;
+            background-color: #ffffff !important;
         }
 
-        @media print {
-            html, body { 
-                background-color: #fff !important; 
-                margin: 0 !important;
-                padding: 0 !important; 
-                width: 100% !important;
-                height: auto !important;
-            }
-            .no-print { 
-                display: none !important; 
-            }
+        /* Format inputs to appear as clean inline text blocks on generated documents */
+        .printing-pdf-active input {
+            border: 1px solid #cbd5e1 !important;
+            background-color: #f8fafc !important;
+            box-shadow: none !important;
+            pointer-events: none !important;
+            border-radius: 6px !important;
+            padding: 6px 10px !important;
+        }
+
+        /* Completely hide interactive web buttons on the exported document */
+        .printing-pdf-active .no-print-pdf {
+            display: none !important;
+        }
+
+        /* Adjust table spacing for print documents */
+        .printing-pdf-active table {
+            width: 100% !important;
+            table-layout: fixed !important;
+        }
+        
+        .printing-pdf-active th, 
+        .printing-pdf-active td {
+            padding: 6px 8px !important;
         }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-4 md:p-8">
 
-    <div id="reimbursement-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-6 pb-8 border-t-8 border-[#002855]">
+    <div id="reimbursement-form-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-6 pb-8 border-t-8 border-[#002855]">
         
-        <header class="w-full flex flex-col items-center justify-center pt-4 pb-6 border-b border-gray-100">
+        <header class="w-full flex flex-col items-center justify-center pt-4 pb-6 border-b border-gray-100 text-center">
             <img src="https://cmsv2-assets.apptegy.net/uploads/14657/logo/16043/Logo_Large-stroke.png" alt="East Prairie School District 73" class="w-24 h-24 object-contain">
-            <h1 class="text-xl font-bold text-[#002855] mt-3 tracking-tight">East Prairie School District 73</h1>
-            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mt-0.5">Business Office Reimbursement Voucher</p>
+            <h1 class="text-2xl font-extrabold text-[#002855] mt-3 tracking-tight">East Prairie School District 73</h1>
+            <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mt-1">Business Office Reimbursement Voucher</p>
         </header>
 
         <section class="mt-6 mb-6">
             <div class="border-b pb-2 mb-4 border-[#002855]/20">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500">1. Employee & Pay Period Information</h2>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">1. Employee & Purpose Information</h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col">
@@ -69,8 +84,8 @@
 
         <section class="mb-6">
             <div class="border-b pb-2 mb-3 border-[#002855]/20 flex justify-between items-center">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500">2. Itemized Purchase Log</h2>
-                <button type="button" id="addPurchaseRowBtn" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold py-1.5 px-4 rounded-lg text-xs shadow-sm transition-all transform hover:scale-[1.02]">
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">2. Itemized Purchase Log</h2>
+                <button type="button" id="addPurchaseRowBtn" class="no-print-pdf bg-[#002855] hover:bg-[#003d82] text-white font-bold py-1.5 px-4 rounded-lg text-xs shadow-sm transition-all transform hover:scale-[1.02]">
                     Add Row
                 </button>
             </div>
@@ -79,16 +94,16 @@
                 <table class="w-full text-left text-xs min-w-[650px]">
                     <thead>
                         <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
-                            <th class="p-2.5 border-r border-gray-200 w-36 text-center">Date</th>
-                            <th class="p-2.5 border-r border-gray-200 min-w-[240px]">Description / Activity Category</th>
+                            <th class="p-2.5 border-r border-gray-200 w-32 text-center">Date</th>
+                            <th class="p-2.5 border-r border-gray-200 min-w-[240px]">Description</th>
                             <th class="p-2.5 border-r border-gray-200 w-28 text-right">Total Amount</th>
                             <th class="p-2.5 border-r border-gray-200 w-28 text-right">Sales Tax</th>
                             <th class="p-2.5 border-r border-gray-200 w-28 text-right">Reimburse</th>
-                            <th class="p-2.5 text-center w-12 no-print"></th>
+                            <th class="p-2.5 text-center w-12 no-print-pdf"></th>
                         </tr>
                     </thead>
                     <tbody id="purchaseTableBody" class="bg-white divide-y divide-gray-200">
-                        <tr class="input-row-focus transition-colors">
+                        <tr class="transition-colors">
                             <td class="p-1 border-r border-gray-200 text-center">
                                 <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
                             </td>
@@ -101,8 +116,8 @@
                             <td class="p-1 border-r border-gray-200 text-center">
                                 <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
                             </td>
-                            <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-semibold text-gray-600">0.00</td>
-                            <td class="p-1 text-center no-print">
+                            <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-bold text-gray-700">0.00</td>
+                            <td class="p-1 text-center no-print-pdf">
                                 <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
                             </td>
                         </tr>
@@ -126,10 +141,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="flex flex-col">
                         <label class="text-gray-700 font-semibold mb-1 text-xs">Employee Authorization Signature</label>
-                        <div class="border-2 border-gray-200 rounded-xl bg-gray-50 overflow-hidden relative shadow-sm">
-                            <canvas id="employeeCanvas" class="w-full h-28 block cursor-crosshair bg-white touch-none"></canvas>
+                        <div class="border-2 border-gray-200 rounded-xl bg-gray-50 overflow-hidden relative shadow-sm h-28">
+                            <canvas id="employeeCanvas" class="w-full h-full block cursor-crosshair bg-white touch-none"></canvas>
                         </div>
-                        <button type="button" id="clearCanvasBtn" class="text-[11px] text-red-500 hover:text-red-700 font-bold mt-1 self-end no-print">
+                        <button type="button" id="clearCanvasBtn" class="text-[11px] text-red-500 hover:text-red-700 font-bold mt-1 self-end no-print-pdf">
                             Clear Signature
                         </button>
                         
@@ -150,100 +165,12 @@
                 </div>
             </div>
 
-            <div class="text-center pt-4 no-print">
+            <div class="text-center pt-4 no-print-pdf">
                 <button id="btnSubmitReimbursement" onclick="executeDownloadWorkflow()" class="w-full sm:w-auto bg-[#002855] hover:bg-[#003d82] text-white font-bold py-3 px-10 rounded-xl text-sm shadow-md transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 mx-auto">
                     <span>Sign & Submit Reimbursement</span>
                 </button>
             </div>
         </section>
-    </div>
-
-    <div id="hidden-print-template" style="font-family: 'Inter', Arial, sans-serif; color: #111827; line-height: 1.4; background-color: #fff;">
-        <div style="border-top: 8px solid #002855; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; border-radius: 16px; padding: 32px; box-sizing: border-box; background-color: #fff;">
-            
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px;">
-                <tr>
-                    <td style="vertical-align: middle; text-align: center; padding-bottom: 12px;">
-                        <img src="https://cmsv2-assets.apptegy.net/uploads/14657/logo/16043/Logo_Large-stroke.png" style="width: 80px; height: 80px; object-fit: contain;" alt="District Logo">
-                        <h1 style="margin: 8px 0 2px 0; font-size: 20px; font-weight: 800; color: #002855;">East Prairie School District 73</h1>
-                        <p style="margin: 0; font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Business Office Reimbursement Voucher</p>
-                    </td>
-                </tr>
-            </table>
-
-            <div style="margin-bottom: 24px;">
-                <div style="border-bottom: 1px solid #002855; padding-bottom: 4px; margin-bottom: 12px;">
-                    <h2 style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">1. Employee & Pay Period Information</h2>
-                </div>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="width: 50%; padding-right: 10px; vertical-align: top;">
-                            <span style="font-size: 10px; font-weight: 700; color: #4b5563; text-transform: uppercase; display: block; margin-bottom: 4px;">Employee Name</span>
-                            <div id="print-lbl-name" style="border: 1px solid #d1d5db; border-radius: 8px; padding: 8px 12px; background-color: #f8fafc; font-size: 12px; font-weight: 500; min-height: 38px; box-sizing: border-box; color: #111827;"></div>
-                        </td>
-                        <td style="width: 50%; padding-left: 10px; vertical-align: top;">
-                            <span style="font-size: 10px; font-weight: 700; color: #4b5563; text-transform: uppercase; display: block; margin-bottom: 4px;">Purpose of Purchase</span>
-                            <div id="print-lbl-purpose" style="border: 1px solid #d1d5db; border-radius: 8px; padding: 8px 12px; background-color: #f8fafc; font-size: 12px; font-weight: 500; min-height: 38px; box-sizing: border-box; color: #111827;"></div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
-            <div style="margin-bottom: 24px;">
-                <div style="border-bottom: 1px solid #002855; padding-bottom: 4px; margin-bottom: 12px;">
-                    <h2 style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">2. Itemized Purchase Log</h2>
-                </div>
-                <table style="width: 100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
-                    <thead>
-                        <tr style="background-color: #f1f5f9; color: #334155;">
-                            <th style="width: 16%; padding: 8px; text-align: center; font-size: 10px; font-weight: 700; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; text-transform: uppercase;">Date</th>
-                            <th style="width: 44%; padding: 8px; text-align: left; font-size: 10px; font-weight: 700; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; text-transform: uppercase;">Description / Activity Category</th>
-                            <th style="width: 14%; padding: 8px; text-align: right; font-size: 10px; font-weight: 700; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; text-transform: uppercase;">Total</th>
-                            <th style="width: 12%; padding: 8px; text-align: right; font-size: 10px; font-weight: 700; border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0; text-transform: uppercase;">Tax</th>
-                            <th style="width: 14%; padding: 8px; text-align: right; font-size: 10px; font-weight: 700; border-bottom: 2px solid #cbd5e1; text-transform: uppercase;">Net</th>
-                        </tr>
-                    </thead>
-                    <tbody id="print-table-body" style="font-size: 11px; color: #334155;"></tbody>
-                    <tfoot>
-                        <tr style="background-color: #002855; font-weight: bold; font-size: 12px; color: #ffffff;">
-                            <td colspan="4" style="padding: 10px 12px; text-align: right; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em;">Total Net Reimbursement:</td>
-                            <td id="print-lbl-grandtotal" style="padding: 10px 8px; text-align: right; color: #4ade80; font-weight: 900;">$0.00</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <p style="font-size: 9px; color: #94a3b8; margin: 6px 0 0 0; line-height: 1.3;">
-                    * Certified line summaries itemized above. Personal sales tax is non-reimbursable and has been subtracted from gross disbursements.
-                </p>
-            </div>
-
-            <div>
-                <div style="border-bottom: 1px solid #002855; padding-bottom: 4px; margin-bottom: 16px;">
-                    <h2 style="font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">3. Approval & Authorization Signatures</h2>
-                </div>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="width: 50%; padding-right: 20px; vertical-align: top;">
-                            <span style="font-size: 10px; font-weight: 700; color: #4b5563; text-transform: uppercase; display: block; margin-bottom: 4px;">Employee Authorization Signature</span>
-                            <div style="border: 1px solid #cbd5e1; border-radius: 8px; height: 70px; background-color: #fff; overflow: hidden; margin-bottom: 8px; text-align: center;">
-                                <img id="print-sig-image" style="height: 100%; max-width: 100%; object-fit: contain; display: none;" alt="Authorization Image">
-                            </div>
-                            <span style="font-size: 10px; font-weight: 700; color: #4b5563; text-transform: uppercase; display: block; margin-bottom: 4px;">Date of Authorization</span>
-                            <div id="print-lbl-date" style="border: 1px solid #cbd5e1; border-radius: 8px; padding: 6px 12px; background-color: #f8fafc; font-size: 12px; min-height: 32px; box-sizing: border-box; width: 140px; font-weight: 500;"></div>
-                        </td>
-                        <td style="width: 50%; padding-left: 20px; vertical-align: bottom; padding-bottom: 4px;">
-                            <div style="margin-bottom: 28px;">
-                                <div style="border-bottom: 1px solid #475569; height: 35px; width: 100%;"></div>
-                                <span style="font-size: 9px; font-weight: 700; color: #64748b; text-transform: uppercase; tracking: 0.05em; display: block; margin-top: 4px;">Supervisor / Administrator Approval Signature</span>
-                            </div>
-                            <div>
-                                <div style="border-bottom: 1px solid #475569; height: 25px; width: 120px;"></div>
-                                <span style="font-size: 9px; font-weight: 700; color: #64748b; text-transform: uppercase; tracking: 0.05em; display: block; margin-top: 4px;">Approval Date</span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
     </div>
 
     <script src="script.js"></script>
