@@ -1,193 +1,171 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>East Prairie School District 73 - Employee Reimbursement</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    // Auto-set baseline authorization dates to current system calendar
+    const dateInput = document.getElementById('employeeSignatureDate');
+    if (dateInput) dateInput.valueAsDate = new Date();
 
-        /* PRINT MEDIA STYLING CONTROL LAYER */
-        @media print {
-            body {
-                background-color: #ffffff !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            #reimbursement-form-container {
-                max-width: 100% !important;
-                width: 100% !important;
-                box-shadow: none !important;
-                border: none !important;
-                padding: 0 !important;
-                margin: 0 !important;
-            }
-            .no-print {
-                display: none !important;
-            }
-            /* Keep form inputs visible and borderless/clean on printed page */
-            input, select, textarea {
-                border: none !important;
-                background: transparent !important;
-                padding: 0 !important;
-                outline: none !important;
-                box-shadow: none !important;
-                appearance: none;
-                -webkit-appearance: none;
-            }
-            /* Force table components to stay completely expanded */
-            .overflow-x-auto {
-                overflow: visible !important;
-                border: 1px solid #cbd5e1 !important;
-            }
-            table {
-                width: 100% !important;
-                table-layout: fixed !important;
-            }
-        }
-    </style>
-</head>
-<body class="p-4 md:p-8">
+    const tableBody = document.getElementById('purchaseTableBody');
+    const addRowBtn = document.getElementById('addPurchaseRowBtn');
 
-    <!-- Active Form Viewport Frame -->
-    <div id="reimbursement-form-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl px-6 md:px-10 pt-8 pb-10 border-t-8 border-[#002855]">
+    if (tableBody) {
+        const initialRow = tableBody.querySelector('tr');
+        if (initialRow) attachRowListeners(initialRow);
+    }
+
+    // Dynamic row generation management processes
+    if (addRowBtn) {
+        addRowBtn.addEventListener('click', () => {
+            const newRow = document.createElement('tr');
+            newRow.className = 'transition-colors';
+            newRow.innerHTML = `
+                <td class="p-1 border-r border-gray-200 text-center">
+                    <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs outline-none">
+                </td>
+                <td class="p-1 border-r border-gray-200">
+                    <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs outline-none" placeholder="Item description details">
+                </td>
+                <td class="p-1 border-r border-gray-200 text-center">
+                    <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs outline-none" placeholder="0.00">
+                </td>
+                <td class="p-1 border-r border-gray-200 text-center">
+                    <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs outline-none" placeholder="0.00">
+                </td>
+                <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-bold text-gray-700">0.00</td>
+                <td class="p-1 text-center no-print">
+                    <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+            attachRowListeners(newRow);
+        });
+    }
+
+    function attachRowListeners(row) {
+        const totalInput = row.querySelector('.total-input');
+        const taxInput = row.querySelector('.tax-input');
+        const deleteBtn = row.querySelector('.delete-row-btn');
+
+        if (totalInput) totalInput.addEventListener('input', () => calculateRow(row));
+        if (taxInput) taxInput.addEventListener('input', () => calculateRow(row));
         
-        <!-- Timesheet-Style Header Block Area -->
-        <header class="w-full flex items-center justify-between pb-4 mb-6 border-b-2 border-[#002855]">
-            <div class="flex items-center gap-4">
-                <!-- Swapped to logoh.png asset link -->
-                <img src="logoh.png" alt="East Prairie School District 73" class="w-20 h-20 object-contain">
-                <div>
-                    <h1 class="text-xl font-extrabold text-[#002855] tracking-tight uppercase">East Prairie School District 73</h1>
-                    <p class="text-xs text-gray-500 font-bold tracking-wider uppercase">Business Office Reimbursement Voucher</p>
-                </div>
-            </div>
-            <div class="text-right hidden sm:block">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Form Type</span>
-                <span class="text-xs font-extrabold text-[#002855] uppercase tracking-wider">Business Expense</span>
-            </div>
-        </header>
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', () => {
+                if (tableBody.querySelectorAll('tr').length > 1) {
+                    row.remove();
+                    recalculateGrandTotal();
+                } else {
+                    alert("Your reimbursement ledger must contain at least one line entry.");
+                }
+            });
+        }
+    }
 
-        <!-- Section 1: Employee and Purpose Profile -->
-        <section class="mb-6">
-            <div class="bg-slate-100 px-3 py-1.5 rounded mb-4">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-[#002855]">1. Employee & Purpose Information</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="flex flex-col">
-                    <label class="text-gray-700 font-semibold mb-1 text-xs">Employee Name</label>
-                    <input type="text" id="employeeName" class="border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-[#002855] outline-none transition-colors" placeholder="Full Name">
-                </div>
-                <div class="flex flex-col">
-                    <label class="text-gray-700 font-semibold mb-1 text-xs">Purpose of Purchase</label>
-                    <input type="text" id="purpose" class="border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-[#002855] outline-none transition-colors" placeholder="e.g., Classroom supplies">
-                </div>
-            </div>
-        </section>
+    function calculateRow(row) {
+        const totalVal = parseFloat(row.querySelector('.total-input').value) || 0;
+        const taxVal = parseFloat(row.querySelector('.tax-input').value) || 0;
+        const netCell = row.querySelector('.reimburse-amount-cell');
 
-        <!-- Section 2: Ledger Records Log -->
-        <section class="mb-6">
-            <div class="bg-slate-100 px-3 py-1.5 rounded mb-3 flex justify-between items-center">
-                <h2 class="text-xs font-bold uppercase tracking-wider text-[#002855]">2. Itemized Purchase Log</h2>
-                <button type="button" id="addPurchaseRowBtn" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold py-1 px-3 rounded text-xs shadow-sm transition-all transform hover:scale-[1.02]">
-                    + Add Row
-                </button>
-            </div>
+        let netAmount = totalVal - taxVal;
+        if (netAmount < 0) netAmount = 0;
 
-            <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
-                <table class="w-full text-left text-xs min-w-[650px]">
-                    <thead>
-                        <tr class="bg-slate-200 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
-                            <th class="p-2.5 border-r border-gray-200 w-36 text-center">Date</th>
-                            <th class="p-2.5 border-r border-gray-200 min-w-[240px]">Description / Activity Category</th>
-                            <th class="p-2.5 border-r border-gray-200 w-28 text-right">Total Amount</th>
-                            <th class="p-2.5 border-r border-gray-200 w-28 text-right">Sales Tax</th>
-                            <th class="p-2.5 border-r border-gray-200 w-28 text-right">Reimburse</th>
-                            <th class="p-2.5 text-center w-12 no-print"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="purchaseTableBody" class="bg-white divide-y divide-gray-200">
-                        <tr class="transition-colors">
-                            <td class="p-1 border-r border-gray-200 text-center">
-                                <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs outline-none">
-                            </td>
-                            <td class="p-1 border-r border-gray-200">
-                                <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs outline-none" placeholder="Item description details">
-                            </td>
-                            <td class="p-1 border-r border-gray-200 text-center">
-                                <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs outline-none" placeholder="0.00">
-                            </td>
-                            <td class="p-1 border-r border-gray-200 text-center">
-                                <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs outline-none" placeholder="0.00">
-                            </td>
-                            <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-bold text-gray-700">0.00</td>
-                            <td class="p-1 text-center no-print">
-                                <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="text-[10px] text-slate-400 mt-1.5 leading-normal">* Please attach receipts matching the lines logged above. Reimbursement amounts automatically exclude sales tax.</p>
-        </section>
+        netCell.innerText = netAmount.toFixed(2);
+        recalculateGrandTotal();
+    }
 
-        <!-- Section 3: Summary and Authorization Blocks -->
-        <section class="space-y-6">
-            <div class="bg-[#002855] text-white rounded-xl p-4 flex justify-between items-center shadow-inner">
-                <h3 class="text-xs font-semibold text-slate-200 uppercase tracking-wider">Financial Calculations Summary</h3>
-                <div class="flex items-baseline gap-2">
-                    <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-300">Total Net Reimbursement:</span>
-                    <span id="totalReimbursementAmount" class="text-2xl font-black text-emerald-300 tracking-tight">$0.00</span>
-                </div>
-            </div>
+    function recalculateGrandTotal() {
+        let grandTotal = 0;
+        document.querySelectorAll('.reimburse-amount-cell').forEach(cell => {
+            grandTotal += parseFloat(cell.innerText) || 0;
+        });
+        const totalDisplay = document.getElementById('totalReimbursementAmount');
+        if (totalDisplay) totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
+    }
 
-            <!-- Canvas Sign-Off Blocks Area -->
-            <div class="border-t pt-4 border-gray-200">
-                <div class="bg-slate-100 px-3 py-1.5 rounded mb-4">
-                    <h3 class="font-bold text-xs uppercase tracking-wider text-[#002855]">3. Approval & Authorization Signatures</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="flex flex-col">
-                        <label class="text-gray-700 font-semibold mb-1 text-xs">Employee Authorization Signature</label>
-                        <div class="border-2 border-gray-200 rounded-xl bg-gray-50 overflow-hidden h-28 relative">
-                            <canvas id="employeeCanvas" class="w-full h-full block cursor-crosshair bg-white touch-none"></canvas>
-                        </div>
-                        <button type="button" id="clearCanvasBtn" class="text-[11px] text-red-500 hover:text-red-700 font-bold mt-1 self-end no-print">
-                            Clear Signature
-                        </button>
-                        
-                        <label class="text-gray-700 font-semibold mt-3 mb-1 text-xs">Date of Sign-off</label>
-                        <input type="date" id="employeeSignatureDate" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] outline-none">
-                    </div>
+    // --- High-Fidelity Canvas Signature Pad Engine ---
+    const canvas = document.getElementById('employeeCanvas');
+    const clearBtn = document.getElementById('clearCanvasBtn');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
 
-                    <!-- Administrator Verification Fields -->
-                    <div class="flex flex-col justify-end space-y-8 pb-2">
-                        <div>
-                            <div class="border-b-2 border-slate-400 w-full"></div>
-                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-1.5 block">Supervisor / Administrator Approval Signature</span>
-                        </div>
-                        <div>
-                            <div class="border-b-2 border-slate-400 w-36"></div>
-                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider mt-1.5 block">Approval Date</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#002855'; 
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-            <!-- Processing Button Track -->
-            <div class="text-center pt-4 no-print">
-                <button id="btnPrintReimbursement" onclick="triggerNativePrintWorkflow()" class="w-full sm:w-auto bg-[#002855] hover:bg-[#003d82] text-white font-bold py-3 px-10 rounded-xl text-sm shadow-md transition-all transform hover:scale-[1.01] flex items-center justify-center gap-2 mx-auto">
-                    <span>Print & Download Form</span>
-                </button>
-            </div>
-        </section>
-    </div>
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
 
-    <script src="script.js"></script>
-</body>
-</html>
+        function startDraw(e) {
+            isDrawing = true;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getPos(e);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            if (e.cancelable) e.preventDefault();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        window.addEventListener('mouseup', stopDraw);
+
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        window.addEventListener('touchend', stopDraw);
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.dataset.dirty = "false";
+            });
+        }
+        canvas.addEventListener('mousedown', () => canvas.dataset.dirty = "true");
+        canvas.addEventListener('touchstart', () => canvas.dataset.dirty = "true");
+    }
+});
+
+// Native Browser Printing Pipeline Handshake
+function triggerNativePrintWorkflow() {
+    const empName = document.getElementById('employeeName').value.trim();
+    const purpose = document.getElementById('purpose').value.trim();
+    const canvas = document.getElementById('employeeCanvas');
+    const isCanvasDirty = canvas && canvas.dataset.dirty === "true";
+
+    if (!empName) {
+        alert("Please enter the Employee Name before downloading.");
+        document.getElementById('employeeName').focus();
+        return;
+    }
+    if (!purpose) {
+        alert("Please provide the Purpose of Purchase.");
+        document.getElementById('purpose').focus();
+        return;
+    }
+    if (!isCanvasDirty) {
+        alert("Please sign your authorization on the digital pad before printing.");
+        return;
+    }
+
+    // Trigger native browser print systems framework
+    window.print();
+}
