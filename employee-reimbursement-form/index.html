@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>East Prairie School District 73 - Employee Reimbursement</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -12,340 +12,138 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
-        @media print {
-            body {
-                background-color: #fff;
-                padding: 1rem !important;
-            }
-            .no-print {
-                display: none !important;
-            }
-            .max-w-4xl, .mx-auto, .rounded-2xl, .shadow-xl {
-                max-width: none !important;
-                margin: 0 !important;
-                box-shadow: none !important;
-                border: none !important;
-                padding: 0 !important;
-            }
-            .p-4, .p-6, .p-10 {
-                padding: 0.5rem !important;
-            }
-            table {
-                font-size: 0.75rem;
-            }
-            th, td {
-                padding: 0.25rem;
-            }
-            section {
-                page-break-inside: avoid;
-            }
+        .input-row-focus:focus-within {
+            background-color: #f0f7ff;
         }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-4 md:p-6">
 
-    <div id="form-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10 border-4 border-teal-600">
-        <header class="text-center mb-8">
-            <div class="mx-auto h-24 w-24 mb-4 overflow-hidden shadow-lg border-2 border-teal-400 rounded-lg">
-                <img src="https://cmsv2-assets.apptegy.net/uploads/14657/logo/16043/Logo_Large-stroke.png" alt="East Prairie School District 73 Logo" class="w-full h-full object-contain">
-            </div>
-            <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Employee Reimbursement Form</h1>
+    <div id="reimbursement-container" class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-6 pb-8 border-t-8 border-[#002855]">
+        
+        <!-- Corporate Identity Header Block -->
+        <header class="w-full flex items-center justify-center pt-5 pb-8">
+            <img src="../logoh.png" 
+                 alt="East Prairie School District 73" 
+                 class="w-80 max-w-full h-auto object-contain p-0 m-0 block">
         </header>
 
+        <!-- Section 1: Employee & Purpose Identification -->
         <section class="mb-6">
-            <div class="border-b pb-3 mb-3">
-                <h2 class="text-xl font-semibold text-gray-800">1. Employee & Purpose</h2>
+            <div class="border-b pb-2 mb-4 border-[#002855]/20">
+                <h2 class="text-base font-bold text-gray-800">1. Employee & Purpose Information</h2>
             </div>
-            
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col">
-                    <label for="employeeName" class="text-gray-700 font-medium mb-1 text-sm">Employee Name</label>
-                    <input type="text" id="employeeName" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors" placeholder="Full Name">
+                    <label for="employeeName" class="text-gray-700 font-semibold mb-1 text-xs">Employee Name</label>
+                    <input type="text" id="employeeName" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors" placeholder="Full Name">
                 </div>
                 <div class="flex flex-col">
-                    <label for="purpose" class="text-gray-700 font-medium mb-1 text-sm">Purpose of Purchase</label>
-                    <input type="text" id="purpose" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors" placeholder="e.g., Classroom supplies">
+                    <label for="purpose" class="text-gray-700 font-semibold mb-1 text-xs">Purpose of Purchase</label>
+                    <input type="text" id="purpose" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors" placeholder="e.g., Classroom supplies">
                 </div>
             </div>
         </section>
 
+        <!-- Section 2: Ledger Itemization Log -->
         <section class="mb-6">
-            <div class="border-b pb-3 mb-3">
-                <h2 class="text-xl font-semibold text-gray-800">2. Purchase Log</h2>
+            <div class="border-b pb-2 mb-3 border-[#002855]/20 flex justify-between items-center">
+                <h2 class="text-base font-bold text-gray-800">2. Itemized Purchase Log</h2>
+                <button type="button" id="addPurchaseRowBtn" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold py-1.5 px-4 rounded-lg text-xs shadow-sm transition-all transform hover:scale-[1.02]">
+                    Add Row
+                </button>
             </div>
-            <div class="bg-gray-50 p-4 rounded-xl mb-4">
-                <div class="flex justify-between items-center mb-3">
-                    <h3 class="text-md font-bold text-gray-800">Itemized Purchases</h3>
-                    <button id="addPurchaseRowBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-1 px-3 rounded-full text-xs transition-transform transform hover:scale-105 no-print" onclick="addPurchaseRow();">
-                        Add Row
-                    </button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left table-auto text-sm">
-                        <thead>
-                            <tr class="bg-teal-100 text-teal-800">
-                                <th class="p-2 rounded-tl-lg">Date</th>
-                                <th class="p-2">Description</th>
-                                <th class="p-2 text-right">Total Amount</th>
-                                <th class="p-2 text-right">Sales Tax</th>
-                                <th class="p-2 text-right">Reimburse</th>
-                                <th class="p-2 text-right rounded-tr-lg no-print"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="purchaseTableBody">
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="4" class="p-2 text-right font-bold text-gray-800">TOTAL TO REIMBURSE:</td>
-                                <td class="p-2 text-right font-bold text-gray-800" id="totalReimbursementAmount">0.00</td>
-                                <td class="no-print"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    <p class="text-xs text-gray-500 mt-2">
-                        Please attach receipts and invoices when submitting this form; receipts and invoices should match the detail line description entered above. Amounts should exclude sales tax.
-                    </p>
-                </div>
+
+            <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
+                <table class="w-full text-left text-xs min-w-[650px]">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
+                            <th class="p-2.5 border-r border-gray-200 w-32 text-center">Date</th>
+                            <th class="p-2.5 border-r border-gray-200 min-w-[240px]">Description</th>
+                            <th class="p-2.5 border-r border-gray-200 w-28 text-right">Total Amount</th>
+                            <th class="p-2.5 border-r border-gray-200 w-28 text-right">Sales Tax</th>
+                            <th class="p-2.5 border-r border-gray-200 w-28 text-right">Reimburse</th>
+                            <th class="p-2.5 text-center w-12 no-print"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchaseTableBody" class="bg-white divide-y divide-gray-200">
+                        <tr class="input-row-focus transition-colors">
+                            <td class="p-1 border-r border-gray-200 text-center">
+                                <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                            </td>
+                            <td class="p-1 border-r border-gray-200">
+                                <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="e.g., Science Lab Consumables">
+                            </td>
+                            <td class="p-1 border-r border-gray-200 text-center">
+                                <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                            </td>
+                            <td class="p-1 border-r border-gray-200 text-center">
+                                <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                            </td>
+                            <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-medium text-gray-500">0.00</td>
+                            <td class="p-1 text-center no-print">
+                                <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
+            <p class="text-[10px] text-slate-400 mt-1.5 leading-normal">* Please attach receipts matching the lines logged above. Reimbursement amounts automatically exclude sales tax.</p>
         </section>
 
-        <section class="mb-6">
-            <div class="border-b pb-3 mb-3">
-                <h2 class="text-xl font-semibold text-gray-800">3. Approval & Signatures</h2>
+        <!-- Section 3: Summary Calculations & Signatures Block -->
+        <section class="space-y-6">
+            <div class="bg-slate-950 text-white rounded-xl p-4 flex justify-between items-center">
+                <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider">Financial Calculations Summary</h3>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-400">Total Net Reimbursement:</span>
+                    <span id="totalReimbursementAmount" class="text-2xl font-black text-emerald-400 tracking-tight">$0.00</span>
+                </div>
             </div>
-            <div class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="flex flex-col justify-end">
-                        <label class="text-gray-700 font-medium mb-1 text-sm">Employee Signature</label>
-                        <div class="border-2 border-gray-300 rounded-lg bg-gray-50 overflow-hidden relative">
-                            <canvas id="employeeCanvas" class="w-full h-36 block cursor-crosshair bg-white"></canvas>
-                        </div>
-                        <button type="button" onclick="clearCanvas('employeeCanvas')" class="text-xs text-red-500 hover:text-red-700 font-semibold mt-1 self-end no-print">
-                            Clear Signature
-                        </button>
-                        <label for="employeeSignatureDate" class="text-gray-700 font-medium mt-2 mb-1 text-sm">Date</label>
-                        <input type="date" id="employeeSignatureDate" class="border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors w-full">
+
+            <!-- Verification & Digital Signature Block -->
+            <div class="border-t pt-6 border-gray-200">
+                <h3 class="font-bold text-gray-900 text-sm mb-3">3. Acceptance & Signature Acknowledgment</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="flex flex-col">
+                        <label for="empSignatureName" class="text-xs font-bold text-gray-600 uppercase mb-1">Employee Digital Signature</label>
+                        <input type="text" id="empSignatureName" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] outline-none" placeholder="Type full name to authorize">
                     </div>
-                    
-                    <div class="flex flex-col justify-end space-y-8 pt-2">
-                        <div>
-                            <label class="text-gray-700 font-medium block text-sm mb-6">Supervisor Signature</label>
-                            <div class="border-b-2 border-gray-400 w-full"></div>
-                        </div>
-                        <div>
-                            <label class="text-gray-700 font-medium block text-sm mb-4">Date</label>
-                            <div class="border-b-2 border-gray-400 w-full"></div>
-                        </div>
+                    <div class="flex flex-col">
+                        <label for="employeeSignatureDate" class="text-xs font-bold text-gray-600 uppercase mb-1">Date of Authorization</label>
+                        <input type="date" id="employeeSignatureDate" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] outline-none">
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-2 pt-1 mb-6">
+                    <input type="checkbox" id="certifyCheck" class="w-4 h-4 rounded border-gray-300 text-[#002855] focus:ring-[#002855] mt-0.5 cursor-pointer">
+                    <label for="certifyCheck" class="text-xs text-gray-600 select-none cursor-pointer">
+                        I hereby certify that all purchases detailed above were explicitly made for official school/district activities and exclude non-reimbursable personal sales tax.
+                    </label>
+                </div>
+
+                <!-- Supervisor Sign-off Framework (Preserved on generated Document outputs) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 pt-4 border-t border-gray-100">
+                    <div class="flex flex-col">
+                        <div class="border-b-2 border-gray-400 h-10"></div>
+                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Supervisor / Administrator Approval Signature</span>
+                    </div>
+                    <div class="flex flex-col w-40">
+                        <div class="border-b-2 border-gray-400 h-10"></div>
+                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Approval Date</span>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4 no-print">
-            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full text-md shadow-lg transition-transform transform hover:scale-105">
-                Print Form
-            </button>
-            <button onclick="sendToBusinessOffice()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-full text-md shadow-lg transition-transform transform hover:scale-105">
-                Send to Business Office
-            </button>
-        </div>
+            <!-- Interactivity System Controllers -->
+            <div data-html2canvas-ignore="true" class="text-center pt-4 no-print">
+                <button id="btnSubmitReimbursement" onclick="executeDownloadWorkflow()" class="w-full sm:w-auto bg-[#002855] hover:bg-[#003d82] text-white font-bold py-3 px-8 rounded-xl text-sm shadow-md transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 mx-auto">
+                    <span>Sign & Submit Reimbursement</span>
+                </button>
+            </div>
+        </section>
     </div>
 
-    <script>
-        function updateRowReimbursement(row) {
-            const totalInput = row.querySelector('.total-input');
-            const taxInput = row.querySelector('.tax-input');
-            const reimburseCell = row.querySelector('.reimburse-amount-cell');
-
-            const totalAmount = parseFloat(totalInput.value) || 0;
-            const salesTax = parseFloat(taxInput.value) || 0;
-            const reimburseAmount = Math.max(0, totalAmount - salesTax);
-
-            reimburseCell.innerText = reimburseAmount.toFixed(2);
-            calculateGrandTotal();
-        }
-
-        function calculateGrandTotal() {
-            const tableBody = document.getElementById('purchaseTableBody');
-            const rows = tableBody.querySelectorAll('tr');
-            let grandTotal = 0;
-            rows.forEach(row => {
-                const reimburseCell = row.querySelector('.reimburse-amount-cell');
-                const amount = parseFloat(reimburseCell.innerText) || 0;
-                grandTotal += amount;
-            });
-            document.getElementById('totalReimbursementAmount').innerText = grandTotal.toFixed(2);
-        }
-
-        function addPurchaseRow() {
-            const tableBody = document.getElementById('purchaseTableBody');
-            const newRow = document.createElement('tr');
-            newRow.className = 'border-b last:border-0 hover:bg-gray-100 transition-colors';
-
-            const dateCell = document.createElement('td');
-            dateCell.className = 'p-2';
-            const dateInput = document.createElement('input');
-            dateInput.type = 'date';
-            dateInput.className = 'bg-transparent w-full focus:outline-none text-sm';
-            dateCell.appendChild(dateInput);
-            newRow.appendChild(dateCell);
-            
-            const descriptionCell = document.createElement('td');
-            descriptionCell.className = 'p-2';
-            const descriptionInput = document.createElement('input');
-            descriptionInput.type = 'text';
-            descriptionInput.className = 'bg-transparent w-full focus:outline-none text-sm';
-            descriptionInput.placeholder = 'e.g., 2 boxes of whiteboard markers';
-            descriptionCell.appendChild(descriptionInput);
-            newRow.appendChild(descriptionCell);
-
-            const totalAmountCell = document.createElement('td');
-            totalAmountCell.className = 'p-2 text-right';
-            const totalAmountInput = document.createElement('input');
-            totalAmountInput.type = 'number';
-            totalAmountInput.step = '0.01';
-            totalAmountInput.className = 'bg-transparent w-full focus:outline-none text-sm text-right total-input';
-            totalAmountInput.placeholder = '0.00';
-            totalAmountInput.addEventListener('input', () => updateRowReimbursement(newRow));
-            totalAmountCell.appendChild(totalAmountInput);
-            newRow.appendChild(totalAmountCell);
-
-            const salesTaxCell = document.createElement('td');
-            salesTaxCell.className = 'p-2 text-right';
-            const salesTaxInput = document.createElement('input');
-            salesTaxInput.type = 'number';
-            salesTaxInput.step = '0.01';
-            salesTaxInput.className = 'bg-transparent w-full focus:outline-none text-sm text-right tax-input';
-            salesTaxInput.placeholder = '0.00';
-            salesTaxInput.addEventListener('input', () => updateRowReimbursement(newRow));
-            salesTaxCell.appendChild(salesTaxInput);
-            newRow.appendChild(salesTaxCell);
-            
-            const reimburseCell = document.createElement('td');
-            reimburseCell.className = 'p-2 text-right text-gray-800 font-semibold reimburse-amount-cell';
-            reimburseCell.innerText = '0.00';
-            newRow.appendChild(reimburseCell);
-
-            const removeCell = document.createElement('td');
-            removeCell.className = 'p-2 text-right no-print';
-            const removeBtn = document.createElement('button');
-            removeBtn.innerHTML = '&times;';
-            removeBtn.className = 'text-gray-500 hover:text-red-500 text-xl font-bold transition-colors';
-            removeBtn.addEventListener('click', () => {
-                newRow.remove();
-                calculateGrandTotal();
-            });
-            removeCell.appendChild(removeBtn);
-            newRow.appendChild(removeCell);
-
-            tableBody.appendChild(newRow);
-            calculateGrandTotal();
-        }
-
-        function sendToBusinessOffice() {
-            const employeeInputName = document.getElementById('employeeName').value.trim();
-            const employeeName = employeeInputName || '[Employee Name]';
-            const fileSaveName = `Reimbursement_Form_${employeeInputName ? employeeInputName.replace(/\s+/g, '_') : 'Form'}.pdf`;
-
-            const element = document.getElementById('form-container');
-            const opt = {
-                margin:       0.5,
-                filename:     fileSaveName,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            const noPrintElements = document.querySelectorAll('.no-print');
-            noPrintElements.forEach(el => el.style.setProperty('display', 'none', 'important'));
-
-            html2pdf().set(opt).from(element).save().then(() => {
-                noPrintElements.forEach(el => el.style.display = '');
-
-                const recipient = "business@eps73.net";
-                const subject = encodeURIComponent(`Employee Reimbursement Form Submission - ${employeeName}`);
-                const body = encodeURIComponent("Hello,\n\nPlease find my attached Employee Reimbursement Form and matching receipts/invoices attached below.\n\nThank you!");
-                
-                const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${recipient}&su=${subject}&body=${body}`;
-
-                window.open(gmailUrl, '_blank');
-
-                setTimeout(() => {
-                    alert(`Success!\n\n1. Your form has been downloaded as "${fileSaveName}".\n2. Gmail has opened in a new tab.\n3. Please drag and drop the downloaded PDF form AND your digital receipts into your Gmail window to submit.`);
-                }, 500);
-            }).catch(err => {
-                console.error("PDF Generation failed Error: ", err);
-                noPrintElements.forEach(el => el.style.display = '');
-            });
-        }
-
-        function setupSignaturePad(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-
-            let drawing = false;
-            let lastX = 0;
-            let lastY = 0;
-
-            function getPos(e) {
-                const r = canvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return { x: clientX - r.left, y: clientY - r.top };
-            }
-
-            function start(e) {
-                drawing = true;
-                const pos = getPos(e);
-                lastX = pos.x;
-                lastY = pos.y;
-                ctx.beginPath();
-                ctx.moveTo(lastX, lastY);
-                if(e.cancelable) e.preventDefault();
-            }
-
-            function draw(e) {
-                if (!drawing) return;
-                const pos = getPos(e);
-                ctx.lineWidth = 2;
-                ctx.lineCap = 'round';
-                ctx.strokeStyle = '#000000';
-                ctx.lineTo(pos.x, pos.y);
-                ctx.stroke();
-                lastX = pos.x;
-                lastY = pos.y;
-                if(e.cancelable) e.preventDefault();
-            }
-
-            function stop() { drawing = false; }
-
-            canvas.addEventListener('mousedown', start);
-            canvas.addEventListener('mousemove', draw);
-            window.addEventListener('mouseup', stop);
-
-            canvas.addEventListener('touchstart', start, {passive: false});
-            canvas.addEventListener('touchmove', draw, {passive: false});
-            window.addEventListener('touchend', stop);
-        }
-
-        function clearCanvas(canvasId) {
-            const canvas = document.getElementById(canvasId);
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            setupSignaturePad('employeeCanvas');
-            addPurchaseRow();
-            addPurchaseRow();
-            addPurchaseRow();
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
