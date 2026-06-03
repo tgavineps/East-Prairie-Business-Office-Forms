@@ -18,15 +18,15 @@
    <!-- Main Container Frame: Reduced internal padding to collapse the white space -->
 <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl px-6 md:px-10 pt-4 pb-6 border-t-8 border-[#002855]">
     
-    <!-- Cleaned Header Section: Zeroed out vertical spacing -->
-    <header class="text-center mb-2 mt-2">
-        <div class="mx-auto flex items-center justify-center px-4">
-            <!-- Maintained perfect logo size, stripped dragging padding -->
-            <img src="./logo.png" 
-                 alt="East Prairie School District 73 Business Office" 
-                 class="w-64 max-w-full h-auto object-contain md:w-80">
-        </div>
-    </header>
+<!-- Cleaned Header Section: Negative Margin Override to Defeat Invisible Image Borders -->
+<header class="text-center -mt-6 -mb-12">
+    <div class="mx-auto flex items-center justify-center px-4">
+        <!-- Kept the perfect width, but negative margins clamp the vertical gaps -->
+        <img src="./logo.png" 
+             alt="East Prairie School District 73 Business Office" 
+             class="w-64 max-w-full h-auto object-contain md:w-80">
+    </div>
+</header>
 
     <!-- The rest of your code (<div class="grid grid-cols-1 md:grid-cols-2 gap-8">) remains exactly the same -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
