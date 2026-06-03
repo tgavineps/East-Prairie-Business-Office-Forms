@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
                 </td>
                 <td class="p-1 border-r border-gray-200">
-                    <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="e.g., Science Lab Consumables">
+                    <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Enter item profile details">
                 </td>
                 <td class="p-1 border-r border-gray-200 text-center">
                     <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td class="p-1 border-r border-gray-200 text-center">
                     <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
                 </td>
-                <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-medium text-gray-500">0.00</td>
+                <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-semibold text-gray-600">0.00</td>
                 <td class="p-1 text-center no-print">
                     <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
                 </td>
@@ -80,14 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalDisplay) totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
     }
 
-    // --- Interactive Signature Canvas Handling Engine ---
+    // --- Signature Canvas Handling Engine ---
     const canvas = document.getElementById('employeeCanvas');
     const clearBtn = document.getElementById('clearCanvasBtn');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
 
-        // Correct for high DPI scaling and display space matching
         function resizeCanvas() {
             const rect = canvas.getBoundingClientRect();
             canvas.width = rect.width;
@@ -95,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.lineWidth = 2.5;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
-            ctx.strokeStyle = '#002855'; // Clean uniform corporate color stroke
+            ctx.strokeStyle = '#002855'; 
         }
         
         window.addEventListener('resize', resizeCanvas);
@@ -126,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function stopDraw() { isDrawing = false; }
 
-        // Event Registration
         canvas.addEventListener('mousedown', startDraw);
         canvas.addEventListener('mousemove', draw);
         window.addEventListener('mouseup', stopDraw);
@@ -146,14 +144,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Structural Background PDF Handshake Processing Framework
+// Structural Background PDF Sync & Compile Workflow
 function executeDownloadWorkflow() {
     const empName = document.getElementById('employeeName').value.trim();
     const purpose = document.getElementById('purpose').value.trim();
+    const dateVal = document.getElementById('employeeSignatureDate').value;
+    
     const canvas = document.getElementById('employeeCanvas');
     const isCanvasDirty = canvas && canvas.dataset.dirty === "true";
-    
-    const containerElement = document.getElementById('reimbursement-container');
     const submitBtn = document.getElementById('btnSubmitReimbursement');
 
     if (!empName) {
@@ -174,19 +172,79 @@ function executeDownloadWorkflow() {
     submitBtn.disabled = true;
     submitBtn.innerText = "Compiling PDF Voucher...";
 
+    // --- SYNC WORKFLOW: Populate the Hidden Print Template HTML ---
+    document.getElementById('print-lbl-name').innerText = empName;
+    document.getElementById('print-lbl-purpose').innerText = purpose;
+    
+    // Format Signature Date cleanly
+    if (dateVal) {
+        const d = new Date(dateVal + 'T00:00:00');
+        document.getElementById('print-lbl-date').innerText = d.toLocaleDateString('en-US', {
+            month: '2-digit', day: '2-digit', year: 'numeric'
+        });
+    } else {
+        document.getElementById('print-lbl-date').innerText = '';
+    }
+
+    // Dynamic conversion of individual item lines
+    const printTableBody = document.getElementById('print-table-body');
+    printTableBody.innerHTML = ''; // Reset frame tracking
+    
+    const webRows = document.querySelectorAll('#purchaseTableBody tr');
+    webRows.forEach(row => {
+        const rDate = row.querySelector('.date-input').value;
+        const rDesc = row.querySelector('.desc-input').value.trim();
+        const rTotal = parseFloat(row.querySelector('.total-input').value) || 0;
+        const rTax = parseFloat(row.querySelector('.tax-input').value) || 0;
+        const rNet = parseFloat(row.querySelector('.reimburse-amount-cell').innerText) || 0;
+
+        let formattedDate = '';
+        if (rDate) {
+            const d = new Date(rDate + 'T00:00:00');
+            formattedDate = d.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+        }
+
+        const printRow = document.createElement('tr');
+        printRow.style.borderBottom = '1px solid #e2e8f0';
+        printRow.innerHTML = `
+            <td style="padding: 7px 8px; text-align: center; border-right: 1px solid #e2e8f0;">${formattedDate}</td>
+            <td style="padding: 7px 8px; border-right: 1px solid #e2e8f0; white-space: normal; word-break: break-word;">${rDesc || '—'}</td>
+            <td style="padding: 7px 8px; text-align: right; border-right: 1px solid #e2e8f0;">$${rTotal.toFixed(2)}</td>
+            <td style="padding: 7px 8px; text-align: right; border-right: 1px solid #e2e8f0;">$${rTax.toFixed(2)}</td>
+            <td style="padding: 7px 8px; text-align: right; font-weight: 600;">$${rNet.toFixed(2)}</td>
+        `;
+        printTableBody.appendChild(printRow);
+    });
+
+    // Populate Grand Financial Summaries
+    const grandTotalText = document.getElementById('totalReimbursementAmount').innerText;
+    document.getElementById('print-lbl-grandtotal').innerText = grandTotalText;
+
+    // Convert Canvas Drawing Strokes to an Image URL for the PDF Engine
+    const sigImage = document.getElementById('print-sig-image');
+    sigImage.src = canvas.toDataURL('image/png');
+    sigImage.style.display = 'inline-block';
+
+    // Target the hidden printable element container frame explicitly
+    const printElement = document.getElementById('hidden-print-template');
+    printElement.style.display = 'block'; // Momentarily unlock target mapping display
+
     const options = {
         margin:       [0.4, 0.4, 0.4, 0.4],
         filename:     `EPSD73_Reimbursement_${empName.replace(/\s+/g, '_')}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false },
+        html2canvas:  { scale: 2.5, useCORS: true, logging: false },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    html2pdf().set(options).from(containerElement).save().then(() => {
+    // Execute background document download handoff
+    html2pdf().set(options).from(printElement).save().then(() => {
+        printElement.style.display = 'none'; // Relock print element layout hiding
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     }).catch(err => {
-        console.error("PDF generation failure details: ", err);
+        console.error("PDF Engine Error: ", err);
+        printElement.style.display = 'none';
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     });
