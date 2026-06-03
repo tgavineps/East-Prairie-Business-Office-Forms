@@ -13,9 +13,8 @@
             background-color: #f3f4f6;
         }
 
-        /* HARD-FIX RENDERING ENGINE ANCHOR: 
-           This class overrides responsive screen rules during the capture phase, 
-           enforcing strict document dimensions and formatting properties. */
+        /* HARD-FIX RENDERING ENGINE: 
+           Locks the active form into standard paper proportions during capture. */
         .printing-pdf-active {
             width: 7.5in !important;
             max-width: 7.5in !important;
@@ -23,36 +22,31 @@
             padding: 32px !important;
             margin: 0 auto !important;
             box-shadow: none !important;
-            border: 1px solid #e5e7eb !important;
+            border: 1px solid #cbd5e1 !important;
             border-top: 8px solid #002855 !important;
-            border-radius: 16px !important;
+            border-radius: 12px !important;
             background-color: #ffffff !important;
         }
 
-        /* Format inputs to appear as clean inline text blocks on generated documents */
+        /* Makes active web input inputs look like regular neat form fields on the PDF */
         .printing-pdf-active input {
             border: 1px solid #cbd5e1 !important;
             background-color: #f8fafc !important;
             box-shadow: none !important;
             pointer-events: none !important;
             border-radius: 6px !important;
-            padding: 6px 10px !important;
+            padding: 4px 8px !important;
         }
 
-        /* Completely hide interactive web buttons on the exported document */
+        /* Hide specific elements like action buttons on the output PDF */
         .printing-pdf-active .no-print-pdf {
             display: none !important;
         }
 
-        /* Adjust table spacing for print documents */
+        /* Fixes table width constraint for standard document margins */
         .printing-pdf-active table {
             width: 100% !important;
             table-layout: fixed !important;
-        }
-        
-        .printing-pdf-active th, 
-        .printing-pdf-active td {
-            padding: 6px 8px !important;
         }
     </style>
 </head>
@@ -62,7 +56,7 @@
         
         <header class="w-full flex flex-col items-center justify-center pt-4 pb-6 border-b border-gray-100 text-center">
             <img src="https://cmsv2-assets.apptegy.net/uploads/14657/logo/16043/Logo_Large-stroke.png" alt="East Prairie School District 73" class="w-24 h-24 object-contain">
-            <h1 class="text-2xl font-extrabold text-[#002855] mt-3 tracking-tight">East Prairie School District 73</h1>
+            <h1 class="text-xl font-bold text-[#002855] mt-3 tracking-tight">East Prairie School District 73</h1>
             <p class="text-xs text-gray-400 uppercase font-bold tracking-widest mt-1">Business Office Reimbursement Voucher</p>
         </header>
 
@@ -72,12 +66,12 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="flex flex-col">
-                    <label for="employeeName" class="text-gray-700 font-semibold mb-1 text-xs">Employee Name</label>
-                    <input type="text" id="employeeName" class="border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] outline-none transition-colors" placeholder="Full Name">
+                    <label class="text-gray-700 font-semibold mb-1 text-xs">Employee Name</label>
+                    <input type="text" id="employeeName" class="border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-[#002855] outline-none transition-colors" placeholder="Full Name">
                 </div>
                 <div class="flex flex-col">
-                    <label for="purpose" class="text-gray-700 font-semibold mb-1 text-xs">Purpose of Purchase</label>
-                    <input type="text" id="purpose" class="border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] outline-none transition-colors" placeholder="e.g., Classroom instructional supplies">
+                    <label class="text-gray-700 font-semibold mb-1 text-xs">Purpose of Purchase</label>
+                    <input type="text" id="purpose" class="border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-[#002855] outline-none transition-colors" placeholder="e.g., Classroom supplies">
                 </div>
             </div>
         </section>
@@ -94,7 +88,7 @@
                 <table class="w-full text-left text-xs min-w-[650px]">
                     <thead>
                         <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
-                            <th class="p-2.5 border-r border-gray-200 w-32 text-center">Date</th>
+                            <th class="p-2.5 border-r border-gray-200 w-36 text-center">Date</th>
                             <th class="p-2.5 border-r border-gray-200 min-w-[240px]">Description</th>
                             <th class="p-2.5 border-r border-gray-200 w-28 text-right">Total Amount</th>
                             <th class="p-2.5 border-r border-gray-200 w-28 text-right">Sales Tax</th>
@@ -105,20 +99,20 @@
                     <tbody id="purchaseTableBody" class="bg-white divide-y divide-gray-200">
                         <tr class="transition-colors">
                             <td class="p-1 border-r border-gray-200 text-center">
-                                <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                                <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs">
                             </td>
                             <td class="p-1 border-r border-gray-200">
-                                <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Enter item profile details">
+                                <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs" placeholder="Item description">
                             </td>
                             <td class="p-1 border-r border-gray-200 text-center">
-                                <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                                <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs" placeholder="0.00">
                             </td>
                             <td class="p-1 border-r border-gray-200 text-center">
-                                <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                                <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs" placeholder="0.00">
                             </td>
                             <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-bold text-gray-700">0.00</td>
                             <td class="p-1 text-center no-print-pdf">
-                                <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
+                                <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold">&times;</button>
                             </td>
                         </tr>
                     </tbody>
@@ -141,14 +135,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="flex flex-col">
                         <label class="text-gray-700 font-semibold mb-1 text-xs">Employee Authorization Signature</label>
-                        <div class="border-2 border-gray-200 rounded-xl bg-gray-50 overflow-hidden relative shadow-sm h-28">
+                        <div class="border-2 border-gray-200 rounded-xl bg-gray-50 overflow-hidden h-28">
                             <canvas id="employeeCanvas" class="w-full h-full block cursor-crosshair bg-white touch-none"></canvas>
                         </div>
                         <button type="button" id="clearCanvasBtn" class="text-[11px] text-red-500 hover:text-red-700 font-bold mt-1 self-end no-print-pdf">
                             Clear Signature
                         </button>
                         
-                        <label for="employeeSignatureDate" class="text-gray-700 font-semibold mt-3 mb-1 text-xs">Date of Sign-off</label>
+                        <label class="text-gray-700 font-semibold mt-3 mb-1 text-xs">Date of Sign-off</label>
                         <input type="date" id="employeeSignatureDate" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] outline-none">
                     </div>
 
@@ -166,8 +160,8 @@
             </div>
 
             <div class="text-center pt-4 no-print-pdf">
-                <button id="btnSubmitReimbursement" onclick="executeDownloadWorkflow()" class="w-full sm:w-auto bg-[#002855] hover:bg-[#003d82] text-white font-bold py-3 px-10 rounded-xl text-sm shadow-md transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 mx-auto">
-                    <span>Sign & Submit Reimbursement</span>
+                <button id="btnSubmitReimbursement" onclick="executeDownloadWorkflow()" class="w-full sm:w-auto bg-[#002855] hover:bg-[#003d82] text-white font-bold py-3 px-10 rounded-xl text-sm shadow-md transition-all transform hover:scale-[1.01] flex items-center justify-center gap-2 mx-auto">
+                    <span>Download & Print Form</span>
                 </button>
             </div>
         </section>
