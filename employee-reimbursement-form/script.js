@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalDisplay) totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
     }
 
-    // --- Signature Canvas Handling Engine ---
+    // --- Interactive Canvas Signature Pad Engine ---
     const canvas = document.getElementById('employeeCanvas');
     const clearBtn = document.getElementById('clearCanvasBtn');
     if (canvas) {
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Structural Background PDF Sync & Compile Workflow
+// Structural Background PDF Handshake Framework
 function executeDownloadWorkflow() {
     const empName = document.getElementById('employeeName').value.trim();
     const purpose = document.getElementById('purpose').value.trim();
@@ -176,7 +176,7 @@ function executeDownloadWorkflow() {
     document.getElementById('print-lbl-name').innerText = empName;
     document.getElementById('print-lbl-purpose').innerText = purpose;
     
-    // Format Signature Date cleanly
+    // Clear formatted date strings
     if (dateVal) {
         const d = new Date(dateVal + 'T00:00:00');
         document.getElementById('print-lbl-date').innerText = d.toLocaleDateString('en-US', {
@@ -186,9 +186,9 @@ function executeDownloadWorkflow() {
         document.getElementById('print-lbl-date').innerText = '';
     }
 
-    // Dynamic conversion of individual item lines
+    // Dynamic processing loop for line logs
     const printTableBody = document.getElementById('print-table-body');
-    printTableBody.innerHTML = ''; // Reset frame tracking
+    printTableBody.innerHTML = '';
     
     const webRows = document.querySelectorAll('#purchaseTableBody tr');
     webRows.forEach(row => {
@@ -216,18 +216,18 @@ function executeDownloadWorkflow() {
         printTableBody.appendChild(printRow);
     });
 
-    // Populate Grand Financial Summaries
+    // Populate Grand Financial Display Summary
     const grandTotalText = document.getElementById('totalReimbursementAmount').innerText;
     document.getElementById('print-lbl-grandtotal').innerText = grandTotalText;
 
-    // Convert Canvas Drawing Strokes to an Image URL for the PDF Engine
+    // Output Canvas Drawing Strokes directly to Image URL variables
     const sigImage = document.getElementById('print-sig-image');
     sigImage.src = canvas.toDataURL('image/png');
     sigImage.style.display = 'inline-block';
 
-    // Target the hidden printable element container frame explicitly
+    // Target print viewport visibility
     const printElement = document.getElementById('hidden-print-template');
-    printElement.style.display = 'block'; // Momentarily unlock target mapping display
+    printElement.style.display = 'block'; 
 
     const options = {
         margin:       [0.4, 0.4, 0.4, 0.4],
@@ -237,13 +237,13 @@ function executeDownloadWorkflow() {
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    // Execute background document download handoff
+    // Handoff to file systems workflow
     html2pdf().set(options).from(printElement).save().then(() => {
-        printElement.style.display = 'none'; // Relock print element layout hiding
+        printElement.style.display = 'none'; 
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     }).catch(err => {
-        console.error("PDF Engine Error: ", err);
+        console.error("PDF Compilation Failure: ", err);
         printElement.style.display = 'none';
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
