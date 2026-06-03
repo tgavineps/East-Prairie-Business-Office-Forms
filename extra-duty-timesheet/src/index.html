@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>East Prairie School District 73 - Extra Duty Timesheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .input-row-focus:focus-within {
+            background-color: #f0f7ff;
+        }
+        @media print {
+            body {
+                background-color: #fff !important;
+                padding: 0 !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-container {
+                max-width: none !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+            }
+            .print-table {
+                font-size: 0.75rem !important;
+                width: 100% !important;
+                border-collapse: collapse !important;
+            }
+            .print-table th, .print-table td {
+                padding: 0.4rem !important;
+                border: 1px solid #d1d5db !important;
+            }
+            input[type="text"], input[type="number"], select, input[type="time"] {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                pointer-events: none !important;
+                width: 100% !important;
+            }
+            .unlogged-day-row {
+                display: none !important;
+            }
+            section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+
+    <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-4 pb-8 border-t-8 border-[#002855]">
+        
+        <!-- Header -->
+        <header class="text-center mb-4 flex flex-col items-center justify-center">
+            <img src="../logo.png" 
+                 alt="East Prairie School District 73 Business Office" 
+                 class="w-64 max-w-full h-auto object-contain md:w-80">
+            <h1 class="text-xl font-bold text-gray-900 mt-2">Extra Duty Timesheet</h1>
+        </header>
+
+        <!-- Section 1: Employee & Pay Period Information -->
+        <section class="mb-6">
+            <div class="border-b pb-2 mb-4 border-[#002855]/20">
+                <h2 class="text-base font-bold text-gray-800">1. Employee & Pay Period Information</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="flex flex-col">
+                    <label for="tsEmployeeName" class="text-gray-700 font-semibold mb-1 text-xs">Employee Name</label>
+                    <input type="text" id="tsEmployeeName" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors" placeholder="Full Name">
+                </div>
+                <div class="flex flex-col">
+                    <label for="tsMonthSelect" class="text-gray-700 font-semibold mb-1 text-xs">Month</label>
+                    <select id="tsMonthSelect" onchange="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors">
+                        <option value="0">January</option>
+                        <option value="1">February</option>
+                        <option value="2">March</option>
+                        <option value="3">April</option>
+                        <option value="4">May</option>
+                        <option value="5" selected>June</option>
+                        <option value="6">July</option>
+                        <option value="7">August</option>
+                        <option value="8">September</option>
+                        <option value="9">October</option>
+                        <option value="10">November</option>
+                        <option value="11">December</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label for="tsYearSelect" class="text-gray-700 font-semibold mb-1 text-xs">Year</label>
+                    <input type="text" id="tsYearSelect" value="2026" oninput="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm text-center focus:ring-2 focus:ring-[#002855]">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Daily Activity Log -->
+        <section class="mb-6">
+            <div class="border-b pb-2 mb-3 border-[#002855]/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-base font-bold text-gray-800">2. Daily Activity Log</h2>
+                    <p class="text-xs text-slate-500 mt-0.5 no-print">Tip: Leave unused days completely blank—they will automatically hide when printing or saving as a PDF.</p>
+                </div>
+                <div class="flex items-center gap-4 no-print select-none">
+                    <!-- Weekend Toggle Wrapper -->
+                    <label class="inline-flex items-center cursor-pointer bg-slate-100 px-3 py-1.5 rounded-lg border border-gray-200">
+                        <input type="checkbox" id="toggleWeekends" onchange="generateCalendarRows()" class="sr-only peer">
+                        <div class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#002855]"></div>
+                        <span class="ms-2 text-xs font-semibold text-gray-700">Show Weekends</span>
+                    </label>
+                    <button type="button" onclick="clearAllRows()" class="border border-red-200 text-red-500 hover:bg-red-50 text-xs py-1.5 px-3 rounded-lg transition-all font-medium">
+                        Clear Grid
+                    </button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
+                <table class="print-table w-full text-left text-xs min-w-[750px]">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
+                            <th class="p-2.5 border-r border-gray-200 w-24 text-center">Date</th>
+                            <th class="p-2.5 border-r border-gray-200 min-w-[320px]">Assignment / Position Activity Category</th>
+                            <th class="p-2.5 border-r border-gray-200 w-28 text-center">Time In</th>
+                            <th class="p-2.5 border-r border-gray-200 w-28 text-center">Time Out</th>
+                            <th class="p-2.5 border-r border-gray-200 w-20 text-right">Hours</th>
+                            <th class="p-2.5 border-r border-gray-200 w-20 text-right">Rate</th>
+                            <th class="p-2.5 text-right w-24">Gross Pay</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timesheetLedgerBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Days dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Calculations Summary Footer Block -->
+        <section class="space-y-8">
+            <div class="bg-slate-950 text-white rounded-xl p-5 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div>
+                    <h3 class="text-sm font-semibold text-slate-200">Payroll Summary</h3>
+                    <p class="text-[11px] text-slate-400 mt-0.5">* Clock values rounded to the nearest 1/4 hour.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center">
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-[10px] uppercase font-bold tracking-widest opacity-60">Total Hours:</span>
+                        <span id="lblMonthlyHours" class="text-2xl font-black text-slate-200 tracking-tight">0.00</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 border-t sm:border-t-0 sm:border-l border-slate-800 pt-2 sm:pt-0 sm:pl-8">
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-400">Total Gross Pay:</span>
+                        <span id="lblMonthlyTotal" class="text-3xl font-black text-emerald-400 tracking-tight">$0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Approval Signatures Block -->
+            <div class="border-t pt-8 border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
+                    <!-- Employee Column -->
+                    <div class="flex flex-col space-y-6">
+                        <div class="flex flex-col">
+                            <div class="border-b-2 border-gray-400 h-12"></div>
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Employee Signature</span>
+                        </div>
+                        <div class="flex flex-col w-48">
+                            <div class="border-b-2 border-gray-400 h-10"></div>
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Date</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Supervisor Column -->
+                    <div class="flex flex-col space-y-6">
+                        <div class="flex flex-col">
+                            <div class="border-b-2 border-gray-400 h-12"></div>
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Supervisor / Administrator Approval</span>
+                        </div>
+                        <div class="flex flex-col w-48">
+                            <div class="border-b-2 border-gray-400 h-10"></div>
+                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Date</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Print Action Controller -->
+            <div class="text-center no-print pt-4">
+                <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-8 rounded-lg text-sm shadow-md transition-all transform hover:scale-[1.01]">
+                    Print Form / Save PDF Document
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const assignmentOptionsMarkup = `
+            <option value="" selected>— Leave Blank / No Work Logged —</option>
+            <optgroup label="General Athletics & Supervision ($31.11/hr)">
+                <option value="Supervisors: Basketball and Volleyball Games, Game Clock, etc.">Supervisors: Basketball/Volleyball Games, Clock, etc.</option>
+            </optgroup>
+            <optgroup label="Academic Substitution ($31.11/hr)">
+                <option value="Assigned Teacher Substitution">Assigned Teacher Substitution</option>
+            </optgroup>
+            <optgroup label="Coaching & Intramurals ($40.44/hr)">
+                <option value="Track and Field/CC">Track and Field / CC</option>
+                <option value="Cheerleading">Cheerleading</option>
+                <option value="Coaching and Intramurals (Boys): Varsity Soccer">Boys Varsity Soccer</option>
+                <option value="Coaching and Intramurals (Boys): Varsity Basketball">Boys Varsity Basketball</option>
+                <option value="Coaching and Intramurals (Boys): Varsity Volleyball">Boys Varsity Volleyball</option>
+                <option value="Coaching and Intramurals (Boys): Jr. Varsity Basketball">Boys JV Basketball</option>
+                <option value="Coaching and Intramurals (Boys): Jr. Varsity Volleyball">Boys JV Volleyball</option>
+                <option value="Coaching and Intramurals (Boys): 6th Grade Basketball">Boys 6th Grade Basketball</option>
+                <option value="Coaching and Intramurals (Boys): 6th Grade Volleyball">Boys 6th Grade Volleyball</option>
+                <option value="Coaching and Intramurals (Girls): Varsity Soccer">Girls Varsity Soccer</option>
+                <option value="Coaching and Intramurals (Girls): Varsity Basketball">Girls Varsity Basketball</option>
+                <option value="Coaching and Intramurals (Girls): Varsity Volleyball">Girls Varsity Volleyball</option>
+                <option value="Coaching and Intramurals (Girls): Jr. Varsity Basketball">Girls JV Basketball</option>
+                <option value="Coaching and Intramurals (Girls): Jr. Varsity Volleyball">Girls JV Volleyball</option>
+                <option value="Coaching and Intramurals (Girls): 6th Grade Basketball">Girls 6th Grade Basketball</option>
+                <option value="Coaching and Intramurals (Girls): 6th Grade Volleyball">Girls 6th Grade Volleyball</option>
+            </optgroup>
+            <optgroup label="Fine Arts & Administration ($40.44/hr)">
+                <option value="Approved Summer Curriculum Work">Approved Summer Curriculum Work</option>
+                <option value="School Musical Show">School Musical Show</option>
+                <option value="Homework Club 4/5 and 6-8">Homework Club (4/5 & 6-8)</option>
+                <option value="National Junior Honor Society">National Junior Honor Society</option>
+                <option value="Approved Academic Competition Advisor">Approved Academic Competition Advisor</option>
+                <option value="Detention">Detention</option>
+                <option value="Outdoor Education Coordinator">Outdoor Education Coordinator</option>
+                <option value="Scheduling">Scheduling</option>
+            </optgroup>
+            <optgroup label="Special Variable Rates (Custom Rate Config Enabled)">
+                <option value="Overtime">Overtime</option>
+                <option value="Professional Development">Professional Development</option>
+                <option value="Other">Other (Specify Custom Role Below)...</option>
+            </optgroup>
+        `;
+
+        const ledgerBody = document.getElementById('timesheetLedgerBody');
+        const totalHoursDisplay = document.getElementById('lblMonthlyHours');
+        const totalPayDisplay = document.getElementById('lblMonthlyTotal');
+        
+        let userFormDataState = {};
+
+        function generateCalendarRows() {
+            const yearInput = parseInt(document.getElementById('tsYearSelect').value) || 2026;
+            const monthInput = parseInt(document.getElementById('tsMonthSelect').value);
+            const showWeekends = document.getElementById('toggleWeekends').checked;
+            
+            captureCurrentState();
+
+            const daysInMonth = new Date(yearInput, monthInput + 1, 0).getDate();
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            
+            let tableMarkup = "";
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateObj = new Date(yearInput, monthInput, d);
+                const dayOfWeek = dateObj.getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                
+                if (isWeekend && !showWeekends) {
+                    const state = userFormDataState[d] || {};
+                    if (!state.assignment && !state.inTime && !state.outTime) {
+                        continue; 
+                    }
+                }
+
+                const dayLabel = `${d} — ${dayNames[dayOfWeek]}`;
+                const rowBg = isWeekend ? 'bg-amber-50/40 text-amber-900' : 'bg-white';
+                
+                const savedState = userFormDataState[d] || { assignment: "", customText: "", customRate: "40.44", inTime: "", outTime: "", hours: "—", rate: "—", gross: "—", isUnlogged: true };
+
+                tableMarkup += `
+                    <tr id="row-day-${d}" class="input-row-focus ${savedState.isUnlogged ? 'unlogged-day-row' : ''} transition-colors ${rowBg}">
+                        <td class="p-2 border-r border-gray-200 font-bold text-center bg-slate-50/60">${dayLabel}</td>
+                        
+                        <td class="p-2 border-r border-gray-200 space-y-1.5">
+                            <select id="assign-${d}" onchange="processRowCalculation(${d})" class="w-full border border-gray-300 rounded p-1 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855]">
+                                ${assignmentOptionsMarkup}
+                            </select>
+                            
+                            <div id="custom-container-${d}" class="hidden no-print flex gap-2">
+                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Optional clarifying description note..." class="flex-1 border border-amber-300 bg-amber-50/20 rounded p-1 text-xs text-amber-900 placeholder-amber-600/60 focus:ring-1 focus:ring-amber-500 focus:outline-none">
+                                <div class="flex items-center gap-1 border border-amber-300 bg-amber-50/40 rounded px-1.5 py-0.5">
+                                    <span class="text-[10px] font-bold text-amber-700">$</span>
+                                    <input type="number" id="custom-rate-${d}" step="0.01" min="0" value="${savedState.customRate || '40.44'}" oninput="processRowCalculation(${d})" placeholder="0.00" class="w-16 bg-transparent text-xs text-amber-900 font-medium focus:outline-none">
+                                    <span class="text-[10px] text-amber-600">/hr</span>
+                                </div>
+                            </div>
+                            <div id="custom-print-mirror-${d}" class="hidden print:block text-xs font-semibold text-gray-800 italic"></div>
+                        </td>
+                        
+                        <td class="p-1 border-r border-gray-200 text-center">
+                            <input type="time" id="in-${d}" value="${savedState.inTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                        </td>
+                        <td class="p-1 border-r border-gray-200 text-center">
+                            <input type="time" id="out-${d}" value="${savedState.outTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                        </td>
+                        
+                        <td id="hours-${d}" class="p-2 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
+                        <td id="rate-${d}" class="p-2 border-r border-gray-200 text-right text-gray-500">${savedState.rate}</td>
+                        <td id="gross-${d}" class="p-2 text-right font-semibold text-gray-900">${savedState.gross}</td>
+                    </tr>
+                `;
+            }
+            
+            ledgerBody.innerHTML = tableMarkup;
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                if (userFormDataState[d] && document.getElementById(`assign-${d}`)) {
+                    document.getElementById(`assign-${d}`).value = userFormDataState[d].assignment;
+                    document.getElementById(`custom-text-${d}`).value = userFormDataState[d].customText;
+                    processRowCalculation(d);
+                }
+            }
+            recalculateGrandTotals();
+        }
+
+        function captureCurrentState() {
+            for (let d = 1; d <= 31; d++) {
+                const selectEl = document.getElementById(`assign-${d}`);
+                if (selectEl) {
+                    userFormDataState[d] = {
+                        assignment: selectEl.value,
+                        customText: document.getElementById(`custom-text-${d}`).value,
+                        customRate: document.getElementById(`custom-rate-${d}`).value,
+                        inTime: document.getElementById(`in-${d}`).value,
+                        outTime: document.getElementById(`out-${d}`).value,
+                        hours: document.getElementById(`hours-${d}`).innerText,
+                        rate: document.getElementById(`rate-${d}`).innerText,
+                        gross: document.getElementById(`gross-${d}`).innerText,
+                        isUnlogged: document.getElementById(`row-day-${d}`).classList.contains('unlogged-day-row')
+                    };
+                }
+            }
+        }
+
+        function timeToMinutes(timeStr) {
+            if (!timeStr) return 0;
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function processRowCalculation(dayNum) {
+            const selectEl = document.getElementById(`assign-${dayNum}`);
+            if (!selectEl) return;
+
+            const customContainer = document.getElementById(`custom-container-${dayNum}`);
+            const customTextInput = document.getElementById(`custom-text-${dayNum}`);
+            const customRateInput = document.getElementById(`custom-rate-${dayNum}`);
+            const printMirror = document.getElementById(`custom-print-mirror-${dayNum}`);
+            
+            const inTimeVal = document.getElementById(`in-${dayNum}`).value;
+            const outTimeVal = document.getElementById(`out-${dayNum}`).value;
+            const hoursCell = document.getElementById(`hours-${dayNum}`);
+            const rateCell = document.getElementById(`rate-${dayNum}`);
+            const grossCell = document.getElementById(`gross-${dayNum}`);
+            const rowElement = document.getElementById(`row-day-${dayNum}`);
+
+            let selectedText = selectEl.value;
+            let hourlyRate = 40.44; 
+
+            const isVariableRateType = (selectedText === "Other" || selectedText === "Overtime" || selectedText === "Professional Development");
+
+            if (isVariableRateType) {
+                customContainer.classList.remove('hidden');
+                let explanationText = customTextInput.value.trim();
+                let outputDisplayName = selectedText;
+                
+                if (explanationText) {
+                    outputDisplayName = `${selectedText} (${explanationText})`;
+                }
+                
+                let dynamicRate = parseFloat(customRateInput.value);
+                hourlyRate = isNaN(dynamicRate) ? 0.00 : dynamicRate;
+                printMirror.innerText = outputDisplayName;
+            } else {
+                customContainer.classList.add('hidden');
+                printMirror.innerText = "";
+                
+                const lowerText = selectedText.toLowerCase();
+                if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
+                    hourlyRate = 31.11;
+                }
+            }
+
+            if (!selectEl.value && !inTimeVal && !outTimeVal) {
+                hoursCell.innerText = "—";
+                rateCell.innerText = "—";
+                grossCell.innerText = "—";
+                rowElement.classList.add('unlogged-day-row');
+                recalculateGrandTotals();
+                return;
+            }
+
+            rowElement.classList.remove('unlogged-day-row');
+
+            const inMins = timeToMinutes(inTimeVal);
+            const outMins = timeToMinutes(outTimeVal);
+            
+            let finalHours = 0;
+            if (inTimeVal && outTimeVal && outMins > inMins) {
+                const rawDiff = outMins - inMins;
+                const roundedMinutes = Math.round(rawDiff / 15) * 15;
+                finalHours = roundedMinutes / 60;
+            }
+
+            const dailyGross = finalHours * hourlyRate;
+
+            hoursCell.innerText = finalHours > 0 ? finalHours.toFixed(2) : "0.00";
+            rateCell.innerText = `$${hourlyRate.toFixed(2)}`;
+            grossCell.innerText = dailyGross > 0 ? `$${dailyGross.toFixed(2)}` : "$0.00";
+
+            recalculateGrandTotals();
+        }
+
+        function recalculateGrandTotals() {
+            let totalHoursSum = 0;
+            let totalGrossSum = 0;
+
+            for (let d = 1; d <= 31; d++) {
+                const hoursCell = document.getElementById(`hours-${d}`);
+                const grossCell = document.getElementById(`gross-${d}`);
+                
+                if (hoursCell && grossCell) {
+                    const hourVal = parseFloat(hoursCell.innerText);
+                    const grossText = grossCell.innerText;
+                    
+                    if (!isNaN(hourVal) && hourVal > 0) {
+                        totalHoursSum += hourVal;
+                    }
+                    if (grossText.startsWith('$')) {
+                        totalGrossSum += parseFloat(grossText.replace('$', '')) || 0;
+                    }
+                }
+            }
+
+            totalHoursDisplay.innerText = totalHoursSum.toFixed(2);
+            totalPayDisplay.innerText = `$${totalGrossSum.toFixed(2)}`;
+        }
+
+        function clearAllRows() {
+            if (confirm("Are you sure you want to clear out all logs?")) {
+                userFormDataState = {};
+                generateCalendarRows();
+            }
+        }
+
+        function triggerPrintVoucher() {
+            for (let d = 1; d <= 31; d++) {
+                const selectEl = document.getElementById(`assign-${d}`);
+                if (selectEl) {
+                    const customTextInput = document.getElementById(`custom-text-${d}`);
+                    const hourVal = parseFloat(document.getElementById(`hours-${d}`).innerText) || 0;
+                    
+                    if (selectEl.value === "Other" && hourVal > 0 && !customTextInput.value.trim()) {
+                        alert(`Incomplete Information on Day ${d}: Please type an assignment description for your custom entry before printing.`);
+                        customTextInput.focus();
+                        return;
+                    }
+                }
+            }
+            window.print();
+        }
+
+        generateCalendarRows();
+    </script>
+</body>
+</html>
