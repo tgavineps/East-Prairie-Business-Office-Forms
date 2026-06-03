@@ -442,8 +442,29 @@
 
         function clearAllRows() {
             if (confirm("Are you sure you want to clear out all logs?")) {
+                // 1. Wipe the persistent state memory clean
                 userFormDataState = {};
-                generateCalendarRows(); // Re-render table interface immediately
+                
+                // 2. Locate every field currently rendered inside the grid and drop their UI values
+                for (let d = 1; d <= 31; d++) {
+                    const selectEl = document.getElementById(`assign-${d}`);
+                    if (selectEl) selectEl.value = "";
+                    
+                    const textEl = document.getElementById(`custom-text-${d}`);
+                    if (textEl) textEl.value = "";
+                    
+                    const rateEl = document.getElementById(`custom-rate-${d}`);
+                    if (rateEl) rateEl.value = "40.44";
+                    
+                    const inEl = document.getElementById(`in-${d}`);
+                    if (inEl) inEl.value = "";
+                    
+                    const outEl = document.getElementById(`out-${d}`);
+                    if (outEl) outEl.value = "";
+                }
+                
+                // 3. Re-render the tables to trigger mathematical updates to $0.00 totals
+                generateCalendarRows();
             }
         }
 
