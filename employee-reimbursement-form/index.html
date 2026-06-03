@@ -23,6 +23,13 @@
                 width: 100% !important;
                 height: auto !important;
             }
+            /* Crucial positioning context from style.css to keep the PDF frame centered */
+            #hidden-print-template {
+                margin: 0 !important;
+                padding: 0 !important;
+                top: 0 !important;
+                position: absolute !important;
+            }
             .no-print { 
                 display: none !important; 
             }
@@ -147,13 +154,13 @@
     </div>
 
     <div id="hidden-print-template" style="display: none; box-sizing: border-box; width: 7.5in; font-family: 'Inter', Arial, sans-serif; color: #111827; line-height: 1.4;">
-        <div style="border-top: 8px solid #002855; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; border-radius: 16px; padding: 32px; background-color: #fff; box-sizing: border-box; shadow: 0 20px 25px -5px rgba(0,0,0,0.1);">
+        <div style="border-top: 8px solid #002855; border-left: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; border-bottom: 1px solid #e5e7eb; border-radius: 16px; padding: 32px; background-color: #fff; box-sizing: border-box;">
             
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px;">
                 <tr>
                     <td style="vertical-align: middle; text-align: center; padding-bottom: 12px;">
                         <img src="https://cmsv2-assets.apptegy.net/uploads/14657/logo/16043/Logo_Large-stroke.png" style="width: 80px; height: 80px; object-fit: contain;" alt="District Logo">
-                        <h1 style="margin: 8px 0 2px 0; font-size: 20px; font-weight: 800; color: #002855; tracking: -0.025em;">East Prairie School District 73</h1>
+                        <h1 style="margin: 8px 0 2px 0; font-size: 20px; font-weight: 800; color: #002855;">East Prairie School District 73</h1>
                         <p style="margin: 0; font-size: 11px; color: #6b7280; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Business Office Reimbursement Voucher</p>
                     </td>
                 </tr>
