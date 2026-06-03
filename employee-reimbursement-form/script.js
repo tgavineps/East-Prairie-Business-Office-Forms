@@ -149,6 +149,7 @@ function triggerNativePrintWorkflow() {
     const empName = document.getElementById('employeeName').value.trim();
     const purpose = document.getElementById('purpose').value.trim();
     const canvas = document.getElementById('employeeCanvas');
+    const printImg = document.getElementById('signaturePrintImg');
     const isCanvasDirty = canvas && canvas.dataset.dirty === "true";
 
     if (!empName) {
@@ -166,6 +167,24 @@ function triggerNativePrintWorkflow() {
         return;
     }
 
-    // Trigger native browser print systems framework
+    // Convert canvas data into binary base64 asset vector blocks for layout preservation
+    if (canvas && printImg) {
+        const dataUrl = canvas.toDataURL('image/png');
+        printImg.src = dataUrl;
+        
+        // Dynamic visibility handshake to render graphic correctly in print engine context
+        canvas.classList.add('hidden');
+        printImg.classList.remove('hidden');
+        printImg.classList.add('block');
+    }
+
+    // Trigger browser print subsystem framework
     window.print();
+
+    // Revert visual state elements back to initial web interactive configuration
+    if (canvas && printImg) {
+        canvas.classList.remove('hidden');
+        printImg.classList.add('hidden');
+        printImg.classList.remove('block');
+    }
 }
