@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Standard initialization rules: auto-fill signatures with current calendar dates
+    // Standard initialization: auto-set baseline authorization dates to current system calendar
     const dateInput = document.getElementById('employeeSignatureDate');
     if (dateInput) dateInput.valueAsDate = new Date();
 
@@ -11,27 +11,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if (initialRow) attachRowListeners(initialRow);
     }
 
-    // Dynamic row generation management processes
+    // Dynamic item row appending tracker loop setup
     if (addRowBtn) {
         addRowBtn.addEventListener('click', () => {
             const newRow = document.createElement('tr');
             newRow.className = 'transition-colors';
             newRow.innerHTML = `
                 <td class="p-1 border-r border-gray-200 text-center">
-                    <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                    <input type="date" class="date-input border border-gray-300 rounded p-1 text-center w-full text-xs">
                 </td>
                 <td class="p-1 border-r border-gray-200">
-                    <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Enter item profile details">
+                    <input type="text" class="desc-input border border-gray-300 rounded p-1 w-full text-xs" placeholder="Item description">
                 </td>
                 <td class="p-1 border-r border-gray-200 text-center">
-                    <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                    <input type="number" step="0.01" class="total-input border border-gray-300 rounded p-1 text-right w-full text-xs" placeholder="0.00">
                 </td>
                 <td class="p-1 border-r border-gray-200 text-center">
-                    <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                    <input type="number" step="0.01" class="tax-input border border-gray-300 rounded p-1 text-right w-full text-xs" placeholder="0.00">
                 </td>
                 <td class="reimburse-amount-cell p-2 border-r border-gray-200 text-right font-bold text-gray-700">0.00</td>
                 <td class="p-1 text-center no-print-pdf">
-                    <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold transition-colors">&times;</button>
+                    <button type="button" class="delete-row-btn text-gray-400 hover:text-red-500 text-sm font-bold">&times;</button>
                 </td>
             `;
             tableBody.appendChild(newRow);
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalDisplay) totalDisplay.innerText = `$${grandTotal.toFixed(2)}`;
     }
 
-    // --- Interactive Canvas Signature Pad Engine ---
+    // --- High-Fidelity Canvas Interactive Pad Mechanics ---
     const canvas = document.getElementById('employeeCanvas');
     const clearBtn = document.getElementById('clearCanvasBtn');
     if (canvas) {
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Structural Compilation PDF Workflow Engine
+// Structural Form Snapshot Pipeline Workflow Engine
 function executeDownloadWorkflow() {
     const empName = document.getElementById('employeeName').value.trim();
     const purpose = document.getElementById('purpose').value.trim();
@@ -152,10 +152,10 @@ function executeDownloadWorkflow() {
     const canvas = document.getElementById('employeeCanvas');
     const isCanvasDirty = canvas && canvas.dataset.dirty === "true";
     const submitBtn = document.getElementById('btnSubmitReimbursement');
-    const targetFormElement = document.getElementById('reimbursement-form-container');
+    const formElement = document.getElementById('reimbursement-form-container');
 
     if (!empName) {
-        alert("Please enter the Employee Name before submitting.");
+        alert("Please enter the Employee Name before downloading.");
         document.getElementById('employeeName').focus();
         return;
     }
@@ -165,16 +165,15 @@ function executeDownloadWorkflow() {
         return;
     }
     if (!isCanvasDirty) {
-        alert("Please provide your authorization signature on the digital canvas block.");
+        alert("Please sign your authorization on the digital pad before downloading.");
         return;
     }
 
-    // Toggle execution states
     submitBtn.disabled = true;
-    submitBtn.innerText = "Compiling PDF Voucher...";
+    submitBtn.innerText = "Generating Document Copy...";
 
-    // Apply strict rendering frame overrides directly to active DOM layout 
-    targetFormElement.classList.add('printing-pdf-active');
+    // Momentarily apply print constraints directly to active UI workspace container 
+    formElement.classList.add('printing-pdf-active');
 
     const options = {
         margin:       [0.4, 0.4, 0.4, 0.4],
@@ -184,15 +183,15 @@ function executeDownloadWorkflow() {
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
-    // Compile, save, and restore interface styling state contexts
-    html2pdf().set(options).from(targetFormElement).save().then(() => {
-        targetFormElement.classList.remove('printing-pdf-active');
+    // Execute capture directly against active context element, then restore web responsive state layout
+    html2pdf().set(options).from(formElement).save().then(() => {
+        formElement.classList.remove('printing-pdf-active');
         submitBtn.disabled = false;
-        submitBtn.innerText = "Sign & Submit Reimbursement";
+        submitBtn.innerText = "Download & Print Form";
     }).catch(err => {
-        console.error("PDF Compilation Failure: ", err);
-        targetFormElement.classList.remove('printing-pdf-active');
+        console.error("Document Generation Malfunction: ", err);
+        formElement.classList.remove('printing-pdf-active');
         submitBtn.disabled = false;
-        submitBtn.innerText = "Sign & Submit Reimbursement";
+        submitBtn.innerText = "Download & Print Form";
     });
 }
