@@ -51,8 +51,8 @@
                 display: none !important;
             }
             header {
-                margin-top: 4px !important;
-                margin-bottom: 16px !important;
+                margin-top: 12px !important;
+                margin-bottom: 24px !important;
             }
             section {
                 page-break-inside: avoid;
@@ -64,12 +64,14 @@
 
     <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-6 pb-8 border-t-8 border-[#002855]">
         
-        <header class="w-full flex items-center justify-center pt-2 pb-5">
+        <!-- Scaled down logo container with expanded top/bottom vertical breathing room -->
+        <header class="w-full flex items-center justify-center pt-5 pb-8">
             <img src="../logoh.png" 
                  alt="East Prairie School District 73" 
-                 class="w-[26rem] max-w-full h-auto object-contain p-0 m-0 block">
+                 class="w-80 max-w-full h-auto object-contain p-0 m-0 block">
         </header>
 
+        <!-- Section 1: Employee & Pay Period Information -->
         <section class="mb-6">
             <div class="border-b pb-2 mb-4 border-[#002855]/20">
                 <h2 class="text-base font-bold text-gray-800">1. Extra Duty Timesheet — Employee & Pay Period Information</h2>
@@ -103,6 +105,7 @@
             </div>
         </section>
 
+        <!-- Section 2: Daily Activity Log -->
         <section class="mb-6">
             <div class="border-b pb-2 mb-3 border-[#002855]/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -140,6 +143,7 @@
             </div>
         </section>
 
+        <!-- Calculations Summary Footer Block -->
         <section class="space-y-8">
             <div class="bg-slate-950 text-white rounded-xl p-5 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div>
@@ -158,6 +162,7 @@
                 </div>
             </div>
 
+            <!-- Approval Signatures Block -->
             <div class="border-t pt-8 border-gray-200">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
                     <div class="flex flex-col space-y-6">
@@ -184,6 +189,7 @@
                 </div>
             </div>
 
+            <!-- Print Action Controller -->
             <div class="text-center no-print pt-4">
                 <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-8 rounded-lg text-sm shadow-md transition-all transform hover:scale-[1.01]">
                     Print Form / Save PDF Document
