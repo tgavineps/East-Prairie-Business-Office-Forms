@@ -61,17 +61,17 @@
 </head>
 <body class="p-4 md:p-6">
 
-    <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-4 pb-8 border-t-8 border-[#002855]">
+    <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-6 pb-8 border-t-8 border-[#002855]">
         
-        <!-- Balanced Header Layout -->
-        <header class="w-full flex flex-col items-center justify-center mb-4">
-            <!-- Adjusted bottom margin to split the distance between text and graphics perfectly -->
+        <!-- Clean Grid-Based Header Layout -->
+        <header class="w-full grid grid-cols-1 justify-items-center gap-0 mb-6">
+            <!-- No negative margins; explicit clean rendering -->
             <img src="../logo.png" 
                  alt="East Prairie School District 73 Business Office" 
-                 class="w-64 max-w-full h-auto object-contain md:w-80 -mt-6 md:-mt-8 -mb-1 md:-mb-2">
+                 class="w-64 max-w-full h-auto object-contain md:w-80 p-0 m-0 block">
             
-            <!-- Extra Duty Timesheet Title Text -->
-            <h1 class="text-xl font-bold text-gray-900 tracking-tight mt-1">Extra Duty Timesheet</h1>
+            <!-- Anchored perfectly right against the boundary of the image layout -->
+            <h1 class="text-xl font-bold text-gray-900 tracking-tight m-0 pt-1">Extra Duty Timesheet</h1>
         </header>
 
         <!-- Section 1: Employee & Pay Period Information -->
