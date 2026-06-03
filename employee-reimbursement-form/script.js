@@ -227,7 +227,10 @@ function executeDownloadWorkflow() {
 
     // Target print viewport visibility
     const printElement = document.getElementById('hidden-print-template');
-    printElement.style.display = 'block'; 
+
+    // CRITICAL FIX: Instead of toggling display blocks, we change the offscreen absolute positioning parameters
+    printElement.style.position = 'static';
+    printElement.style.left = '0';
 
     const options = {
         margin:       [0.4, 0.4, 0.4, 0.4],
@@ -239,12 +242,15 @@ function executeDownloadWorkflow() {
 
     // Handoff to file systems workflow
     html2pdf().set(options).from(printElement).save().then(() => {
-        printElement.style.display = 'none'; 
+        // Restore offscreen absolute positioning safety tracks
+        printElement.style.position = 'absolute';
+        printElement.style.left = '-9999px';
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     }).catch(err => {
         console.error("PDF Compilation Failure: ", err);
-        printElement.style.display = 'none';
+        printElement.style.position = 'absolute';
+        printElement.style.left = '-9999px';
         submitBtn.disabled = false;
         submitBtn.innerText = "Sign & Submit Reimbursement";
     });
