@@ -267,7 +267,7 @@ function launchGmailTab(fullName, sYear, eYear, fileSaveName) {
     
     // Updated email body structure exactly matching your request
     const mailBody = "Hello,\n\n" +
-                     "Please find my signed Terms of Employment for the " + sYear + "-" + eYear + " school year.\n\n" +
+                     "Please find my signed Terms of Employment for the " + sYear + "-" + eYear + " school year attached to this email.\n\n" +
                      "I have reviewed the details and digitally signed the document.\n\n" +
                      "Sincerely,\n" + 
                      fullName;
