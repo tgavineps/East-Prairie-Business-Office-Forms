@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPSD 73 - Activity Account Deposit Slip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; }
+            .no-print { display: none !important; }
+            .print-container { max-width: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
+            
+            input[type="text"], input[type="number"], select { 
+                border-bottom: 1px solid #cbd5e1 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important;
+                padding-left: 0.25rem !important;
+            }
+            
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            table { page-break-inside: auto; }
+            tr { page-break-inside: avoid; page-break-after: auto; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-5xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b pb-6 mb-4 border-slate-200 gap-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+               <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-16 w-auto object-contain">
+                <div>
+                    <h1 class="text-xl font-bold text-[#002855] uppercase tracking-wide">Activity Account Deposit Slip</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">East Prairie School District 73 &bull; Skokie, IL</p>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-auto bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex gap-4 text-xs justify-between lg:justify-start">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase">Deposit Date</label>
+                    <input type="text" id="slipDate" class="font-medium text-slate-800 bg-transparent border-b border-slate-300 focus:border-[#002855] outline-none w-24 py-0.5">
+                </div>
+            </div>
+        </header>
+
+        <!-- DISTRICT FEE REFERENCE & INSTRUCTIONAL GUIDE FOR COACHES/SPONSORS -->
+        <section class="mb-6 bg-slate-900 text-white rounded-xl p-4 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            <div class="md:col-span-5 border-r border-slate-700 pr-2">
+                <span class="block text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-1">Athletic Fee Framework</span>
+                <div class="space-y-1 text-xs">
+                    <div class="flex justify-between max-w-[240px]"><span class="font-medium text-slate-300">Varsity & JV Sports:</span> <span class="font-bold text-white">$70 / Athlete</span></div>
+                    <div class="flex justify-between max-w-[240px]"><span class="font-medium text-slate-300">6th Grade Sports:</span> <span class="font-bold text-white">$35 / Athlete</span></div>
+                </div>
+            </div>
+            <div class="md:col-span-7 flex items-start gap-2.5 text-xs text-slate-300">
+                <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+                <p class="leading-relaxed">
+                    <strong class="text-white">PushCoin Notice:</strong> If parents or guardians paid online via PushCoin, mark the payment method as <span class="text-amber-400 font-bold">PushCoin</span>. Please contact the Business Office directly if you need to confirm or audit online clears through our fee management system.
+                </p>
+            </div>
+        </section>
+
+        <!-- ATTRIBUTION METADATA SECTION -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 text-xs">
+            <div class="flex flex-col">
+                <label class="font-bold text-slate-600 uppercase mb-1">Activity Fund / Club / Sport Name</label>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., Boys Varsity Basketball, Graduation, Art Club">
+            </div>
+            <div class="flex flex-col">
+                <label class="font-bold text-slate-600 uppercase mb-1">Sponsor / Coach Name</label>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none">
+            </div>
+        </section>
+
+        <!-- LEDGER LOG TABLE -->
+        <section class="mb-6 overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-[#002855] text-white font-bold uppercase tracking-wider text-[11px]">
+                        <th class="p-2 w-12 text-center border border-[#002855]">Line</th>
+                        <th class="p-2 border border-[#002855]">Received From (Student / Payer Name)</th>
+                        <th class="p-2 w-40 text-center border border-[#002855]">Payment Method</th>
+                        <th class="p-2 w-40 text-right border border-[#002855]">Amount Received</th>
+                        <th class="p-2 w-44 border border-[#002855]">Check Number / Reference Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="ledgerTableBody" class="divide-y divide-slate-200 border border-slate-200">
+                    <!-- Script will inject initial rows here -->
+                </tbody>
+            </table>
+            <div class="mt-2 text-right no-print">
+                <button type="button" onclick="addNewLedgerRow()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-1 px-3 rounded text-[11px] border border-slate-300 transition-colors">
+                    + Add New Collection Entry
+                </button>
+            </div>
+        </section>
+
+        <!-- LOWER CALCULATIONS & DEPOSIT SUMMARY -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            
+            <!-- Instructions and Routings Box -->
+            <div class="md:col-span-6 bg-blue-50 border border-blue-200 rounded-lg p-4 text-xs text-slate-700 space-y-3">
+                <div class="flex items-start gap-2.5">
+                    <svg class="w-4 h-4 text-[#002855] mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <span class="block font-bold text-[#002855] uppercase text-[10px] tracking-wider">Next Steps</span>
+                        <p class="mt-0.5 leading-relaxed text-slate-600 font-normal">Please make sure your physical cash and checks match the calculated totals. Once you sign the bottom, bring this sheet and the funds to the Business Office.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Balancing System Box (Matches Spreadsheet Matrix Structure) -->
+            <div class="md:col-span-6 bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs font-medium space-y-2.5">
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider pb-1 border-b border-slate-200">
+                    Summations
+                </div>
+                
+                <!-- Checks Sum -->
+                <div class="flex justify-between items-center text-slate-600">
+                    <span class="uppercase tracking-wide text-[11px]">Sum of All Checks:</span>
+                    <span class="font-semibold text-slate-900">$<span id="lblSumChecks">0.00</span></span>
+                </div>
+                
+                <!-- Cash Sum -->
+                <div class="flex justify-between items-center text-slate-600">
+                    <span class="uppercase tracking-wide text-[11px]">Sum of All Cash:</span>
+                    <span class="font-semibold text-slate-900">$<span id="lblSumCash">0.00</span></span>
+                </div>
+
+                <!-- Grand Total Deposit -->
+                <div class="flex justify-between items-center border-t-2 border-dashed border-slate-300 pt-3 text-sm font-bold text-[#002855]">
+                    <span class="uppercase tracking-wider">Total Deposit</span>
+                    <span class="text-base bg-[#002855] text-white px-2 py-0.5 rounded">$<span id="lblTotalDeposit">0.00</span></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SIGNATURE ROW BLOCK -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 pt-4 border-t border-slate-100 text-xs font-medium">
+            <div class="flex flex-col">
+                <div class="border-b border-slate-400 h-8 w-full"></div>
+                <label class="text-[9px] font-bold text-slate-500 uppercase mt-1 tracking-wider">Depositor / Coach / Sponsor Signature & Date</label>
+            </div>
+            <div class="flex flex-col">
+                <div class="border-b border-slate-300 h-8 w-full bg-slate-50/50"></div>
+                <label class="text-[9px] font-bold text-slate-400 uppercase mt-1 tracking-wider">Business Office Verification Signature</label>
+            </div>
+        </section>
+
+        <!-- CONTROL BUTTON INTERFACE -->
+        <footer class="mt-8 pt-4 border-t border-slate-200 text-center no-print">
+            <button onclick="window.print()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print / Save Deposit Slip to PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        let rowCounter = 0;
+
+        // Injects 12 clean rows by default to give a clean starting space
+        function injectBaseRows(count) {
+            for(let i = 0; i < count; i++) {
+                addNewLedgerRow();
+            }
+        }
+
+        function addNewLedgerRow() {
+            rowCounter++;
+            const tbody = document.getElementById('ledgerTableBody');
+            const tr = document.createElement('tr');
+            tr.id = `row_${rowCounter}`;
+            tr.className = "hover:bg-slate-50 transition-colors";
+            
+            tr.innerHTML = `
+                <td class="p-1.5 text-center text-slate-400 font-semibold border-r border-slate-200">${rowCounter}</td>
+                <td class="p-1 border-r border-slate-200">
+                    <input type="text" class="w-full bg-transparent px-2 py-1 outline-none text-slate-800 text-xs" placeholder="Student First & Last Name">
+                </td>
+                <td class="p-1 border-r border-slate-200 text-center">
+                    <select id="method_${rowCounter}" onchange="handleMethodChange(${rowCounter})" class="bg-transparent text-xs font-medium text-slate-600 outline-none cursor-pointer w-full text-center">
+                        <option value="Cash">Cash</option>
+                        <option value="Check">Check</option>
+                        <option value="PushCoin">PushCoin Online</option>
+                    </select>
+                </td>
+                <td class="p-1 border-r border-slate-200">
+                    <div class="flex items-center justify-end">
+                        <span class="text-slate-400 mr-0.5">$</span>
+                        <input type="number" id="amount_${rowCounter}" min="0" step="0.01" class="w-24 text-right bg-transparent py-1 outline-none font-semibold text-slate-800" placeholder="0.00" oninput="calculateDepositMatrix()">
+                    </div>
+                </td>
+                <td class="p-1">
+                    <input type="text" id="ref_${rowCounter}" class="w-full bg-transparent px-2 py-1 outline-none text-slate-700 text-xs" placeholder="N/A (Cash Entry)" disabled>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function handleMethodChange(id) {
+            const method = document.getElementById(`method_${id}`).value;
+            const refInput = document.getElementById(`ref_${id}`);
+            const amtInput = document.getElementById(`amount_${id}`);
+            
+            if (method === "Check") {
+                refInput.value = "";
+                refInput.placeholder = "Enter Check #";
+                refInput.disabled = false;
+                amtInput.disabled = false;
+                refInput.focus();
+            } else if (method === "PushCoin") {
+                amtInput.value = "0.00";
+                amtInput.disabled = true;
+                refInput.value = "Verified via PushCoin";
+                refInput.disabled = true;
+            } else {
+                refInput.value = "";
+                refInput.placeholder = "N/A (Cash Entry)";
+                refInput.disabled = true;
+                amtInput.disabled = false;
+            }
+            calculateDepositMatrix();
+        }
+
+        function calculateDepositMatrix() {
+            let totalChecks = 0;
+            let totalCash = 0;
+
+            for (let i = 1; i <= rowCounter; i++) {
+                const amountNode = document.getElementById(`amount_${i}`);
+                if (amountNode) {
+                    const amountValue = parseFloat(amountNode.value) || 0;
+                    const methodValue = document.getElementById(`method_${i}`).value;
+
+                    if (methodValue === "Check") {
+                        totalChecks += amountValue;
+                    } else if (methodValue === "Cash") {
+                        totalCash += amountValue;
+                    }
+                }
+            }
+
+            const grandTotalDeposit = totalChecks + totalCash;
+
+            document.getElementById('lblSumChecks').innerText = totalChecks.toFixed(2);
+            document.getElementById('lblSumCash').innerText = totalCash.toFixed(2);
+            document.getElementById('lblTotalDeposit').innerText = grandTotalDeposit.toFixed(2);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const dateObj = new Date();
+            const dateStr = `${String(dateObj.getMonth() + 1).padStart(2, '0')}/${String(dateObj.getDate()).padStart(2, '0')}/${dateObj.getFullYear()}`;
+            document.getElementById('slipDate').value = dateStr;
+            injectBaseRows(12);
+        });
+    </script>
+</body>
+</html>
