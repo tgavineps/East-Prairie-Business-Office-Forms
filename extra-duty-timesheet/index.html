@@ -229,7 +229,7 @@
                 <option value="Outdoor Education Coordinator">Outdoor Education Coordinator</option>
                 <option value="Scheduling">Scheduling</option>
             </optgroup>
-            <optgroup label="Special Variable Rates (Custom Rate Config Enabled)">
+            <optgroup label="Special Variable Rates (Business Office Verified)">
                 <option value="Overtime">Overtime</option>
                 <option value="Professional Development">Professional Development</option>
                 <option value="Other">Other (Specify Custom Role Below)...</option>
@@ -269,7 +269,7 @@
                 const dayLabel = `${d} — ${dayNames[dayOfWeek]}`;
                 const rowBg = isWeekend ? 'bg-amber-50/40 text-amber-900' : 'bg-white';
                 
-                const savedState = userFormDataState[d] || { assignment: "", customText: "", customRate: "40.44", inTime: "", outTime: "", hours: "—", rate: "—", gross: "—", isUnlogged: true };
+                const savedState = userFormDataState[d] || { assignment: "", customText: "", inTime: "", outTime: "", hours: "—", rate: "—", gross: "—", isUnlogged: true };
 
                 tableMarkup += `
                     <tr id="row-day-${d}" class="input-row-focus ${savedState.isUnlogged ? 'unlogged-day-row' : ''} transition-colors ${rowBg}">
@@ -281,12 +281,7 @@
                             </select>
                             
                             <div id="custom-container-${d}" class="hidden no-print flex gap-2">
-                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Optional clarifying description note..." class="flex-1 border border-amber-300 bg-amber-50/20 rounded p-1 text-xs text-amber-900 placeholder-amber-600/60 focus:ring-1 focus:ring-amber-500 focus:outline-none">
-                                <div class="flex items-center gap-1 border border-amber-300 bg-amber-50/40 rounded px-1.5 py-0.5">
-                                    <span class="text-[10px] font-bold text-amber-700">$</span>
-                                    <input type="number" id="custom-rate-${d}" step="0.01" min="0" value="${savedState.customRate || '40.44'}" oninput="processRowCalculation(${d})" placeholder="0.00" class="w-16 bg-transparent text-xs text-amber-900 font-medium focus:outline-none">
-                                    <span class="text-[10px] text-amber-600">/hr</span>
-                                </div>
+                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Please clarify specific role context or project assignments..." class="flex-1 border border-slate-300 bg-slate-50/50 rounded p-1 text-xs text-slate-800 placeholder-slate-400 focus:ring-1 focus:ring-[#002855] focus:outline-none">
                             </div>
                             <div id="custom-print-mirror-${d}" class="hidden print:block text-xs font-semibold text-gray-800 italic"></div>
                         </td>
@@ -299,7 +294,7 @@
                         </td>
                         
                         <td id="hours-${d}" class="p-2 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
-                        <td id="rate-${d}" class="p-2 border-r border-gray-200 text-right text-gray-500">${savedState.rate}</td>
+                        <td id="rate-${d}" class="p-2 border-r border-gray-200 text-right text-gray-500 font-medium">${savedState.rate}</td>
                         <td id="gross-${d}" class="p-2 text-right font-semibold text-gray-900">${savedState.gross}</td>
                     </tr>
                 `;
@@ -324,7 +319,6 @@
                     userFormDataState[d] = {
                         assignment: selectEl.value,
                         customText: document.getElementById(`custom-text-${d}`).value,
-                        customRate: document.getElementById(`custom-rate-${d}`).value,
                         inTime: document.getElementById(`in-${d}`).value,
                         outTime: document.getElementById(`out-${d}`).value,
                         hours: document.getElementById(`hours-${d}`).innerText,
@@ -348,7 +342,6 @@
 
             const customContainer = document.getElementById(`custom-container-${dayNum}`);
             const customTextInput = document.getElementById(`custom-text-${dayNum}`);
-            const customRateInput = document.getElementById(`custom-rate-${dayNum}`);
             const printMirror = document.getElementById(`custom-print-mirror-${dayNum}`);
             
             const inTimeVal = document.getElementById(`in-${dayNum}`).value;
@@ -371,9 +364,6 @@
                 if (explanationText) {
                     outputDisplayName = `${selectedText} (${explanationText})`;
                 }
-                
-                let dynamicRate = parseFloat(customRateInput.value);
-                hourlyRate = isNaN(dynamicRate) ? 0.00 : dynamicRate;
                 printMirror.innerText = outputDisplayName;
             } else {
                 customContainer.classList.add('hidden');
@@ -406,11 +396,17 @@
                 finalHours = roundedMinutes / 60;
             }
 
-            const dailyGross = finalHours * hourlyRate;
-
             hoursCell.innerText = finalHours > 0 ? finalHours.toFixed(2) : "0.00";
-            rateCell.innerText = `$${hourlyRate.toFixed(2)}`;
-            grossCell.innerText = dailyGross > 0 ? `$${dailyGross.toFixed(2)}` : "$0.00";
+
+            if (isVariableRateType) {
+                // Change fields to text TBD strings for visual clarification
+                rateCell.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
+                grossCell.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
+            } else {
+                const dailyGross = finalHours * hourlyRate;
+                rateCell.innerText = `$${hourlyRate.toFixed(2)}`;
+                grossCell.innerText = dailyGross > 0 ? `$${dailyGross.toFixed(2)}` : "$0.00";
+            }
 
             recalculateGrandTotals();
         }
@@ -418,6 +414,7 @@
         function recalculateGrandTotals() {
             let totalHoursSum = 0;
             let totalGrossSum = 0;
+            let hasVariableTBD = false;
 
             for (let d = 1; d <= 31; d++) {
                 const hoursCell = document.getElementById(`hours-${d}`);
@@ -430,22 +427,29 @@
                     if (!isNaN(hourVal) && hourVal > 0) {
                         totalHoursSum += hourVal;
                     }
+                    
+                    // Add conditional guard check: parse money value ONLY if it isn't an uncalculated TBD block
                     if (grossText.startsWith('$')) {
                         totalGrossSum += parseFloat(grossText.replace('$', '')) || 0;
+                    } else if (grossText.includes('TBD') && hourVal > 0) {
+                        hasVariableTBD = true;
                     }
                 }
             }
 
             totalHoursDisplay.innerText = totalHoursSum.toFixed(2);
-            totalPayDisplay.innerText = `$${totalGrossSum.toFixed(2)}`;
+            
+            if (hasVariableTBD) {
+                // If TBD items with hours are on the log, append an index indicator flag noting variance balance
+                totalPayDisplay.innerHTML = `$${totalGrossSum.toFixed(2)}<span class="text-xs text-amber-400 font-medium ml-1 block sm:inline">* (+TBD)</span>`;
+            } else {
+                totalPayDisplay.innerText = `$${totalGrossSum.toFixed(2)}`;
+            }
         }
 
         function clearAllRows() {
             if (confirm("Are you sure you want to clear out all logs?")) {
-                // 1. Wipe the persistent state memory clean
                 userFormDataState = {};
-                
-                // 2. Locate every field currently rendered inside the grid and drop their UI values
                 for (let d = 1; d <= 31; d++) {
                     const selectEl = document.getElementById(`assign-${d}`);
                     if (selectEl) selectEl.value = "";
@@ -453,17 +457,12 @@
                     const textEl = document.getElementById(`custom-text-${d}`);
                     if (textEl) textEl.value = "";
                     
-                    const rateEl = document.getElementById(`custom-rate-${d}`);
-                    if (rateEl) rateEl.value = "40.44";
-                    
                     const inEl = document.getElementById(`in-${d}`);
                     if (inEl) inEl.value = "";
                     
                     const outEl = document.getElementById(`out-${d}`);
                     if (outEl) outEl.value = "";
                 }
-                
-                // 3. Re-render the tables to trigger mathematical updates to $0.00 totals
                 generateCalendarRows();
             }
         }
@@ -475,8 +474,8 @@
                     const customTextInput = document.getElementById(`custom-text-${d}`);
                     const hourVal = parseFloat(document.getElementById(`hours-${d}`).innerText) || 0;
                     
-                    if (selectEl.value === "Other" && hourVal > 0 && !customTextInput.value.trim()) {
-                        alert(`Incomplete Information on Day ${d}: Please type an assignment description for your custom entry before printing.`);
+                    if ((selectEl.value === "Other" || selectEl.value === "Overtime" || selectEl.value === "Professional Development") && hourVal > 0 && !customTextInput.value.trim()) {
+                        alert(`Incomplete Information on Day ${d}: Please type a descriptive clarification note explaining the context of this work entry before printing.`);
                         customTextInput.focus();
                         return;
                     }
