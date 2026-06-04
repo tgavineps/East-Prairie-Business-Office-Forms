@@ -87,37 +87,75 @@
                 </div>
             </section>
 
-            <!-- COLUMN 3: BUSINESS OFFICE ADMIN SECTION -->
-            <section class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col h-full">
-                <div class="mb-4">
-                    <div class="flex items-center gap-2 mb-2">
-                        <div class="h-3 w-3 rounded-full bg-red-600"></div>
-                        <h2 class="text-base font-bold text-gray-900">Business Office Admin</h2>
-                    </div>
-                    <p class="text-xs text-gray-500">For Internal Business Office Use Only</p>
-                </div>
-                
-                <div class="space-y-3">
-                    <a href="./employment-offer-form/" class="block w-full text-center bg-[#002855] hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-sm">
-                        Terms of Employment
-                    </a>
-                    
-                    <button disabled class="block w-full text-center bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-xl cursor-not-allowed text-xs border border-dashed border-gray-200">
-                        + Add Admin Form (Placeholder)
-                    </button>
-
-                    <button disabled class="block w-full text-center bg-gray-50 text-gray-400 font-medium py-3 px-4 rounded-xl cursor-not-allowed text-xs border border-dashed border-gray-200">
-                        + Add Admin Form (Placeholder)
-                    </button>
-                </div>
-            </section>
-
+         <!-- COLUMN 3: BUSINESS OFFICE ADMIN & TEAM DIRECTORY -->
+<section class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex flex-col h-full">
+    <div class="mb-4">
+        <div class="flex items-center gap-2 mb-2">
+            <div class="h-3 w-3 rounded-full bg-red-600"></div>
+            <h2 class="text-base font-bold text-gray-900">Business Office Admin</h2>
+        </div>
+        <p class="text-xs text-gray-500">Internal Forms & Staff Directory</p>
+    </div>
+    
+    <div class="space-y-3">
+        <!-- Existing Form Link -->
+        <a href="./employment-offer-form/" class="block w-full text-center bg-[#002855] hover:bg-gray-800 text-white font-bold py-3 px-4 rounded-xl shadow-sm transition-all transform hover:-translate-y-0.5 active:translate-y-0 text-sm">
+            Terms of Employment
+        </a>
+        
+        <div class="border-t border-gray-100 my-2 pt-2">
+            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Office Contacts & Oversight</p>
         </div>
 
-        <footer class="mt-12 pt-6 border-t text-center text-xs text-gray-400 font-medium">
-            For questions, please contact business@eps73.net.
-        </footer>
-    </div>
+        <!-- CONTACT CARD 1: CSBO -->
+        <div class="group relative bg-slate-50 hover:bg-slate-900 p-3 rounded-xl border border-slate-200 transition-all duration-300 cursor-help overflow-hidden min-h-[64px] flex flex-col justify-center">
+            <!-- Default State Layout -->
+            <div class="group-hover:opacity-0 transition-opacity duration-200">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-900 text-xs">Timothy Gavin</span>
+                    <span class="text-[10px] bg-slate-200 text-slate-700 font-bold px-1.5 py-0.5 rounded">Ext. 1207</span>
+                </div>
+                <p class="text-[11px] text-gray-500 font-medium">Chief School Business Official</p>
+            </div>
+            <!-- Hover Reveal State Layout -->
+            <div class="absolute inset-0 p-3 flex flex-col justify-center opacity-0 group-hover:opacity-100 bg-slate-900 text-white transition-opacity duration-200">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Oversight Areas:</p>
+                <p class="text-[11px] font-medium text-slate-200 leading-tight">Finance, Budgeting, Transportation, Food Service, Building Ops</p>
+            </div>
+        </div>
 
-</body>
-</html>
+        <!-- CONTACT CARD 2: SPECIALIST -->
+        <div class="group relative bg-slate-50 hover:bg-slate-900 p-3 rounded-xl border border-slate-200 transition-all duration-300 cursor-help overflow-hidden min-h-[64px] flex flex-col justify-center">
+            <!-- Default State Layout -->
+            <div class="group-hover:opacity-0 transition-opacity duration-200">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-900 text-xs">Tracy Hutchinson</span>
+                    <span class="text-[10px] bg-slate-200 text-slate-700 font-bold px-1.5 py-0.5 rounded">Ext. 1205</span>
+                </div>
+                <p class="text-[11px] text-gray-500 font-medium">Business Office Specialist</p>
+            </div>
+            <!-- Hover Reveal State Layout -->
+            <div class="absolute inset-0 p-3 flex flex-col justify-center opacity-0 group-hover:opacity-100 bg-slate-900 text-white transition-opacity duration-200">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Oversight Areas:</p>
+                <p class="text-[11px] font-medium text-slate-200 leading-tight">Payroll, Accounts Payable, Ordering, Supply Management, AR</p>
+            </div>
+        </div>
+
+        <!-- CONTACT CARD 3: ADMIN ASSISTANT -->
+        <div class="group relative bg-slate-50 hover:bg-slate-900 p-3 rounded-xl border border-slate-200 transition-all duration-300 cursor-help overflow-hidden min-h-[64px] flex flex-col justify-center">
+            <!-- Default State Layout -->
+            <div class="group-hover:opacity-0 transition-opacity duration-200">
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-gray-900 text-xs">Natalie Braca</span>
+                    <span class="text-[10px] bg-slate-200 text-slate-700 font-bold px-1.5 py-0.5 rounded">Ext. 1215</span>
+                </div>
+                <p class="text-[11px] text-gray-500 font-medium">Administrative Assistant</p>
+            </div>
+            <!-- Hover Reveal State Layout -->
+            <div class="absolute inset-0 p-3 flex flex-col justify-center opacity-0 group-hover:opacity-100 bg-slate-900 text-white transition-opacity duration-200">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Oversight Areas:</p>
+                <p class="text-[11px] font-medium text-slate-200 leading-tight">New Hire Onboarding, Benefits Coordination</p>
+            </div>
+        </div>
+    </div>
+</section>
