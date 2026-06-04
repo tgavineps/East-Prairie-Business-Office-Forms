@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPSD 73 - Purchase Requisition Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        .printable-link-cell {
+            word-break: break-all;
+            white-space: pre-wrap;
+            min-height: 2rem;
+        }
+
+        .printable-link-cell:empty:before {
+            content: attr(placeholder);
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; }
+            .no-print { display: none !important; }
+            .print-container { max-width: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; }
+            
+            input[type="text"], textarea { 
+                border-bottom: 1px solid #cbd5e1 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important;
+                padding-left: 0.25rem !important;
+            }
+            
+            input[type="number"] {
+                border: none !important;
+                background: transparent !important;
+            }
+
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            table { page-break-inside: avoid; }
+            .printable-link-cell { border: none !important; padding: 0.25rem !important; background: transparent !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-5xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b pb-6 mb-6 border-slate-200 gap-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <img src="./logo.png" alt="East Prairie School District 73 Logo" class="h-16 w-auto object-contain">
+                <div>
+                    <h1 class="text-xl font-bold text-[#002855] uppercase tracking-wide">Purchase Requisition</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">East Prairie School District 73 &bull; Skokie, IL</p>
+                </div>
+            </div>
+            
+            <!-- Requisition Meta Parameters (Matches cell range B4) -->
+            <div class="w-full lg:w-auto bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex gap-4 text-xs justify-between lg:justify-start">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase">Requisition Date</label>
+                    <input type="text" id="reqDate" class="font-medium text-slate-800 bg-transparent border-b border-slate-300 focus:border-[#002855] outline-none w-24 py-0.5">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase">PO Number (Office Use)</label>
+                    <input type="text" class="font-medium text-slate-400 bg-transparent border-b border-slate-200 outline-none w-24 py-0.5" placeholder="Pending" disabled>
+                </div>
+            </div>
+        </header>
+
+        <!-- STAFF ATTRIBUTION SECTION -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-xs">
+            <div class="flex flex-col">
+                <label class="font-bold text-slate-600 uppercase mb-1">Requested By (Staff Name)</label>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none">
+            </div>
+            <div class="flex flex-col">
+                <label class="font-bold text-slate-600 uppercase mb-1">Building / Department</label>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., General Education, Arts">
+            </div>
+            <div class="flex flex-col">
+                <label class="font-bold text-slate-600 uppercase mb-1">Suggested Vendor</label>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., Amazon, Lakeshore">
+            </div>
+        </section>
+
+        <!-- ITEM MATRICES SECTION (Matches columns B13:F29) -->
+        <section class="mb-6 overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-[#002855] text-white font-bold uppercase tracking-wider text-[11px]">
+                        <th class="p-2 w-16 text-center border border-[#002855]">Item</th>
+                        <th class="p-2 border border-[#002855]">Copy of Item Hyperlink or Item Description</th>
+                        <th class="p-2 w-20 text-center border border-[#002855]">Qty</th>
+                        <th class="p-2 w-28 text-right border border-[#002855]">Unit Price</th>
+                        <th class="p-2 w-28 text-right border border-[#002855]">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="reqTableBody" class="divide-y divide-slate-200 border border-slate-200">
+                </tbody>
+            </table>
+            <div class="mt-2 text-right no-print">
+                <button type="button" onclick="addNewRow()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-1 px-3 rounded text-[11px] border border-slate-300 transition-colors">
+                    + Add Additional Line Item
+                </button>
+            </div>
+        </section>
+
+        <!-- LOWER UTILITY SECTION (Matches Layout flow of Row 25-29) -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+            
+            <!-- Left Side: Remarks & Dynamic Routing Directions -->
+            <div class="md:col-span-7 flex flex-col gap-4 h-full">
+                <!-- REMARKS/INSTRUCTIONS Field Module (Matches cell row B25) -->
+                <div class="flex flex-col">
+                    <label class="text-[11px] font-bold text-slate-600 uppercase mb-1 tracking-wide">Remarks / Instructions:</label>
+                    <textarea rows="3" class="border border-slate-300 rounded p-2 text-xs focus:ring-1 focus:ring-[#002855] outline-none resize-none" placeholder="Enter special delivery directions, budget account codes, or packaging notes here..."></textarea>
+                </div>
+
+                <!-- SUBMISSION & ROUTING INSTRUCTIONS BOX -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-3.5 text-xs text-slate-700 space-y-3">
+                    <div class="flex items-start gap-2.5">
+                        <svg class="w-4 h-4 text-[#002855] mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 002-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <div>
+                            <span class="block font-bold text-[#002855] uppercase text-[10px] tracking-wider">General Supply Orders & AP Questions:</span>
+                            <p class="mt-0.5">Route completed forms to Tracy Hutchinson at <a href="mailto:thutchinson@eps73.net" class="text-[#002855] font-semibold underline">thutchinson@eps73.net</a>.</p>
+                        </div>
+                    </div>
+                    <div class="border-t border-blue-200 pt-2.5 flex items-start gap-2.5">
+                        <svg class="w-4 h-4 text-[#002855] mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <div>
+                            <span class="block font-bold text-[#002855] uppercase text-[10px] tracking-wider">Instructional Material Purchases:</span>
+                            <p class="mt-0.5">Submit order requisitions directly to Jackie Griffin at <a href="mailto:jgriffin@eps73.net" class="text-[#002855] font-semibold underline">jgriffin@eps73.net</a>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Financial Balancing System (Matches Rows 25-29) -->
+            <div class="md:col-span-5 bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs font-medium space-y-2.5">
+                <div class="flex justify-between items-center text-slate-600">
+                    <span>SUBTOTAL</span>
+                    <span class="font-semibold text-slate-900">$<span id="lblSubtotal">0.00</span></span>
+                </div>
+                
+                <div class="flex justify-between items-center text-slate-600 gap-2">
+                    <span>DISCOUNT (Enter total amount)</span>
+                    <div class="flex items-center">
+                        <span class="text-slate-400 mr-1">-$</span>
+                        <input type="number" id="inDiscount" step="0.01" value="0.00" class="w-20 text-right border border-slate-300 rounded px-1 py-0.5 bg-white font-medium" oninput="calculateFinancialTree()">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center border-t border-slate-200 pt-2 text-slate-600">
+                    <span>SUBTOTAL LESS DISCOUNT</span>
+                    <span class="font-semibold text-slate-900">$<span id="lblNetSubtotal">0.00</span></span>
+                </div>
+
+                <div class="flex justify-between items-center text-slate-600 gap-2">
+                    <span>SHIPPING / HANDLING</span>
+                    <div class="flex items-center">
+                        <span class="text-slate-400 mr-1">$</span>
+                        <input type="number" id="inShipping" step="0.01" value="0.00" class="w-20 text-right border border-slate-300 rounded px-1 py-0.5 bg-white font-medium" oninput="calculateFinancialTree()">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-slate-600 gap-2">
+                    <span>OTHER</span>
+                    <div class="flex items-center">
+                        <span class="text-slate-400 mr-1">$</span>
+                        <input type="number" id="inOther" step="0.01" value="0.00" class="w-20 text-right border border-slate-300 rounded px-1 py-0.5 bg-white font-medium" oninput="calculateFinancialTree()">
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center border-t-2 border-dashed border-slate-300 pt-3 text-sm font-bold text-[#002855]">
+                    <span class="uppercase tracking-wider">Grand Total Balance</span>
+                    <span class="text-base bg-[#002855] text-white px-2 py-0.5 rounded">$<span id="lblGrandTotal">0.00</span></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRINT EXECUTION INTERFACE -->
+        <footer class="mt-8 pt-4 border-t border-slate-200 text-center no-print">
+            <button onclick="prepareAndPrint()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print / Export Requisition to PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        let rowCounter = 0;
+
+        // Matches structural constraints from PURCHASE REQUISITION [TEMPLATE]_2
+        function injectBaseRows(count) {
+            for(let i = 0; i < count; i++) {
+                addNewRow();
+            }
+        }
+
+        function addNewRow() {
+            rowCounter++;
+            const tbody = document.getElementById('reqTableBody');
+            const tr = document.createElement('tr');
+            tr.id = `row_${rowCounter}`;
+            tr.className = "hover:bg-slate-50 transition-colors";
+            
+            tr.innerHTML = `
+                <td class="p-1.5 text-center text-slate-400 font-semibold border-r border-slate-200">${rowCounter}</td>
+                <td class="p-1 border-r border-slate-200">
+                    <div contenteditable="true" id="desc_${rowCounter}" 
+                         class="printable-link-cell w-full bg-transparent px-2 py-1 outline-none text-slate-800 text-xs focus:bg-slate-50 rounded border border-transparent focus:border-slate-300 min-h-[1.75rem]" 
+                         placeholder="Paste link or type item details..."
+                         onblur="cleanCellUrl(${rowCounter})"></div>
+                </td>
+                <td class="p-1 border-r border-slate-200">
+                    <input type="number" id="qty_${rowCounter}" min="0" step="1" class="w-full bg-transparent text-center px-1 py-1 outline-none font-medium text-slate-800" placeholder="0" oninput="calculateRow(${rowCounter})">
+                </td>
+                <td class="p-1 border-r border-slate-200">
+                    <div class="flex items-center justify-end">
+                        <span class="text-slate-400 mr-0.5">$</span>
+                        <input type="number" id="price_${rowCounter}" min="0" step="0.01" class="w-20 text-right bg-transparent py-1 outline-none font-medium text-slate-800" placeholder="0.00" oninput="calculateRow(${rowCounter})">
+                    </div>
+                </td>
+                <td class="p-1 text-right font-semibold text-slate-900 pr-3">$<span id="total_${rowCounter}">0.00</span></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function cleanCellUrl(id) {
+            const cell = document.getElementById(`desc_${id}`);
+            if (!cell) return;
+
+            let content = cell.innerText.trim();
+
+            if (content.includes('amazon.com')) {
+                const asinMatch = content.match(/\/dp\/([A-Z0-9]{10})/) || content.match(/\/gp\/product\/([A-Z0-9]{10})/);
+                if (asinMatch && asinMatch[1]) {
+                    const cleanUrl = `amazon.com/dp/${asinMatch[1]}`;
+                    cell.innerText = cleanUrl;
+                }
+            }
+        }
+
+        function calculateRow(id) {
+            const qty = parseInt(document.getElementById(`qty_${id}`).value) || 0;
+            const price = parseFloat(document.getElementById(`price_${id}`).value) || 0;
+            const lineTotal = qty * price;
+            
+            document.getElementById(`total_${id}`).innerText = lineTotal.toFixed(2);
+            calculateFinancialTree();
+        }
+
+        function calculateFinancialTree() {
+            let subtotal = 0;
+            for(let i = 1; i <= rowCounter; i++) {
+                const targetNode = document.getElementById(`total_${i}`);
+                if(targetNode) {
+                    subtotal += parseFloat(targetNode.innerText) || 0;
+                }
+            }
+
+            const discount = parseFloat(document.getElementById('inDiscount').value) || 0;
+            const shipping = parseFloat(document.getElementById('inShipping').value) || 0;
+            const other = parseFloat(document.getElementById('inOther').value) || 0;
+
+            const netSubtotal = Math.max(0, subtotal - discount);
+            const grandTotal = netSubtotal + shipping + other;
+
+            document.getElementById('lblSubtotal').innerText = subtotal.toFixed(2);
+            document.getElementById('lblNetSubtotal').innerText = netSubtotal.toFixed(2);
+            document.getElementById('lblGrandTotal').innerText = grandTotal.toFixed(2);
+        }
+
+        function prepareAndPrint() {
+            for(let i = 1; i <= rowCounter; i++) {
+                const descCell = document.getElementById(`desc_${i}`);
+                if(descCell) {
+                    let textContent = descCell.innerText.trim();
+                    if(textContent.startsWith('http://') || textContent.startsWith('https://') || textContent.startsWith('www.') || textContent.startsWith('amazon.com')) {
+                        let linkUrl = textContent;
+                        if (textContent.startsWith('www.')) linkUrl = 'https://' + textContent;
+                        if (textContent.startsWith('amazon.com')) linkUrl = 'https://' + textContent;
+                        
+                        descCell.innerHTML = `<a href="${linkUrl}" target="_blank" class="text-[#002855] underline font-medium">${textContent}</a>`;
+                    }
+                }
+            }
+            
+            setTimeout(() => {
+                window.print();
+            }, 50);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const baselineDate = new Date();
+            const formatString = `${String(baselineDate.getMonth() + 1).padStart(2, '0')}/${String(baselineDate.getDate()).padStart(2, '0')}/${baselineDate.getFullYear()}`;
+            document.getElementById('reqDate').value = formatString;
+            injectBaseRows(8);
+        });
+    </script>
+</body>
+</html>
