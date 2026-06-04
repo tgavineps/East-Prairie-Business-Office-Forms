@@ -38,7 +38,7 @@
                 padding: 0.4rem !important;
                 border: 1px solid #d1d5db !important;
             }
-            input[type="text"], input[type="number"], select, input[type="time"] {
+            input[type="text"], input[type="number"], select, input[type="time"], input[type="date"] {
                 border: none !important;
                 background: transparent !important;
                 padding: 0 !important;
@@ -160,18 +160,31 @@
 
             <div class="border-t pt-8 border-gray-200">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-10">
-                    <div class="flex flex-col space-y-6">
-                        <div class="flex flex-col">
-                            <div class="border-b-2 border-gray-400 h-12"></div>
-                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Employee Signature</span>
+                    
+                    <!-- EMPLOYEE SIGNATURE DISTRICT MODULE WITH TYPE-IN DATE -->
+                    <div class="flex flex-col space-y-3">
+                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Employee Authorization Signature</span>
+                        <div class="relative border-2 border-dashed border-gray-300 rounded-xl bg-slate-50/50 overflow-hidden h-28 flex items-center justify-center">
+                            <canvas id="tsSignatureCanvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+                            <img id="tsSignaturePrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Employee Digital Signature">
+                            <span class="text-xs text-slate-400 select-none pointer-events-none no-print">Sign inside this box using touch or mouse</span>
                         </div>
-                        <div class="flex flex-col w-48">
-                            <div class="border-b-2 border-gray-400 h-10"></div>
-                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Date</span>
+                        <div class="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
+                            <button type="button" id="btnClearSignature" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 font-medium py-1 px-2.5 rounded text-[11px] transition-colors self-start">
+                                Clear Signature Pad
+                            </button>
+                            <div class="flex flex-col gap-1 w-full sm:w-44">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[10px] font-bold text-gray-400 uppercase shrink-0">Date:</span>
+                                    <input type="text" id="tsSignatureDate" class="border-b border-gray-300 focus:border-[#002855] outline-none text-xs p-0.5 w-full bg-transparent font-medium">
+                                </div>
+                                <input type="date" id="tsSignatureDatePicker" onchange="syncSignatureDatePicker(this.value)" class="no-print border border-gray-200 rounded px-1.5 py-0.5 text-[11px] text-gray-600 focus:outline-none focus:ring-1 focus:ring-[#002855]">
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="flex flex-col space-y-6">
+                    <!-- SUPERVISOR APPROVAL MODULE -->
+                    <div class="flex flex-col space-y-6 justify-end">
                         <div class="flex flex-col">
                             <div class="border-b-2 border-gray-400 h-12"></div>
                             <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Supervisor / Administrator Approval</span>
@@ -340,15 +353,15 @@
             const selectEl = document.getElementById(`assign-${dayNum}`);
             if (!selectEl) return;
 
-            const customContainer = document.getElementById(`custom-container-${dayNum}`);
-            const customTextInput = document.getElementById(`custom-text-${dayNum}`);
-            const printMirror = document.getElementById(`custom-print-mirror-${dayNum}`);
+            const customContainer = document.getElementById('custom-container-' + dayNum);
+            const customTextInput = document.getElementById('custom-text-' + dayNum);
+            const printMirror = document.getElementById('custom-print-mirror-' + dayNum);
             
-            const inTimeVal = document.getElementById(`in-${dayNum}`).value;
-            const outTimeVal = document.getElementById(`out-${dayNum}`).value;
-            const hoursCell = document.getElementById(`hours-${dayNum}`);
-            const rateCell = document.getElementById(`rate-${dayNum}`);
-            const grossCell = document.getElementById(`gross-${dayNum}`);
+            const inTimeVal = document.getElementById('in-' + dayNum).value;
+            const outTimeVal = document.getElementById('out-' + dayNum).value;
+            const hoursCell = document.getElementById('hours-' + dayNum);
+            const rateCell = document.getElementById('rate-' + dayNum);
+            const grossCell = document.getElementById('gross-' + dayNum);
             const rowElement = document.getElementById('row-day-' + dayNum);
 
             let selectedText = selectEl.value;
@@ -399,7 +412,6 @@
             hoursCell.innerText = finalHours > 0 ? finalHours.toFixed(2) : "0.00";
 
             if (isVariableRateType) {
-                // Change fields to text TBD strings for visual clarification
                 rateCell.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
                 grossCell.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
             } else {
@@ -428,7 +440,6 @@
                         totalHoursSum += hourVal;
                     }
                     
-                    // Add conditional guard check: parse money value ONLY if it isn't an uncalculated TBD block
                     if (grossText.startsWith('$')) {
                         totalGrossSum += parseFloat(grossText.replace('$', '')) || 0;
                     } else if (grossText.includes('TBD') && hourVal > 0) {
@@ -440,7 +451,6 @@
             totalHoursDisplay.innerText = totalHoursSum.toFixed(2);
             
             if (hasVariableTBD) {
-                // If TBD items with hours are on the log, append an index indicator flag noting variance balance
                 totalPayDisplay.innerHTML = `$${totalGrossSum.toFixed(2)}<span class="text-xs text-amber-400 font-medium ml-1 block sm:inline">* (+TBD)</span>`;
             } else {
                 totalPayDisplay.innerText = `$${totalGrossSum.toFixed(2)}`;
@@ -467,6 +477,94 @@
             }
         }
 
+        // ==========================================
+        //  DIGITAL CANVAS SIGNATURE PAD MECHANICS
+        // ==========================================
+        const canvas = document.getElementById('tsSignatureCanvas');
+        const ctx = canvas.getContext('2d');
+        const clearSigBtn = document.getElementById('btnClearSignature');
+        const printMirrorImg = document.getElementById('tsSignaturePrintMirror');
+        let isDrawing = false;
+
+        function initializeCanvasScaling() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#002855'; // District branding blue ink
+        }
+
+        window.addEventListener('resize', initializeCanvasScaling);
+        setTimeout(initializeCanvasScaling, 200);
+
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return {
+                    x: e.touches[0].clientX - rect.left,
+                    y: e.touches[0].clientY - rect.top
+                };
+            }
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        function startSigDraw(e) {
+            isDrawing = true;
+            const coords = getCoordinates(e);
+            ctx.beginPath();
+            ctx.moveTo(coords.x, coords.y);
+            if (e.type === 'touchstart') e.preventDefault();
+        }
+
+        function drawSig(e) {
+            if (!isDrawing) return;
+            const coords = getCoordinates(e);
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+            if (e.type === 'touchmove') e.preventDefault();
+        }
+
+        function stopSigDraw() {
+            isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startSigDraw);
+        canvas.addEventListener('mousemove', drawSig);
+        window.addEventListener('mouseup', stopSigDraw);
+
+        canvas.addEventListener('touchstart', startSigDraw, { passive: false });
+        canvas.addEventListener('touchmove', drawSig, { passive: false });
+        window.addEventListener('touchend', stopSigDraw);
+
+        clearSigBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            printMirrorImg.src = '';
+            printMirrorImg.classList.add('hidden');
+            canvas.classList.remove('hidden');
+        });
+
+        // Sync helper to translate date selection value directly into the text element
+        function syncSignatureDatePicker(rawDateVal) {
+            if (!rawDateVal) return;
+            const [year, month, day] = rawDateVal.split('-');
+            document.getElementById('tsSignatureDate').value = `${month}/${day}/${year}`;
+        }
+
+        // Auto-seed today's default current date values upon load 
+        const todayObj = new Date();
+        const defaultISO = todayObj.toISOString().split('T')[0];
+        document.getElementById('tsSignatureDatePicker').value = defaultISO;
+        syncSignatureDatePicker(defaultISO);
+
+        // ==========================================
+        //  PRE-FLIGHT CONTEXT PRINT PROCESSING
+        // ==========================================
         function triggerPrintVoucher() {
             for (let d = 1; d <= 31; d++) {
                 const selectEl = document.getElementById(`assign-${d}`);
@@ -481,7 +579,24 @@
                     }
                 }
             }
-            window.print();
+
+            const blankCheckBuffer = document.createElement('canvas');
+            blankCheckBuffer.width = canvas.width;
+            blankCheckBuffer.height = canvas.height;
+            if (canvas.toDataURL() === blankCheckBuffer.toDataURL()) {
+                alert("Authorization Required: Please draw your signature signature confirmation before saving or downloading this voucher.");
+                return;
+            }
+
+            printMirrorImg.src = canvas.toDataURL('image/png');
+            canvas.classList.add('hidden');
+            printMirrorImg.classList.remove('hidden');
+
+            setTimeout(() => {
+                window.print();
+                canvas.classList.remove('hidden');
+                printMirrorImg.classList.add('hidden');
+            }, 150);
         }
 
         generateCalendarRows();
