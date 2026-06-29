@@ -51,6 +51,7 @@
                 pointer-events: none !important;
                 width: 100% !important;
             }
+            /* ONLY hide the unlogged days on the physical printed page/PDF */
             .unlogged-day-row {
                 display: none !important;
             }
@@ -133,7 +134,7 @@
             </div>
 
             <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
-                <table class="print-table w-full text-left text-xs min-w-[750px]">
+                <table class="w-full text-left text-xs min-w-[750px]">
                     <thead>
                         <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
                             <th class="p-2.5 border-r border-gray-200 w-24 text-center">Date</th>
@@ -294,7 +295,7 @@
                 const savedState = userFormDataState[d] || { assignment: "", customText: "", inTime: "", outTime: "", hours: "—", rate: "—", gross: "—", isUnlogged: true };
 
                 tableMarkup += `
-                    <tr id="row-day-${d}" class="input-row-focus ${savedState.isUnlogged ? 'unlogged-day-row' : ''} transition-colors ${rowBg}">
+                    <tr id="row-day-${d}" class="input-row-focus ${savedState.isUnlogged ? 'unlogged-day-row' : ''} border-b border-gray-200 transition-colors ${rowBg}">
                         <td class="p-2 border-r border-gray-200 font-bold text-center bg-slate-50/60">${dayLabel}</td>
                         
                         <td class="p-2 border-r border-gray-200 space-y-1.5">
@@ -578,3 +579,22 @@
 
             const blankCheckCanvas = document.createElement('canvas');
             blankCheckCanvas.width = canvas.width;
+            blankCheckCanvas.height = canvas.height;
+            
+            if (canvas.toDataURL() !== blankCheckCanvas.toDataURL()) {
+                printMirrorImg.src = canvas.toDataURL();
+                printMirrorImg.classList.remove('hidden');
+                canvas.classList.add('hidden');
+            }
+            
+            window.print();
+            
+            setTimeout(() => {
+                document.getElementById('pageTitle').innerText = originalTitle;
+            }, 1000);
+        }
+
+        generateCalendarRows();
+    </script>
+</body>
+</html>
