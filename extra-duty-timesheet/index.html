@@ -107,7 +107,7 @@
                 </div>
                 <div class="flex flex-col">
                     <label for="tsYearSelect" class="text-gray-700 font-semibold mb-1 text-xs">Year</label>
-                    <input type="text" id="tsYearSelect" value="2026" oninput="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm text-center focus:ring-2 focus:ring-[#002855]">
+                    <input type="text" id="tsYearSelect" value="2026" oninput="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors">
                 </div>
             </div>
         </section>
@@ -584,7 +584,6 @@
                 canvas.classList.add('hidden');
             }
             
-            // Added micro-delay to let the image finalize rendering before print wizard fires
             setTimeout(() => {
                 window.print();
                 
