@@ -58,7 +58,6 @@
                 margin-top: 4px !important;
                 margin-bottom: 12px !important;
             }
-            /* Tighten up space layout specifically for the printable copy */
             .summary-space {
                 margin-top: 1rem !important;
                 gap: 1rem !important;
@@ -585,11 +584,14 @@
                 canvas.classList.add('hidden');
             }
             
-            window.print();
-            
+            // Added micro-delay to let the image finalize rendering before print wizard fires
             setTimeout(() => {
-                document.getElementById('pageTitle').innerText = originalTitle;
-            }, 1000);
+                window.print();
+                
+                setTimeout(() => {
+                    document.getElementById('pageTitle').innerText = originalTitle;
+                }, 1000);
+            }, 50);
         }
 
         generateCalendarRows();
