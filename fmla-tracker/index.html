@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPSD 73 - FMLA Leave Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        @media print {
+            body {
+                background-color: #fff !important;
+                padding: 0 !important;
+            }
+            .print-hidden, button, input[type="submit"], input[type="reset"] {
+                display: none !important;
+            }
+            .main-container {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                max-width: none !important;
+            }
+            .leave-type-select, .leave-increment-select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                border: none !important;
+                background-color: transparent !important;
+                padding: 0 !important;
+            }
+            .input-section label {
+                font-weight: bold;
+                color: #4b5563;
+                display: block;
+            }
+            .input-section input, .input-section textarea, .summary-input {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                background-color: transparent !important;
+                font-size: 0.875rem !important;
+                color: #1e293b;
+            }
+        }
+
+        .summary-input {
+            background-color: transparent;
+            border: none;
+            text-align: center;
+            font-size: 1.75rem;
+            line-height: 2rem;
+            font-weight: 700;
+            color: inherit;
+            width: 100%;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="main-container max-w-6xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b pb-6 mb-6 border-slate-200 gap-6">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-16 w-auto object-contain">
+                <div>
+                    <h1 class="text-xl font-bold text-[#002855] uppercase tracking-wide">FMLA Leave Tracker</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">East Prairie School District 73 &bull; Business Office Admin</p>
+                </div>
+            </div>
+            
+            <div class="w-full lg:w-auto bg-slate-50 border border-slate-200 rounded-lg p-2.5 flex gap-4 text-xs justify-between lg:justify-start">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase">Access Level</label>
+                    <span class="block font-bold text-red-600 py-0.5 text-[11px] uppercase tracking-wide">Internal Admin Tool</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- INPUT SECTION GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 border-b pb-6 border-slate-200 input-section text-xs">
+            <!-- Row 1 -->
+            <div>
+                <label for="employeeName" class="font-bold text-slate-600 uppercase mb-1">Employee Name</label>
+                <input type="text" id="employeeName" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="Full Name">
+            </div>
+            <div>
+                <label for="employeePosition" class="font-bold text-slate-600 uppercase mb-1">Position / Title</label>
+                <input type="text" id="employeePosition" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 3rd Grade Teacher, Paraprofessional">
+            </div>
+
+            <!-- Row 2 -->
+            <div>
+                <label for="fmlaReason" class="font-bold text-slate-600 uppercase mb-1">FMLA Qualifying Reason</label>
+                <input type="text" id="fmlaReason" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., Birth of a Child, Personal Medical">
+            </div>
+            <div>
+                <label for="schoolYearStart" class="font-bold text-slate-600 uppercase mb-1">School Year Start Date (MM/DD/YYYY)</label>
+                <input type="text" id="schoolYearStart" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="08/20/2026">
+            </div>
+
+            <!-- Row 3 -->
+            <div>
+                <label for="schoolYearEnd" class="font-bold text-slate-600 uppercase mb-1">School Year End Date (MM/DD/YYYY)</label>
+                <input type="text" id="schoolYearEnd" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="06/05/2027">
+            </div>
+            <div>
+                <label for="startDate" class="font-bold text-slate-600 uppercase mb-1">Leave Start Date (MM/DD/YYYY)</label>
+                <input type="text" id="startDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="MM/DD/YYYY">
+            </div>
+
+            <!-- Row 4 -->
+            <div>
+                <label for="estimatedReturnToWorkDate" class="font-bold text-slate-600 uppercase mb-1">Estimated Return Date (MM/DD/YYYY)</label>
+                <input type="text" id="estimatedReturnToWorkDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="MM/DD/YYYY">
+            </div>
+            <div>
+                <label for="totalFmlaWeeksUsedInput" class="font-bold text-slate-600 uppercase mb-1">Total FMLA Weeks Planned / Used</label>
+                <input type="number" id="totalFmlaWeeksUsedInput" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 12">
+            </div>
+            
+            <!-- Row 5 -->
+            <div>
+                <label for="sickDaysAvailable" class="font-bold text-slate-600 uppercase mb-1">Paid Sick Days Available</label>
+                <input type="number" id="sickDaysAvailable" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 30">
+                <p class="mt-1 text-[10px] text-slate-400 font-medium">Leave summary auto-calculates full days. Adjust half-days manually in the ledger below.</p>
+            </div>
+            <div>
+                <label for="dailyRate" class="font-bold text-slate-600 uppercase mb-1">Daily Rate ($)</label>
+                <input type="number" id="dailyRate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 285.50">
+            </div>
+        </div>
+
+        <!-- HOLIDAYS AND NON-ATTENDANCE DAYS MODULE -->
+        <div class="mb-6 input-section text-xs">
+            <label class="font-bold text-slate-600 uppercase mb-1 block">Holidays & Non-Attendance Dates</label>
+            <p class="text-[11px] text-slate-500 mb-2">Enter each non-work date on a new line (MM/DD/YYYY) to skip counting on FMLA ledger balance.</p>
+            <textarea id="nonAttendanceDates" rows="3" class="border border-slate-300 rounded p-2 text-xs focus:ring-1 focus:ring-[#002855] outline-none w-full resize-none font-mono" placeholder="10/25/2026&#10;11/26/2026&#10;12/25/2026"></textarea>
+        </div>
+        
+        <!-- ACTION BUTTON INTERFACE -->
+        <div class="flex flex-wrap justify-end gap-3 mb-8 print-hidden border-t pt-4 border-slate-100">
+            <button id="generateBtn" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2 px-6 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Generate FMLA Tracker
+            </button>
+            <button id="resetBtn" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 px-6 rounded text-xs tracking-wider uppercase transition-all">
+                Reset Form
+            </button>
+            <button id="printBtn" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-6 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Report / Export PDF
+            </button>
+        </div>
+
+        <!-- RESULTS AND SUMMARY SECTION -->
+        <div id="results" class="hidden space-y-6">
+            <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl">
+                <h3 class="text-xs font-bold text-[#002855] uppercase tracking-wider mb-4 border-b border-slate-200 pb-2">Leave Summary & Docking Analysis</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">FMLA Weeks Used</p>
+                        <input type="number" id="totalFmlaWeeks" class="summary-input text-[#002855]" readonly>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Remaining FMLA Weeks</p>
+                        <input type="number" id="remainingFmlaWeeks" class="summary-input text-blue-600" readonly>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Paid Sick Days</p>
+                        <input type="number" id="totalPaidDays" class="summary-input text-emerald-600">
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Unpaid (Dock Days)</p>
+                        <input type="number" id="totalUnpaidDays" class="summary-input text-red-600">
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm col-span-1 sm:col-span-2 lg:col-span-4">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Estimated Total Payroll Docking ($)</p>
+                        <input type="text" id="totalDocking" class="summary-input text-amber-600">
+                    </div>
+                </div>
+                <div class="mt-4 text-center border-t border-slate-200 pt-3">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Calculated Return to Work Date</p>
+                    <p id="returnToWorkDate" class="text-base font-bold mt-0.5 text-[#002855]">-</p>
+                </div>
+            </div>
+
+            <!-- LEDGER TABLE -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="bg-[#002855] text-white font-bold uppercase tracking-wider text-[11px]">
+                            <th class="p-2 border border-[#002855]">Date</th>
+                            <th class="p-2 border border-[#002855]">Day</th>
+                            <th class="p-2 border border-[#002855]">Status</th>
+                            <th class="p-2 border border-[#002855]">Leave Type</th>
+                            <th class="p-2 border border-[#002855]">Leave Increment</th>
+                            <th class="p-2 border border-[#002855] text-right">Days Used</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trackerTableBody" class="divide-y divide-slate-200 border border-slate-200">
+                        <!-- Table rows inserted via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- MODAL SYSTEM -->
+        <div id="modal" class="fixed inset-0 bg-slate-900/50 hidden items-center justify-center p-4 print-hidden z-50">
+            <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-sm text-center">
+                <p id="modalMessage" class="text-xs font-semibold text-slate-800 mb-4 leading-relaxed"></p>
+                <button id="modalOkBtn" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-1.5 px-6 rounded text-xs uppercase tracking-wider">OK</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const generateBtn = document.getElementById('generateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const printBtn = document.getElementById('printBtn');
+            const resultsDiv = document.getElementById('results');
+            const employeeNameInput = document.getElementById('employeeName');
+            const fmlaReasonInput = document.getElementById('fmlaReason');
+            const startDateInput = document.getElementById('startDate');
+            const estimatedReturnToWorkDateInput = document.getElementById('estimatedReturnToWorkDate');
+            const schoolYearStartInput = document.getElementById('schoolYearStart');
+            const schoolYearEndInput = document.getElementById('schoolYearEnd');
+            const sickDaysAvailableInput = document.getElementById('sickDaysAvailable');
+            const totalFmlaWeeksUsedInput = document.getElementById('totalFmlaWeeksUsedInput');
+            const nonAttendanceDatesInput = document.getElementById('nonAttendanceDates');
+            const dailyRateInput = document.getElementById('dailyRate');
+            const trackerTableBody = document.getElementById('trackerTableBody');
+            
+            const totalFmlaWeeksEl = document.getElementById('totalFmlaWeeks');
+            const totalPaidDaysEl = document.getElementById('totalPaidDays');
+            const totalUnpaidDaysEl = document.getElementById('totalUnpaidDays');
+            const remainingFmlaWeeksEl = document.getElementById('remainingFmlaWeeks');
+            const totalDockingEl = document.getElementById('totalDocking');
+            const returnToWorkDateEl = document.getElementById('returnToWorkDate');
+            
+            const modal = document.getElementById('modal');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalOkBtn = document.getElementById('modalOkBtn');
+            
+            // Custom alert function
+            const showAlert = (message) => {
+                modalMessage.textContent = message;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            };
+
+            modalOkBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            });
+
+            // Parse date in MM/DD/YYYY format
+            const parseDate = (dateString) => {
+                const parts = dateString.split('/');
+                if (parts.length !== 3) {
+                    return new Date(NaN);
+                }
+                const [month, day, year] = parts.map(Number);
+                return new Date(year, month - 1, day);
+            };
+
+            const formatCurrency = (amount) => {
+                return new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2
+                }).format(amount);
+            };
+
+            const recalculateTotals = () => {
+                let paidDaysUsed = 0;
+                let totalUnpaidDays = 0;
+                
+                const rows = trackerTableBody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const leaveTypeSelect = row.querySelector('.leave-type-select');
+                    const daysUsedCell = row.querySelector('.days-used');
+                    const leaveIncrementSelect = row.querySelector('.leave-increment-select');
+                    
+                    if (leaveTypeSelect && daysUsedCell && leaveIncrementSelect) {
+                        const daysUsed = parseFloat(leaveIncrementSelect.value);
+                        daysUsedCell.textContent = daysUsed.toFixed(1);
+
+                        const leaveType = leaveTypeSelect.value;
+                        if (leaveType === "Paid Sick Day") {
+                            paidDaysUsed += daysUsed;
+                        } else if (leaveType === "Unpaid (Dock Day)") {
+                            totalUnpaidDays += daysUsed;
+                        }
+                    }
+                });
+
+                totalPaidDaysEl.value = paidDaysUsed.toFixed(1);
+                totalUnpaidDaysEl.value = totalUnpaidDays.toFixed(1);
+
+                const fmlaWeeksUsed = parseFloat(totalFmlaWeeksUsedInput.value) || 0;
+                const fmlaEntitlementWeeks = 12;
+                totalFmlaWeeksEl.value = fmlaWeeksUsed.toFixed(1);
+                remainingFmlaWeeksEl.value = Math.max(0, fmlaEntitlementWeeks - fmlaWeeksUsed).toFixed(1);
+
+                const dailyRate = parseFloat(dailyRateInput.value) || 0;
+                const totalDocking = parseFloat(totalUnpaidDaysEl.value) * dailyRate;
+                totalDockingEl.value = formatCurrency(totalDocking);
+            };
+
+            const generateTracker = () => {
+                const startDate = parseDate(startDateInput.value);
+                const estimatedReturnDate = parseDate(estimatedReturnToWorkDateInput.value);
+                const schoolYearEnd = parseDate(schoolYearEndInput.value);
+                const sickDaysAvailable = parseFloat(sickDaysAvailableInput.value) || 0;
+                const initialFmlaWeeksUsed = parseFloat(totalFmlaWeeksUsedInput.value) || 0;
+                
+                if (isNaN(startDate.getTime())) {
+                    showAlert("Please enter a valid Leave Start Date in MM/DD/YYYY format.");
+                    return;
+                }
+                if (isNaN(estimatedReturnDate.getTime())) {
+                    showAlert("Please enter a valid Estimated Return Date in MM/DD/YYYY format.");
+                    return;
+                }
+                if (isNaN(schoolYearEnd.getTime())) {
+                    showAlert("Please enter a valid School Year End Date in MM/DD/YYYY format.");
+                    return;
+                }
+                
+                if (estimatedReturnDate < startDate) {
+                    showAlert("The estimated return date cannot be before the leave start date.");
+                    return;
+                }
+
+                const allNonAttendanceDates = new Set();
+                nonAttendanceDatesInput.value.split('\n').forEach(d => {
+                    const parsedDate = parseDate(d.trim());
+                    if (!isNaN(parsedDate.getTime())) {
+                        allNonAttendanceDates.add(parsedDate.toISOString().slice(0, 10));
+                    }
+                });
+
+                trackerTableBody.innerHTML = '';
+                let paidDaysUsed = 0;
+                let d = new Date(startDate);
+                
+                let safetyCount = 0;
+                while (d < estimatedReturnDate && safetyCount < 365) {
+                    const dateString = d.toISOString().slice(0, 10);
+                    const dayOfWeek = d.getDay();
+                    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+                    const isHoliday = allNonAttendanceDates.has(dateString);
+
+                    let status = "Work Day";
+                    let leaveType = "N/A (Non-Work Day)";
+                    let daysUsed = 0;
+                    
+                    if (isWeekend) {
+                        status = "Weekend";
+                    } else if (isHoliday) {
+                        status = "Holiday/Non-Attendance";
+                    } else {
+                        status = "Work Day";
+                        daysUsed = 1;
+                        if (paidDaysUsed < sickDaysAvailable) {
+                            leaveType = "Paid Sick Day";
+                            paidDaysUsed++;
+                        } else {
+                            leaveType = "Unpaid (Dock Day)";
+                        }
+                    }
+
+                    const newRow = document.createElement('tr');
+                    newRow.className = `${status === 'Weekend' || status === 'Holiday/Non-Attendance' ? 'bg-slate-50 text-slate-400 font-medium' : 'bg-white hover:bg-slate-50 transition-colors'}`;
+
+                    if (status === 'Weekend' || status === 'Holiday/Non-Attendance') {
+                        newRow.innerHTML = `
+                            <td class="p-2 border-r border-slate-200">${d.toLocaleDateString('en-US')}</td>
+                            <td class="p-2 border-r border-slate-200">${d.toLocaleDateString('en-US', { weekday: 'short' })}</td>
+                            <td class="p-2 border-r border-slate-200 font-semibold">${status}</td>
+                            <td class="p-2 border-r border-slate-200">N/A (Non-Work Day)</td>
+                            <td class="p-2 border-r border-slate-200">N/A</td>
+                            <td class="p-2 days-used text-right font-semibold">0.0</td>
+                        `;
+                    } else {
+                        newRow.innerHTML = `
+                            <td class="p-2 border-r border-slate-200 font-medium text-slate-800">${d.toLocaleDateString('en-US')}</td>
+                            <td class="p-2 border-r border-slate-200 text-slate-600">${d.toLocaleDateString('en-US', { weekday: 'short' })}</td>
+                            <td class="p-2 border-r border-slate-200 font-bold text-slate-700">${status}</td>
+                            <td class="p-2 border-r border-slate-200">
+                                <select class="bg-transparent border-none p-0 text-xs w-full cursor-pointer leave-type-select font-semibold outline-none">
+                                    <option value="Paid Sick Day" ${leaveType === "Paid Sick Day" ? 'selected' : ''}>Paid Sick Day</option>
+                                    <option value="Unpaid (Dock Day)" ${leaveType === "Unpaid (Dock Day)" ? 'selected' : ''}>Unpaid (Dock Day)</option>
+                                </select>
+                            </td>
+                            <td class="p-2 border-r border-slate-200">
+                                <select class="bg-transparent border-none p-0 text-xs w-full cursor-pointer leave-increment-select font-medium outline-none">
+                                    <option value="1">Full Day</option>
+                                    <option value="0.5">Half Day</option>
+                                </select>
+                            </td>
+                            <td class="p-2 days-used text-right font-bold text-slate-900">${daysUsed.toFixed(1)}</td>
+                        `;
+                    }
+                    trackerTableBody.appendChild(newRow);
+                    
+                    d.setDate(d.getDate() + 1);
+                    safetyCount++;
+                }
+                
+                trackerTableBody.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('leave-type-select') || e.target.classList.contains('leave-increment-select')) {
+                        recalculateTotals();
+                    }
+                });
+
+                recalculateTotals();
+                returnToWorkDateEl.textContent = estimatedReturnDate.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                resultsDiv.classList.remove('hidden');
+            };
+
+            generateBtn.addEventListener('click', generateTracker);
+            
+            resetBtn.addEventListener('click', () => {
+                resultsDiv.classList.add('hidden');
+                trackerTableBody.innerHTML = '';
+                employeeNameInput.value = '';
+                fmlaReasonInput.value = '';
+                startDateInput.value = '';
+                estimatedReturnToWorkDateInput.value = '';
+                schoolYearStartInput.value = '';
+                schoolYearEndInput.value = '';
+                sickDaysAvailableInput.value = '';
+                totalFmlaWeeksUsedInput.value = '';
+                nonAttendanceDatesInput.value = '';
+                dailyRateInput.value = '';
+                recalculateTotals();
+            });
+
+            printBtn.addEventListener('click', () => {
+                window.print();
+            });
+
+            totalFmlaWeeksUsedInput.addEventListener('input', () => {
+                const fmlaWeeksUsed = parseFloat(totalFmlaWeeksUsedInput.value) || 0;
+                totalFmlaWeeksEl.value = fmlaWeeksUsed.toFixed(1);
+                const fmlaEntitlementWeeks = 12;
+                remainingFmlaWeeksEl.value = Math.max(0, fmlaEntitlementWeeks - fmlaWeeksUsed).toFixed(1);
+            });
+            
+            totalUnpaidDaysEl.addEventListener('input', () => {
+                const unpaidDays = parseFloat(totalUnpaidDaysEl.value) || 0;
+                const dailyRate = parseFloat(dailyRateInput.value) || 0;
+                const totalDocking = unpaidDays * dailyRate;
+                totalDockingEl.value = formatCurrency(totalDocking);
+            });
+
+            dailyRateInput.addEventListener('input', () => {
+                const unpaidDays = parseFloat(totalUnpaidDaysEl.value) || 0;
+                const dailyRate = parseFloat(dailyRateInput.value) || 0;
+                const totalDocking = unpaidDays * dailyRate;
+                totalDockingEl.value = formatCurrency(totalDocking);
+            });
+        });
+    </script>
+</body>
+</html>
