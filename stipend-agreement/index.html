@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">EPSD 73 - Stipend Payment Agreement</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; font-size: 11px !important; }
+            .no-print { display: none !important; }
+            .print-container { 
+                max-width: none !important; 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+            }
+            
+            input::placeholder, textarea::placeholder {
+                color: transparent !important;
+            }
+            
+            input[type="text"], input[type="number"], select, input[type="date"] { 
+                border: none !important;
+                border-bottom: 1px solid #94a3b8 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important;
+                padding-left: 0.15rem !important;
+                padding-bottom: 0.1rem !important;
+            }
+            
+            .print-border-b { border-bottom: 1px solid #94a3b8 !important; }
+            section { page-break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-3xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 border-slate-200 gap-3">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
+                <div>
+                    <h1 class="text-base font-bold text-[#002855] uppercase tracking-wide">Stipend Payment Agreement</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Office</p>
+                </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block whitespace-nowrap">
+                <p class="font-semibold text-slate-700">7620 East Prairie Road</p>
+                <p>Skokie, IL 60076</p>
+                <p>Ph: (847) 673-1141</p>
+            </div>
+        </header>
+
+        <!-- AGREEMENT PREAMBLE -->
+        <section class="mb-4 text-xs leading-relaxed text-slate-700">
+            <p>This Stipend Payment Agreement ("Agreement") is made and entered into between <strong>East Prairie School District 73</strong> ("District") and the undersigned employee ("Employee") for the specified stipended position for the <strong>2026-2027</strong> school year.</p>
+        </section>
+
+        <!-- SECTION 1: EMPLOYEE INFORMATION -->
+        <section class="mb-4 space-y-2 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px] border-b pb-1 border-slate-200">1. Employee Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                    <input type="text" id="employeeName" class="border border-slate-300 rounded px-2 py-1 focus:ring-1 focus:ring-[#002855] outline-none font-medium" placeholder="Full Employee Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Stipended Position</label>
+                    <input type="text" id="positionName" class="border border-slate-300 rounded px-2 py-1 focus:ring-1 focus:ring-[#002855] outline-none font-medium" placeholder="e.g., Head Track Coach, Homework Club Advisor">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: STIPEND DETAILS & DISBURSEMENT -->
+        <section class="mb-4 space-y-2 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px] border-b pb-1 border-slate-200">2. Stipend Details & Payment Schedule</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <div class="flex flex-col justify-center">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Total Agreed Stipend ($)</label>
+                    <input type="number" id="totalStipend" step="0.01" oninput="calculateInstallments()" class="border border-slate-300 rounded px-2 py-1 text-sm font-bold text-[#002855] focus:ring-1 focus:ring-[#002855] outline-none" placeholder="0.00">
+                </div>
+                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                    <span class="font-bold text-slate-500 uppercase text-[9px]">Payroll 11 Payment (50%)</span>
+                    <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblPayroll11">0.00</span></span>
+                </div>
+                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                    <span class="font-bold text-slate-500 uppercase text-[9px]">Payroll 22 Payment (50%)</span>
+                    <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblPayroll22">0.00</span></span>
+                </div>
+            </div>
+            <p class="text-[10px] text-slate-500 leading-snug">The District agrees to pay the Employee the total stipend specified above for fulfilling the duties and responsibilities of the position for the entire school year, disbursed in two equal installments on Payroll 11 and Payroll 22.</p>
+        </section>
+
+        <!-- SECTION 3: TERMS AND CONDITIONS -->
+        <section class="mb-5 text-[11px] leading-relaxed text-slate-700 space-y-1.5">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px] border-b pb-1 border-slate-200">3. Terms and Conditions</h2>
+            <ul class="list-disc pl-4 space-y-1">
+                <li><strong>Full-Year Service Requirement:</strong> The full stipend amount is contingent upon the Employee successfully completing the duties and responsibilities of the stipended position for the entire academic year.</li>
+                <li><strong>Early Departure / Incomplete Service:</strong> If the Employee is unable to fulfill the duties for the entire academic year (e.g., due to resignation, leave of absence, termination, extensive absences, etc.), the stipend payment will be prorated based on the actual duration of service. The Employee agrees to notify the District's Business Office as soon as possible if they anticipate being unable to complete the full term.</li>
+                <li><strong>Notification:</strong> Failure to provide timely notification may result in delays in final payment processing or adjustments.</li>
+                <li><strong>Job Responsibilities:</strong> The Employee agrees to perform all duties and responsibilities associated with the stipended position as outlined by the District and to adhere to all District policies, procedures, and expectations.</li>
+                <li><strong>District Discretion:</strong> The District reserves the right to modify or terminate this Agreement if the Employee fails to meet the obligations of the stipended position, or at the discretion of the District. Any such action will be communicated to the Employee in writing.</li>
+                <li><strong>Governing Law:</strong> This Agreement shall be governed by and construed in accordance with the laws of the State of Illinois and the policies of East Prairie School District 73.</li>
+            </ul>
+        </section>
+
+        <!-- SIGNATURE ROW BLOCK: PEN & PAPER -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-6 pt-4 border-t border-slate-200 text-xs font-medium">
+            <!-- Employee Signature Placeholder -->
+            <div class="flex flex-col justify-end space-y-1">
+                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="flex justify-between items-center pt-0.5">
+                    <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</label>
+                    <span class="text-[9px] text-slate-400">Date</span>
+                </div>
+            </div>
+
+            <!-- Business Office Signature Placeholder -->
+            <div class="flex flex-col justify-end space-y-1">
+                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="flex justify-between items-center pt-0.5">
+                    <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Business Office Signature</label>
+                    <span class="text-[9px] text-slate-400">Date</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTROL BUTTON INTERFACE -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+            <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Agreement / Save PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        function calculateInstallments() {
+            const total = parseFloat(document.getElementById('totalStipend').value) || 0;
+            const half = (total / 2).toFixed(2);
+            document.getElementById('lblPayroll11').innerText = half;
+            document.getElementById('lblPayroll22').innerText = half;
+        }
+
+        function triggerPrintVoucher() {
+            const empName = document.getElementById('employeeName').value.trim();
+            const originalTitle = "EPSD 73 - Stipend Payment Agreement";
+            
+            if (empName) {
+                document.getElementById('pageTitle').innerText = `${empName} - Stipend Payment Agreement`;
+            } else {
+                document.getElementById('pageTitle').innerText = originalTitle;
+            }
+
+            window.print();
+            
+            setTimeout(() => {
+                document.getElementById('pageTitle').innerText = originalTitle;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
