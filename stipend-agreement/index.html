@@ -45,7 +45,7 @@
     <div class="print-container max-w-3xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
         
         <!-- HEADER BLOCK: District Branding -->
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 border-slate-200 gap-3">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-3 border-slate-200 gap-3">
             <div class="flex items-center gap-3">
                 <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
                 <div>
@@ -61,12 +61,12 @@
         </header>
 
         <!-- AGREEMENT PREAMBLE -->
-        <section class="mb-4 text-xs leading-relaxed text-slate-700">
+        <section class="mb-3 text-xs leading-relaxed text-slate-700">
             <p>This Stipend Payment Agreement ("Agreement") is made and entered into between <strong>East Prairie School District 73</strong> ("District") and the undersigned employee ("Employee") for the specified stipended position for the <strong>2026-2027</strong> school year.</p>
         </section>
 
         <!-- SECTION 1: EMPLOYEE INFORMATION -->
-        <section class="mb-4 space-y-2 text-xs">
+        <section class="mb-3 space-y-2 text-xs">
             <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px] border-b pb-1 border-slate-200">1. Employee Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div class="flex flex-col">
@@ -81,18 +81,18 @@
         </section>
 
         <!-- SECTION 2: STIPEND DETAILS & DISBURSEMENT -->
-        <section class="mb-4 space-y-2 text-xs">
+        <section class="mb-3 space-y-2 text-xs">
             <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px] border-b pb-1 border-slate-200">2. Stipend Details & Payment Schedule</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
                 <div class="flex flex-col justify-center">
                     <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Total Agreed Stipend ($)</label>
                     <input type="number" id="totalStipend" step="0.01" oninput="calculateInstallments()" class="border border-slate-300 rounded px-2 py-1 text-sm font-bold text-[#002855] focus:ring-1 focus:ring-[#002855] outline-none" placeholder="0.00">
                 </div>
-                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-1.5 md:pt-0 md:pl-3">
                     <span class="font-bold text-slate-500 uppercase text-[9px]">Payroll 11 Payment (50%)</span>
                     <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblPayroll11">0.00</span></span>
                 </div>
-                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-1.5 md:pt-0 md:pl-3">
                     <span class="font-bold text-slate-500 uppercase text-[9px]">Payroll 22 Payment (50%)</span>
                     <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblPayroll22">0.00</span></span>
                 </div>
@@ -101,23 +101,29 @@
         </section>
 
         <!-- SECTION 3: TERMS AND CONDITIONS -->
-        <section class="mb-5 text-[11px] leading-relaxed text-slate-700 space-y-1.5">
+        <section class="mb-4 text-[10.5px] leading-relaxed text-slate-700 space-y-1">
             <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px] border-b pb-1 border-slate-200">3. Terms and Conditions</h2>
-            <ul class="list-disc pl-4 space-y-1">
+            <ul class="list-disc pl-4 space-y-0.5">
                 <li><strong>Full-Year Service Requirement:</strong> The full stipend amount is contingent upon the Employee successfully completing the duties and responsibilities of the stipended position for the entire academic year.</li>
                 <li><strong>Early Departure / Incomplete Service:</strong> If the Employee is unable to fulfill the duties for the entire academic year (e.g., due to resignation, leave of absence, termination, extensive absences, etc.), the stipend payment will be prorated based on the actual duration of service. The Employee agrees to notify the District's Business Office as soon as possible if they anticipate being unable to complete the full term.</li>
-                <li><strong>Notification:</strong> Failure to provide timely notification may result in delays in final payment processing or adjustments.</li>
+                <li><strong>Required Form Return:</strong> This signed agreement must be returned to the Business Office prior to the first scheduled stipend payment date. Payments will not be issued without a signed agreement on file.</li>
                 <li><strong>Job Responsibilities:</strong> The Employee agrees to perform all duties and responsibilities associated with the stipended position as outlined by the District and to adhere to all District policies, procedures, and expectations.</li>
                 <li><strong>District Discretion:</strong> The District reserves the right to modify or terminate this Agreement if the Employee fails to meet the obligations of the stipended position, or at the discretion of the District. Any such action will be communicated to the Employee in writing.</li>
                 <li><strong>Governing Law:</strong> This Agreement shall be governed by and construed in accordance with the laws of the State of Illinois and the policies of East Prairie School District 73.</li>
             </ul>
         </section>
 
+        <!-- ACTION REQUIRED RETURN NOTICE BANNER -->
+        <div class="mb-4 bg-amber-50 border border-amber-300 rounded-md p-2 text-[10.5px] text-amber-900 flex items-center gap-2">
+            <span class="font-bold text-amber-800 uppercase tracking-wider shrink-0 bg-amber-200 text-[9px] px-1.5 py-0.5 rounded">Action Required</span>
+            <p class="font-medium">Please review, sign, and return this completed agreement to the <strong>Business Office</strong> immediately. Stipend disbursements will not be processed until this signed document is received.</p>
+        </div>
+
         <!-- SIGNATURE ROW BLOCK: PEN & PAPER -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-6 pt-4 border-t border-slate-200 text-xs font-medium">
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-2 border-t border-slate-200 text-xs font-medium">
             <!-- Employee Signature Placeholder -->
             <div class="flex flex-col justify-end space-y-1">
-                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="border-b border-slate-400 h-9 w-full print-border-b"></div>
                 <div class="flex justify-between items-center pt-0.5">
                     <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</label>
                     <span class="text-[9px] text-slate-400">Date</span>
@@ -126,7 +132,7 @@
 
             <!-- Business Office Signature Placeholder -->
             <div class="flex flex-col justify-end space-y-1">
-                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="border-b border-slate-400 h-9 w-full print-border-b"></div>
                 <div class="flex justify-between items-center pt-0.5">
                     <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Business Office Signature</label>
                     <span class="text-[9px] text-slate-400">Date</span>
@@ -135,7 +141,7 @@
         </section>
 
         <!-- CONTROL BUTTON INTERFACE -->
-        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+        <footer class="mt-5 pt-2 border-t border-slate-200 text-center no-print">
             <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
                 Print Agreement / Save PDF
             </button>
