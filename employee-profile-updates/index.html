@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">EPSD 73 - Employee Profile & Account Updates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; font-size: 11px !important; }
+            .no-print { display: none !important; }
+            .print-container { max-width: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; }
+            input::placeholder, textarea::placeholder { color: transparent !important; }
+            input[type="text"], input[type="number"], select, input[type="date"] { 
+                border: none !important; 
+                border-bottom: 1px solid #94a3b8 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important; 
+                padding-left: 0.15rem !important; 
+            }
+            .print-border-b { border-bottom: 1px solid #94a3b8 !important; }
+            section { page-break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-3xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-3 border-slate-200 gap-3">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
+                <div>
+                    <h1 class="text-base font-bold text-[#002855] uppercase tracking-wide">Employee Information Updates</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Office</p>
+                </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block whitespace-nowrap">
+                <p class="font-semibold text-slate-700">7620 East Prairie Road</p>
+                <p>Skokie, IL 60076</p>
+                <p>Ph: (847) 673-1141</p>
+            </div>
+        </header>
+
+        <!-- CRITICAL SECURITY & DELIVERY WARNING BANNER -->
+        <section class="mb-4 bg-red-50 border-2 border-red-500 rounded-lg p-3 text-xs text-red-950 leading-relaxed">
+            <div class="flex items-start gap-2">
+                <span class="font-black bg-red-600 text-white text-[10px] uppercase px-1.5 py-0.5 rounded shrink-0 mt-0.5">MANDATORY SECURITY NOTICE</span>
+                <p class="font-bold">
+                    For your personal protection against identity theft and financial fraud, completed forms containing banking info, Social Security numbers, or address changes MUST be printed and HAND-DELIVERED IN PERSON to the Business Office.
+                    <span class="underline block mt-0.5 font-extrabold text-red-700">DO NOT SEND THESE FORMS VIA EMAIL. Forms received via email will NOT be processed.</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- STEP SELECTION TABS (HIDDEN WHEN PRINTING) -->
+        <div class="no-print mb-6">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Select Account Update Type:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                <button onclick="switchTab('tab1')" id="btn-tab1" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all bg-[#002855] text-white shadow-sm">
+                    <span>1. Direct Deposit</span>
+                    <span class="text-[9px] font-normal opacity-80">Banking Information</span>
+                </button>
+                <button onclick="switchTab('tab2')" id="btn-tab2" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200">
+                    <span>2. Name Change</span>
+                    <span class="text-[9px] font-normal opacity-80">Legal Identity Update</span>
+                </button>
+                <button onclick="switchTab('tab3')" id="btn-tab3" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200">
+                    <span>3. Address Change</span>
+                    <span class="text-[9px] font-normal opacity-80">Mailing & Contact Info</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FORM 1: DIRECT DEPOSIT AUTHORIZATION       -->
+        <!-- ========================================== -->
+        <div id="tab1-container" class="form-step space-y-4">
+            <div class="border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs">Direct Deposit Authorization</h2>
+                <p class="text-[11px] text-slate-600">I authorize the Niles Township School Treasurer's Office to electronically transfer my payroll check into my checking or savings account named below.</p>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Printed Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none emp-name" placeholder="Full Name">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Name of Bank</label>
+                        <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Bank Name">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Bank Phone Number</label>
+                        <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="(000) 000-0000">
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Address of Bank</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Bank Street Address, City, State, Zip">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Bank Routing Number</label>
+                        <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none font-mono" placeholder="9-Digit Routing Number">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Account Number</label>
+                        <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none font-mono" placeholder="Account Number">
+                    </div>
+                    <div class="flex flex-col justify-center bg-slate-50 p-2 rounded border border-slate-200">
+                        <span class="font-bold text-slate-600 uppercase mb-1 text-[9px]">Account Type:</span>
+                        <div class="flex gap-4">
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="accType" class="w-4 h-4 text-[#002855]"> <span>Checking</span></label>
+                            <label class="flex items-center gap-1.5 cursor-pointer"><input type="radio" name="accType" class="w-4 h-4 text-[#002855]"> <span>Savings</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded p-2.5 text-[10.5px] text-amber-900 leading-snug">
+                <strong>PLEASE NOTE:</strong> A prenote will be sent to the bank listed above on your first pay cycle to verify the account information provided. In lieu of a direct deposit during this prenote period, a physical check will be issued.
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FORM 2: EMPLOYEE NAME CHANGE REQUEST       -->
+        <!-- ========================================== -->
+        <div id="tab2-container" class="form-step space-y-4 hidden">
+            <div class="border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs">Employee Legal Name Change Request</h2>
+                <p class="text-[11px] text-slate-600">Complete this form to update your legal name in district employee systems.</p>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <!-- Previous Legal Name -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <span class="block font-bold text-slate-700 uppercase mb-2 text-[10px]">Previous Legal Name (On File):</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none" placeholder="Previous First Name">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none" placeholder="Previous Middle Name">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none" placeholder="Previous Last Name">
+                    </div>
+                </div>
+
+                <!-- New Legal Name -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <span class="block font-bold text-slate-700 uppercase mb-2 text-[10px]">New Legal Name (Updated):</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none font-bold text-[#002855]" placeholder="New First Name">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none font-bold text-[#002855]" placeholder="New Middle Name">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none font-bold text-[#002855]" placeholder="New Last Name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-slate-700 space-y-2 leading-relaxed">
+                <p>Upon receiving this form, the Business Office will update your legal name in Frontline Absence Management, Infinite Visions (Payroll), and BusinessSolver/BCBS Benefits.</p>
+                <p class="font-bold text-[#002855]">Required Verification Documentation:</p>
+                <p class="text-[11px]">To update your legal name for payroll and tax records (W-2), an official government-issued document reflecting your new legal name must be brought to the Business Office along with this form.</p>
+                <ul class="list-disc pl-5 text-[10.5px] space-y-0.5">
+                    <li>Updated Social Security Card</li>
+                    <li>Updated Driver's License or State ID</li>
+                    <li>Marriage Certificate</li>
+                    <li>Court Order for Legal Name Change</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FORM 3: ADDRESS CHANGE REQUEST             -->
+        <!-- ========================================== -->
+        <div id="tab3-container" class="form-step space-y-4 hidden">
+            <div class="border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs">Employee Address & Contact Information Change</h2>
+                <p class="text-[11px] text-slate-600">Update your primary residence address for tax withholding (W-2), district notices, and benefits communications.</p>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none emp-name" placeholder="Full Legal Name">
+                </div>
+
+                <!-- Previous Address -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                    <span class="block font-bold text-slate-700 uppercase text-[10px]">Previous Street Address (Old):</span>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1 w-full outline-none" placeholder="Previous Street Address, Apt #">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none" placeholder="City">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none" placeholder="State">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none" placeholder="Zip">
+                    </div>
+                </div>
+
+                <!-- New Address -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                    <span class="block font-bold text-slate-700 uppercase text-[10px]">New Street Address (Updated Primary Residence):</span>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1 w-full outline-none font-bold text-[#002855]" placeholder="New Street Address, Apt #">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none font-bold text-[#002855]" placeholder="New City">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none font-bold text-[#002855]" placeholder="New State">
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none font-bold text-[#002855]" placeholder="New Zip">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Updated Primary Phone Number</label>
+                        <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="(000) 000-0000">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Effective Date of New Address</label>
+                        <input type="date" id="addressEffectiveDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIGNATURE ROW BLOCK: PEN & PAPER ONLY FOR SECURITY -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-6 pt-4 border-t border-slate-200 text-xs font-medium">
+            <div class="flex flex-col justify-end space-y-1">
+                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="flex justify-between items-center pt-0.5">
+                    <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Legal Signature</label>
+                    <span class="text-[9px] text-slate-400">Date</span>
+                </div>
+            </div>
+            <div class="flex flex-col justify-end space-y-1">
+                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="flex justify-between items-center pt-0.5">
+                    <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Business Office Receiver Signature</label>
+                    <span class="text-[9px] text-slate-400">Date Received</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER & PRINT BUTTON -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+            <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Official Form for In-Person Delivery
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        let currentActiveStep = 'tab1';
+
+        function switchTab(stepId) {
+            currentActiveStep = stepId;
+            document.querySelectorAll('.form-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`${stepId}-container`).classList.remove('hidden');
+
+            document.querySelectorAll('[id^="btn-tab"]').forEach(btn => {
+                btn.className = "flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200";
+            });
+
+            const activeBtn = document.getElementById(`btn-${stepId}`);
+            activeBtn.className = "flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all bg-[#002855] text-white shadow-sm";
+        }
+
+        // Auto-sync Employee Name inputs across forms
+        document.querySelectorAll('.emp-name').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value;
+                document.querySelectorAll('.emp-name').forEach(otherInput => {
+                    otherInput.value = val;
+                });
+            });
+        });
+
+        function triggerPrintVoucher() {
+            const empName = document.querySelector('.emp-name').value.trim();
+            const originalTitle = "EPSD 73 - Employee Profile & Account Updates";
+            
+            if (empName) {
+                document.getElementById('pageTitle').innerText = `${empName} - Profile & Account Updates`;
+            }
+
+            window.print();
+
+            setTimeout(() => {
+                document.getElementById('pageTitle').innerText = originalTitle;
+            }, 1000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('addressEffectiveDate').value = today;
+        });
+    </script>
+</body>
+</html>
