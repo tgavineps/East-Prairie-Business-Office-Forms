@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">EPSD 73 - Graduate Coursework & Advancement Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; font-size: 11px !important; }
+            .no-print { display: none !important; }
+            .print-container { max-width: none !important; box-shadow: none !important; border: none !important; padding: 0 !important; margin: 0 !important; }
+            input::placeholder, textarea::placeholder { color: transparent !important; }
+            input[type="text"], input[type="number"], select, input[type="date"], textarea { 
+                border: none !important; 
+                border-bottom: 1px solid #94a3b8 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important; 
+                padding-left: 0.15rem !important; 
+            }
+            .print-border-b { border-bottom: 1px solid #94a3b8 !important; }
+            section { page-break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-4xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 mb-4 border-slate-200 gap-3">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
+                <div>
+                    <h1 class="text-base font-bold text-[#002855] uppercase tracking-wide">Graduate Coursework & Advancement</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Office</p>
+                </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block whitespace-nowrap">
+                <p class="font-semibold text-slate-700">7616 East Prairie Road</p>
+                <p>Skokie, IL 60076</p>
+                <p>Ph: (847) 673-1141</p>
+            </div>
+        </header>
+
+        <!-- STEP SELECTION TABS (HIDDEN WHEN PRINTING) -->
+        <div class="no-print mb-6">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Select Process Step:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                <button onclick="switchTab('form1')" id="tab-form1" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all bg-[#002855] text-white shadow-sm">
+                    <span>1. Course Approval</span>
+                    <span class="text-[9px] font-normal opacity-80">Pre-Approval Request</span>
+                </button>
+                <button onclick="switchTab('form2')" id="tab-form2" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200">
+                    <span>2. Tuition Reimbursement</span>
+                    <span class="text-[9px] font-normal opacity-80">Post-Course Submission</span>
+                </button>
+                <button onclick="switchTab('form3')" id="tab-form3" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200">
+                    <span>3. Lane Advancement</span>
+                    <span class="text-[9px] font-normal opacity-80">Salary Scale Movement</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FORM #1: REQUEST FOR COURSE APPROVAL       -->
+        <!-- ========================================== -->
+        <div id="form1-container" class="form-step space-y-4">
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-slate-700 leading-relaxed">
+                <strong class="text-[#002855]">Form #1 Instructions:</strong> Complete and submit this form to the district office <strong>before beginning any coursework</strong>. This ensures eligibility for reimbursement and lane advancement credit. <strong>Note: You are strongly encouraged to submit ONE single form with an attached list of courses for an entire degree or endorsement program, rather than submitting individual forms per class.</strong>
+            </div>
+
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs border-b pb-1 border-slate-200">Section I — Employee Request for Course Approval</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none emp-name" placeholder="Full Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Position</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., 4th Grade Teacher">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Course Title & Course Number</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., EDU 501 / Master's Program Coursework List">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">College / University Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="University Name">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Term Start Date — Term End Date</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., 09/01/2026 - 12/15/2026">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Number of Semester Credit Hours</label>
+                    <input type="number" step="0.5" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="3.0">
+                </div>
+            </div>
+
+            <div class="flex flex-col text-xs">
+                <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Brief Description of Course & Substantial Relation to Current Position</label>
+                <textarea rows="3" class="border border-slate-300 rounded p-2.5 focus:ring-1 focus:ring-[#002855] outline-none resize-none" placeholder="Provide course summary and alignment with district responsibilities..."></textarea>
+            </div>
+
+            <!-- Signature Block -->
+            <div class="pt-2 border-t border-slate-200">
+                <div class="flex flex-col space-y-1.5 max-w-md">
+                    <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</span>
+                    <div class="relative border border-dashed border-slate-300 rounded-lg bg-slate-50/50 h-20 flex items-center justify-center overflow-hidden">
+                        <canvas id="sig1Canvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+                        <img id="sig1PrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Signature">
+                        <span class="text-[10px] text-slate-400 select-none pointer-events-none no-print">Sign here using touch or mouse</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <button type="button" onclick="clearSig(1)" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 text-[10px] py-0.5 px-2 rounded">Clear Pad</button>
+                        <div class="flex items-center gap-1 w-32">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                            <input type="text" id="sig1Date" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- District Office Section -->
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-2 mt-4">
+                <h3 class="font-bold text-slate-700 uppercase text-[10px]">Section II — District Office Administration</h3>
+                <div class="flex items-center gap-6">
+                    <span class="font-semibold text-slate-600">Proposed Course Approval:</span>
+                    <label class="flex items-center gap-1.5"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Approved</span></label>
+                    <label class="flex items-center gap-1.5"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Denied</span></label>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                    <div class="border-b border-slate-400 h-8"></div>
+                    <div class="border-b border-slate-400 h-8"></div>
+                </div>
+                <div class="flex justify-between text-[9px] font-bold text-slate-400 uppercase">
+                    <span>Administrator Signature</span>
+                    <span>Date</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FORM #2: TUITION REIMBURSEMENT REQUEST     -->
+        <!-- ========================================== -->
+        <div id="form2-container" class="form-step space-y-4 hidden">
+            <div class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-xs text-slate-700 leading-relaxed">
+                <strong class="text-purple-900">Form #2 Instructions:</strong> Submit this form after completing a course to request tuition reimbursement. Coursework must be fully completed with a grade of <strong>B or higher</strong>. Must attach an official transcript and proof of payment. Reimbursement is processed annually at the end of May (CBA Article X, Section 10.6).
+            </div>
+
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs border-b pb-1 border-slate-200">Section I — Employee Tuition Reimbursement Submission</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none emp-name" placeholder="Full Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Position</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., 4th Grade Teacher">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Course Title & Course Number</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., EDU 501: Advanced Curriculum Design">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">College / University Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="University Name">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Term Start Date — Term End Date</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., 09/01/2026 - 12/15/2026">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Number of Semester Credit Hours</label>
+                    <input type="number" step="0.5" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="3.0">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-700 uppercase mb-0.5 text-[10px]">Final Grade Earned (Must be B or Higher)</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 font-bold text-[#002855] focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., A, B+">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-700 uppercase mb-0.5 text-[10px]">Total Tuition Paid ($)</label>
+                    <input type="number" step="0.01" class="border border-slate-300 rounded px-2.5 py-1.5 font-bold text-[#002855] focus:ring-1 focus:ring-[#002855] outline-none" placeholder="1250.00">
+                </div>
+            </div>
+
+            <!-- Signature Block -->
+            <div class="pt-2 border-t border-slate-200">
+                <div class="flex flex-col space-y-1.5 max-w-md">
+                    <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</span>
+                    <div class="relative border border-dashed border-slate-300 rounded-lg bg-slate-50/50 h-20 flex items-center justify-center overflow-hidden">
+                        <canvas id="sig2Canvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+                        <img id="sig2PrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Signature">
+                        <span class="text-[10px] text-slate-400 select-none pointer-events-none no-print">Sign here using touch or mouse</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <button type="button" onclick="clearSig(2)" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 text-[10px] py-0.5 px-2 rounded">Clear Pad</button>
+                        <div class="flex items-center gap-1 w-32">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                            <input type="text" id="sig2Date" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- District Office Section -->
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-2 mt-4">
+                <h3 class="font-bold text-slate-700 uppercase text-[10px]">Section II — Business Office Processing</h3>
+                <div class="flex items-center gap-6">
+                    <span class="font-semibold text-slate-600">Transcript & Proof of Payment Attached:</span>
+                    <label class="flex items-center gap-1.5"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Yes</span></label>
+                    <label class="flex items-center gap-1.5"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>No</span></label>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                    <div><label class="text-[9px] font-bold text-slate-500">Reimbursement Per Credit</label><input type="text" class="border-b border-slate-300 w-full outline-none"></div>
+                    <div><label class="text-[9px] font-bold text-slate-500"># Reimbursable Credits</label><input type="text" class="border-b border-slate-300 w-full outline-none"></div>
+                    <div><label class="text-[9px] font-bold text-slate-500">Total Reimbursement</label><input type="text" class="border-b border-slate-300 w-full outline-none font-bold"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- FORM #3: LANE ADVANCEMENT REQUEST          -->
+        <!-- ========================================== -->
+        <div id="form3-container" class="form-step space-y-4 hidden">
+            <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-slate-700 leading-relaxed">
+                <strong class="text-emerald-900">Form #3 Instructions:</strong> Submit this form to request a higher education lane advancement after earning designated credentials. Processed annually at the end of October (retroactive to start of school year). Official transcripts must be attached (CBA Article X, Section 10.10).
+            </div>
+
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs border-b pb-1 border-slate-200">Section I — Employee Higher Education Advancement Request</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none emp-name" placeholder="Full Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">College / University Name</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="University Name">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Degree / Endorsement Completed</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., Master of Arts in Reading, ESL Endorsement">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Date of Completion</label>
+                    <input type="date" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                <div>
+                    <span class="block font-bold text-slate-700 uppercase mb-2 text-[10px]">Current Education Designation:</span>
+                    <div class="space-y-1">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="currentDesignation" class="w-4 h-4 text-[#002855]"> <span>BA</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="currentDesignation" class="w-4 h-4 text-[#002855]"> <span>MA</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="currentDesignation" class="w-4 h-4 text-[#002855]"> <span>MA + Endorsement</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="currentDesignation" class="w-4 h-4 text-[#002855]"> <span>MA + 16</span></label>
+                    </div>
+                </div>
+
+                <div>
+                    <span class="block font-bold text-slate-700 uppercase mb-2 text-[10px]">Requested New Designation:</span>
+                    <div class="space-y-1">
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="requestedDesignation" class="w-4 h-4 text-[#002855]"> <span>MA</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="requestedDesignation" class="w-4 h-4 text-[#002855]"> <span>MA + Endorsement</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="requestedDesignation" class="w-4 h-4 text-[#002855]"> <span>MA + 2 Endorsements</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="requestedDesignation" class="w-4 h-4 text-[#002855]"> <span>MA + 16 & Endorsement</span></label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="requestedDesignation" class="w-4 h-4 text-[#002855]"> <span>MA + 32</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Signature Block -->
+            <div class="pt-2 border-t border-slate-200">
+                <div class="flex flex-col space-y-1.5 max-w-md">
+                    <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</span>
+                    <div class="relative border border-dashed border-slate-300 rounded-lg bg-slate-50/50 h-20 flex items-center justify-center overflow-hidden">
+                        <canvas id="sig3Canvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+                        <img id="sig3PrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Signature">
+                        <span class="text-[10px] text-slate-400 select-none pointer-events-none no-print">Sign here using touch or mouse</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <button type="button" onclick="clearSig(3)" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 text-[10px] py-0.5 px-2 rounded">Clear Pad</button>
+                        <div class="flex items-center gap-1 w-32">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                            <input type="text" id="sig3Date" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- District Office Section -->
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-2 mt-4">
+                <h3 class="font-bold text-slate-700 uppercase text-[10px]">Section II — District Office Administration</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div class="flex items-center gap-3">
+                        <span class="font-semibold text-slate-600">Transcripts Received:</span>
+                        <label class="flex items-center gap-1"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Yes</span></label>
+                        <label class="flex items-center gap-1"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>No</span></label>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="font-semibold text-slate-600">Request Status:</span>
+                        <label class="flex items-center gap-1"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Accepted</span></label>
+                        <label class="flex items-center gap-1"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Denied</span></label>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                    <div><label class="text-[9px] font-bold text-slate-500">Base Salary Stipend Adjustment**</label><input type="text" class="border-b border-slate-300 w-full outline-none"></div>
+                    <div><label class="text-[9px] font-bold text-slate-500">Effective Date</label><input type="text" class="border-b border-slate-300 w-full outline-none"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER & PRINT BUTTON -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+            <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Selected Document / Save PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        let currentActiveStep = 'form1';
+
+        function switchTab(stepId) {
+            currentActiveStep = stepId;
+            document.querySelectorAll('.form-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`${stepId}-container`).classList.remove('hidden');
+
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.className = "flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200";
+            });
+
+            const activeBtn = document.getElementById(`tab-${stepId}`);
+            activeBtn.className = "flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all bg-[#002855] text-white shadow-sm";
+        }
+
+        // Auto-sync Employee Name inputs across all 3 form steps
+        document.querySelectorAll('.emp-name').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const val = e.target.value;
+                document.querySelectorAll('.emp-name').forEach(otherInput => {
+                    otherInput.value = val;
+                });
+            });
+        });
+
+        // Digital Signature Canvas Handling
+        const canvases = {};
+        const ctxs = {};
+        const isDrawing = { 1: false, 2: false, 3: false };
+
+        function initSigPad(num) {
+            const canvas = document.getElementById(`sig${num}Canvas`);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            canvases[num] = canvas;
+            ctxs[num] = ctx;
+
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#002855';
+
+            function getCoords(e) {
+                const r = canvas.getBoundingClientRect();
+                if (e.touches && e.touches.length > 0) {
+                    return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+                }
+                return { x: e.clientX - r.left, y: e.clientY - r.top };
+            }
+
+            function startDraw(e) {
+                isDrawing[num] = true;
+                const c = getCoords(e);
+                ctx.beginPath();
+                ctx.moveTo(c.x, c.y);
+                if (e.type === 'touchstart') e.preventDefault();
+            }
+
+            function draw(e) {
+                if (!isDrawing[num]) return;
+                const c = getCoords(e);
+                ctx.lineTo(c.x, c.y);
+                ctx.stroke();
+                if (e.type === 'touchmove') e.preventDefault();
+            }
+
+            function stopDraw() { isDrawing[num] = false; }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            window.addEventListener('mouseup', stopDraw);
+
+            canvas.addEventListener('touchstart', startDraw, { passive: false });
+            canvas.addEventListener('touchmove', draw, { passive: false });
+            window.addEventListener('touchend', stopDraw);
+        }
+
+        function clearSig(num) {
+            if (!ctxs[num]) return;
+            ctxs[num].clearRect(0, 0, canvases[num].width, canvases[num].height);
+            const mirror = document.getElementById(`sig${num}PrintMirror`);
+            mirror.src = '';
+            mirror.classList.add('hidden');
+            canvases[num].classList.remove('hidden');
+        }
+
+        function triggerPrintVoucher() {
+            const num = currentActiveStep.replace('form', '');
+            const canvasEl = canvases[num];
+            const mirrorImg = document.getElementById(`sig${num}PrintMirror`);
+
+            const empName = document.querySelector('.emp-name').value.trim();
+            const originalTitle = "EPSD 73 - Graduate Coursework & Advancement";
+            
+            if (empName) {
+                document.getElementById('pageTitle').innerText = `${empName} - Coursework & Advancement`;
+            }
+
+            if (canvasEl) {
+                const blankCanvas = document.createElement('canvas');
+                blankCanvas.width = canvasEl.width;
+                blankCanvas.height = canvasEl.height;
+                if (canvasEl.toDataURL() !== blankCanvas.toDataURL()) {
+                    mirrorImg.src = canvasEl.toDataURL();
+                    mirrorImg.classList.remove('hidden');
+                    canvasEl.classList.add('hidden');
+                }
+            }
+
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => {
+                    document.getElementById('pageTitle').innerText = originalTitle;
+                }, 1000);
+            }, 50);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const dateStr = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`;
+            document.getElementById('sig1Date').value = dateStr;
+            document.getElementById('sig2Date').value = dateStr;
+            document.getElementById('sig3Date').value = dateStr;
+
+            setTimeout(() => {
+                initSigPad(1);
+                initSigPad(2);
+                initSigPad(3);
+            }, 200);
+        });
+    </script>
+</body>
+</html>
