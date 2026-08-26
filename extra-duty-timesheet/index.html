@@ -96,7 +96,7 @@
                         <option value="2">March</option>
                         <option value="3">April</option>
                         <option value="4">May</option>
-                        <option value="5" selected>June</option>
+                        <option value="5">June</option>
                         <option value="6">July</option>
                         <option value="7">August</option>
                         <option value="8">September</option>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="flex flex-col">
                     <label for="tsYearSelect" class="text-gray-700 font-semibold mb-1 text-xs">Year</label>
-                    <input type="text" id="tsYearSelect" value="2026" oninput="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors">
+                    <input type="text" id="tsYearSelect" oninput="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors">
                 </div>
             </div>
         </section>
@@ -266,7 +266,7 @@
         let userFormDataState = {};
 
         function generateCalendarRows() {
-            const yearInput = parseInt(document.getElementById('tsYearSelect').value) || 2026;
+            const yearInput = parseInt(document.getElementById('tsYearSelect').value) || new Date().getFullYear();
             const monthInput = parseInt(document.getElementById('tsMonthSelect').value);
             const showWeekends = document.getElementById('toggleWeekends').checked;
             
@@ -597,6 +597,11 @@
                 }, 1000);
             }, 50);
         }
+
+        // Auto-select the current month & current year upon opening the page
+        const currentInitDate = new Date();
+        document.getElementById('tsMonthSelect').value = currentInitDate.getMonth();
+        document.getElementById('tsYearSelect').value = currentInitDate.getFullYear();
 
         generateCalendarRows();
     </script>
