@@ -221,7 +221,7 @@
             <optgroup label="Academic Substitution ($31.11/hr)">
                 <option value="Assigned Teacher Substitution">Assigned Teacher Substitution</option>
             </optgroup>
-             <optgroup label="Substitute Paraprofessional ($20.00/hr)">
+            <optgroup label="Substitute Paraprofessional ($20.00/hr)">
                 <option value="Daily Substitute Paraprofessional">Daily Substitute Paraprofessional</option>
             </optgroup>
             <optgroup label="Coaching & Intramurals ($40.44/hr)">
@@ -393,7 +393,9 @@
                 printMirror.innerText = "";
                 
                 const lowerText = selectedText.toLowerCase();
-                if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
+                if (lowerText.includes('paraprofessional')) {
+                    hourlyRate = 20.00;
+                } else if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
                     hourlyRate = 31.11;
                 }
             }
