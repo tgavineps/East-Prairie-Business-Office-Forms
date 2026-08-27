@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">EPSD 73 - New Vendor Request Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; font-size: 11px !important; }
+            .no-print { display: none !important; }
+            .print-container { 
+                max-width: none !important; 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+            input::placeholder, textarea::placeholder { color: transparent !important; }
+            input[type="text"], input[type="number"], select, input[type="date"], textarea { 
+                border: none !important; 
+                border-bottom: 1px solid #94a3b8 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important; 
+                padding-left: 0.15rem !important; 
+            }
+            .print-border-b { border-bottom: 1px solid #94a3b8 !important; }
+            section { page-break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-4xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 border-slate-200 gap-3">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
+                <div>
+                    <h1 class="text-base font-bold text-[#002855] uppercase tracking-wide">New Vendor Request Form</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Services Department</p>
+                </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block whitespace-nowrap">
+                <p class="font-semibold text-slate-700">7620 East Prairie Road</p>
+                <p>Skokie, IL 60076</p>
+                <p>Ph: (847) 673-1141</p>
+            </div>
+        </header>
+
+        <!-- INSTRUCTION BANNER -->
+        <section class="mb-4 bg-slate-50 border border-slate-200 rounded-lg p-3 text-[11px] text-slate-700 leading-relaxed">
+            Prior to East Prairie School District 73 processing a payment for goods and/or services, a New Vendor Request form must be completed and submitted to the Business Services department. Completed forms provide necessary information for internal use and state/federal reporting purposes.
+        </section>
+
+        <!-- SECTION 1: VENDOR INFORMATION -->
+        <section class="mb-5 space-y-3 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">1. Vendor General Information</h2>
+            
+            <div class="space-y-2">
+                <span class="font-bold text-slate-600 uppercase text-[10px]">Type of Vendor:</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <label class="flex items-center gap-1.5 cursor-pointer bg-slate-50 p-2 rounded border border-slate-200"><input type="radio" name="vendorType" value="Business" class="w-3.5 h-3.5 text-[#002855]"> <span>Business</span></label>
+                    <label class="flex items-center gap-1.5 cursor-pointer bg-slate-50 p-2 rounded border border-slate-200"><input type="radio" name="vendorType" value="Individual" class="w-3.5 h-3.5 text-[#002855]"> <span>Individual</span></label>
+                    <label class="flex items-center gap-1.5 cursor-pointer bg-slate-50 p-2 rounded border border-slate-200"><input type="radio" name="vendorType" value="Government Agency" class="w-3.5 h-3.5 text-[#002855]"> <span>Government Agency</span></label>
+                    <label class="flex items-center gap-1.5 cursor-pointer bg-slate-50 p-2 rounded border border-slate-200"><input type="radio" name="vendorType" value="Not-for-Profit" class="w-3.5 h-3.5 text-[#002855]"> <span>Not-for-Profit Org</span></label>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Vendor Name / Entity Name</label>
+                    <input type="text" id="vendorName" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Official Business or Individual Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">E-Mail Address (Used for PO Submissions)</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="orders@vendor.com">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Phone Number</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="(000) 000-0000">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Fax Number</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="(000) 000-0000">
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-1.5">
+                <span class="font-bold text-slate-700 uppercase text-[10px]">Business Classification (If Applicable)*</span>
+                <p class="text-[9.5px] text-slate-500 italic mb-1.5">In accordance with Illinois School Code (105 ILCS 5/10-17), schools publish an annual report identifying contracts awarded to minority, female, or disabled contractors.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px]">
+                    <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="w-3.5 h-3.5 text-[#002855] rounded"> <span>Minority Owned</span></label>
+                    <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="w-3.5 h-3.5 text-[#002855] rounded"> <span>Female Owned</span></label>
+                    <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="w-3.5 h-3.5 text-[#002855] rounded"> <span>Owned by Persons with Disabilities</span></label>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ADDRESS DETAILS -->
+        <section class="mb-5 space-y-3 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">2. Address Information</h2>
+            
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                <span class="font-bold text-slate-700 uppercase text-[10px]">Primary Mailing Address</span>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1 w-full outline-none bg-white" placeholder="Street Address">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none bg-white" placeholder="City">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none bg-white" placeholder="State">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none bg-white" placeholder="Zip Code">
+                </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
+                <span class="font-bold text-slate-700 uppercase text-[10px]">Remittance Mailing Address (If Different Than Above)</span>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1 w-full outline-none bg-white" placeholder="Street Address">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none bg-white" placeholder="City">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none bg-white" placeholder="State">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none bg-white" placeholder="Zip Code">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TAXPAYER IDENTIFICATION & GOODS/SERVICES -->
+        <section class="mb-5 space-y-3 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">3. Taxpayer Identification & Offerings</h2>
+            
+            <p class="text-[10px] text-slate-500 italic">This section does not need to be completed if a Form W-9 is attached.</p>
+
+            <div class="flex flex-col">
+                <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Types of Goods and/or Services Offered</label>
+                <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., Office Supplies, HVAC Maintenance, Educational Consulting">
+            </div>
+
+            <div class="space-y-1.5 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span class="font-bold text-slate-700 uppercase text-[10px]">Tax Classification:</span>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="taxClass" value="Individual"> <span>Individual/Sole Proprietor / LLC</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="taxClass" value="C-Corp"> <span>C - Corporation</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="taxClass" value="S-Corp"> <span>S - Corporation</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="taxClass" value="Partnership"> <span>P - Partnership</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="taxClass" value="Trust/Estate"> <span>Trust / Estate</span></label>
+                    <label class="flex items-center gap-1 cursor-pointer"><input type="radio" name="taxClass" value="LLC"> <span>Limited Liability Company</span></label>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Federal Tax ID Number (FEIN)</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none font-mono" placeholder="00-0000000">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">OR Social Security Number (SSN)</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none font-mono" placeholder="000-00-0000">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: APPROVAL CERTIFICATION -->
+        <section class="mb-5 bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px] text-slate-600 leading-relaxed space-y-1">
+            <p><strong class="text-slate-800 uppercase">Certification & Penalties of Perjury:</strong> Under penalties of perjury, I certify that the information provided on this form is complete and accurate. I understand that this information will be utilized for local, federal, and state reporting purposes. I further certify that I am not subject to backup withholding because (a) I am exempt, or (b) I have not been notified by the IRS that I am subject to backup withholding, or (c) the IRS has notified me that I am no longer subject to backup withholding.</p>
+        </section>
+
+        <!-- DIGITAL SIGNATURE MODULE -->
+        <section class="pt-2 border-t border-slate-200 text-xs font-medium">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="flex flex-col space-y-1">
+                    <label class="font-bold text-slate-600 uppercase text-[10px]">Printed Name of Vendor Representative</label>
+                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Representative Full Name">
+                </div>
+                
+                <div class="flex flex-col space-y-1.5">
+                    <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Vendor Representative Digital Signature</span>
+                    <div class="relative border border-dashed border-slate-300 rounded-lg bg-slate-50/50 h-20 flex items-center justify-center overflow-hidden">
+                        <canvas id="vendorSigCanvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+                        <img id="vendorSigPrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Vendor Signature">
+                        <span class="text-[10px] text-slate-400 select-none pointer-events-none no-print">Sign here using mouse or touch</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <button type="button" onclick="clearSignature()" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 text-[10px] py-0.5 px-2 rounded">Clear Pad</button>
+                        <div class="flex items-center gap-1 w-32">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                            <input type="text" id="vendorSigDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER & PRINT BUTTON -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+            <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Request / Save PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        // Digital Canvas Setup
+        const canvas = document.getElementById('vendorSigCanvas');
+        const ctx = canvas.getContext('2d');
+        const printMirrorImg = document.getElementById('vendorSigPrintMirror');
+        let isDrawing = false;
+
+        function initializeCanvasScaling() {
+            const rect = canvas.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#002855';
+        }
+
+        window.addEventListener('resize', initializeCanvasScaling);
+        setTimeout(initializeCanvasScaling, 200);
+
+        function getCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+            }
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const c = getCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(c.x, c.y);
+            if (e.type === 'touchstart') e.preventDefault();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const c = getCoords(e);
+            ctx.lineTo(c.x, c.y);
+            ctx.stroke();
+            if (e.type === 'touchmove') e.preventDefault();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        window.addEventListener('mouseup', stopDraw);
+
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        window.addEventListener('touchend', stopDraw);
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            printMirrorImg.src = '';
+            printMirrorImg.classList.add('hidden');
+            canvas.classList.remove('hidden');
+        }
+
+        function triggerPrintVoucher() {
+            const vendorName = document.getElementById('vendorName').value.trim();
+            const originalTitle = document.title;
+            
+            if (vendorName) {
+                document.title = `${vendorName} - New Vendor Request EPSD73`;
+            } else {
+                document.title = "EPSD73 - New Vendor Request Form";
+            }
+
+            const blankCheckCanvas = document.createElement('canvas');
+            blankCheckCanvas.width = canvas.width;
+            blankCheckCanvas.height = canvas.height;
+            
+            if (canvas.toDataURL() !== blankCheckCanvas.toDataURL()) {
+                printMirrorImg.src = canvas.toDataURL();
+                printMirrorImg.classList.remove('hidden');
+                canvas.classList.add('hidden');
+            }
+
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => {
+                    document.title = originalTitle;
+                }, 1000);
+            }, 100);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const dateStr = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`;
+            document.getElementById('vendorSigDate').value = dateStr;
+        });
+    </script>
+</body>
+</html>
