@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">EPSD 73 - Facility Rental Application & Contract</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        @media print {
+            body { background-color: #fff !important; padding: 0 !important; font-size: 11px !important; }
+            .no-print { display: none !important; }
+            .print-container { 
+                max-width: none !important; 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+            input::placeholder, textarea::placeholder { color: transparent !important; }
+            input[type="text"], input[type="number"], select, input[type="date"], textarea { 
+                border: none !important; 
+                border-bottom: 1px solid #94a3b8 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important; 
+                padding-left: 0.15rem !important; 
+            }
+            .print-border-b { border-bottom: 1px solid #94a3b8 !important; }
+            section { page-break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="print-container max-w-4xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 border-slate-200 gap-3">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
+                <div>
+                    <h1 class="text-base font-bold text-[#002855] uppercase tracking-wide">Facility Rental Contract & Agreement</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Office</p>
+                </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block whitespace-nowrap">
+                <p class="font-semibold text-slate-700">7620 East Prairie Road</p>
+                <p>Skokie, IL 60076</p>
+                <p>Ph: (847) 673-1141</p>
+            </div>
+        </header>
+
+        <!-- SECTION 1: ORGANIZATION & CONTACT INFORMATION -->
+        <section class="mb-5 space-y-3 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">1. Organization & Contact Details</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Name of Renting Organization</label>
+                    <input type="text" id="orgName" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Organization Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Organization Classification</label>
+                    <select id="orgClass" onchange="calculateRentalFees()" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none bg-white">
+                        <option value="Class1">Class I — School, Youth & Community Service (No Fee)</option>
+                        <option value="Class2" selected>Class II — Within D73 Boundaries ($60.00 / Hour)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Organization Representative</label>
+                    <input type="text" id="repName" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Full Legal Name">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Address</label>
+                    <input type="text" id="repAddress" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Street Address, City, Zip">
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Phone Number</label>
+                    <input type="text" id="repPhone" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="(847) 000-0000">
+                </div>
+            </div>
+
+            <!-- INDIVIDUAL SUPERVISOR & KEYCARD MANAGEMENT TABLE -->
+            <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-200 pb-1.5">
+                    <span class="block font-bold text-slate-700 uppercase text-[10px]">Designated Adult Supervisors & Individual Keycard Tracking</span>
+                    <span class="text-[9.5px] text-slate-500 italic">Keycard # and Return Checkboxes are reserved for Business Office staff</span>
+                </div>
+                
+                <!-- Supervisor 1 -->
+                <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="flex flex-col sm:col-span-1">
+                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #1 Full Name</label>
+                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name">
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #1 Phone Number</label>
+                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
+                            <div class="flex items-center gap-3">
+                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup1Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
+                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup1Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Business Office Use Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
+                            <input type="text" class="border-b border-slate-300 bg-transparent px-1 py-0.5 text-xs font-mono w-full outline-none focus:border-[#002855]" placeholder="(Office Use)">
+                        </div>
+                        <div class="flex items-center justify-start sm:justify-end gap-2">
+                            <label class="inline-flex items-center gap-1.5 font-bold text-slate-700 cursor-pointer">
+                                <input type="checkbox" class="w-3.5 h-3.5 text-[#002855] rounded">
+                                <span>Keycard Returned</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supervisor 2 -->
+                <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="flex flex-col sm:col-span-1">
+                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #2 Full Name</label>
+                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name">
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #2 Phone Number</label>
+                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
+                            <div class="flex items-center gap-3">
+                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup2Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
+                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup2Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Business Office Use Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
+                            <input type="text" class="border-b border-slate-300 bg-transparent px-1 py-0.5 text-xs font-mono w-full outline-none focus:border-[#002855]" placeholder="(Office Use)">
+                        </div>
+                        <div class="flex items-center justify-start sm:justify-end gap-2">
+                            <label class="inline-flex items-center gap-1.5 font-bold text-slate-700 cursor-pointer">
+                                <input type="checkbox" class="w-3.5 h-3.5 text-[#002855] rounded">
+                                <span>Keycard Returned</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supervisor 3 -->
+                <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="flex flex-col sm:col-span-1">
+                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #3 Full Name</label>
+                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name">
+                        </div>
+                        <div class="flex flex-col">
+                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #3 Phone Number</label>
+                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000">
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
+                            <div class="flex items-center gap-3">
+                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup3Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
+                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup3Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Business Office Use Row -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
+                            <input type="text" class="border-b border-slate-300 bg-transparent px-1 py-0.5 text-xs font-mono w-full outline-none focus:border-[#002855]" placeholder="(Office Use)">
+                        </div>
+                        <div class="flex items-center justify-start sm:justify-end gap-2">
+                            <label class="inline-flex items-center gap-1.5 font-bold text-slate-700 cursor-pointer">
+                                <input type="checkbox" class="w-3.5 h-3.5 text-[#002855] rounded">
+                                <span>Keycard Returned</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KEYCARD ACCESS & WALKTHROUGH POLICY BANNER -->
+            <div class="bg-amber-50/70 border border-amber-200 rounded-lg p-3 text-[10.5px] text-slate-700 space-y-1">
+                <p>• <strong>Pickup & Walkthrough Coordination:</strong> Contact Timothy Gavin at <a href="mailto:tgavin@eps73.net" class="font-bold text-[#002855] underline">tgavin@eps73.net</a> to schedule keycard pickup and/or a facility orientation walkthrough prior to your event.</p>
+                <p>• <strong>Keycard Replacement Fee:</strong> Any issued keycard that is lost, unreturned, or returned damaged will be assessed a mandatory <strong>$10.00 replacement fee</strong> billed directly to the renting organization.</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: RENTAL SPACE & DYNAMIC DATE BUILDER -->
+        <section class="mb-5 space-y-3 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">2. Rental Space & Schedule Builder</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Rental Area Facility</label>
+                    <select id="facilityArea" onchange="calculateRentalFees()" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none bg-white font-medium">
+                        <option value="Gymnasium" selected>Gymnasium ($60.00 / Hour)</option>
+                        <option value="CommunityRooms">Community Rooms ($60.00 / Hour)</option>
+                        <option value="CafeteriaAuditorium">Cafeteria / Auditorium ($60.00 / Hour)</option>
+                    </select>
+                </div>
+                <div class="flex flex-col">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Hours Needed Per Session (Min. 2 Hrs)</label>
+                    <input type="number" id="totalHours" min="2" step="0.5" value="2.0" oninput="calculateRentalFees()" class="border border-slate-300 rounded px-2.5 py-1.5 font-bold text-[#002855] focus:ring-1 focus:ring-[#002855] outline-none">
+                </div>
+            </div>
+
+            <!-- INTERACTIVE MULTI-DATE LIST BUILDER -->
+            <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-2">
+                    <div>
+                        <label class="font-bold text-[#002855] uppercase text-[10px] block">Requested Rental Dates</label>
+                        <span class="text-[9.5px] text-slate-500">Add individual dates or recurring sessions below</span>
+                    </div>
+                    <div class="flex items-center gap-2 no-print">
+                        <button type="button" onclick="addDateRow()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold text-[10px] px-3 py-1.5 rounded transition-all flex items-center gap-1 shadow-sm">
+                            <span>+ Add Date</span>
+                        </button>
+                        <button type="button" onclick="addBulkRows(5)" class="border border-slate-300 hover:bg-slate-100 text-slate-600 font-semibold text-[10px] px-2.5 py-1.5 rounded transition-all">
+                            + Add 5 Dates
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Date Rows Container -->
+                <div id="dateRowsContainer" class="space-y-2">
+                    <!-- Date rows dynamically render here -->
+                </div>
+            </div>
+
+            <!-- COST CALCULATION SUMMARY -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <div class="flex flex-col justify-center">
+                    <span class="font-bold text-slate-500 uppercase text-[9px]">Total Sessions Requested</span>
+                    <span class="text-sm font-bold text-slate-800 mt-0.5"><span id="lblSessionCount">1</span> Session(s)</span>
+                </div>
+                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                    <span class="font-bold text-slate-500 uppercase text-[9px]">Fee Per Session</span>
+                    <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblFeePerSession">120.00</span></span>
+                </div>
+                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                    <span class="font-bold text-slate-500 uppercase text-[9px]">Grand Estimated Total</span>
+                    <span class="text-base font-black text-[#002855] mt-0.5">$<span id="lblGrandTotal">120.00</span></span>
+                </div>
+            </div>
+
+            <div class="flex flex-col text-xs">
+                <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Special Equipment or Room Setup Requests</label>
+                <textarea rows="2" class="border border-slate-300 rounded p-2 focus:ring-1 focus:ring-[#002855] outline-none resize-none" placeholder="Specify chairs, tables, AV needs, or custodial requirements..."></textarea>
+            </div>
+        </section>
+
+        <!-- SECTION 3: RULES, REGULATIONS & MANDATORY REQUIREMENTS -->
+        <section class="mb-5 text-[10.5px] leading-relaxed text-slate-700 space-y-1.5">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">3. Regulations & Rental Conditions</h2>
+            <ul class="list-disc pl-5 space-y-1">
+                <li><strong>Rental Rate & Duration:</strong> Rental fees are billed at <strong>$60.00 per hour</strong> with a mandatory <strong>2-hour minimum rental block</strong> ($120.00 base fee). Rental time begins when facilities are opened and ends when the group departs.</li>
+                <li><strong>District Reservation of Rights & Cancellation:</strong> East Prairie School District 73 reserves the right to deny, alter, reschedule, or cancel any rental agreement—either in whole or for specific dates—for any reason, including scheduling conflicts or District operational needs. If the District cancels a rental date due to a facility conflict, any prepaid rental fees for the affected date(s) will be promptly refunded.</li>
+                <li><strong>Scope of Access:</strong> Rental access includes only facilities specifically named in this contract, nearby hallways, and restrooms. Classroom space is not available for rental.</li>
+                <li><strong>Prohibited Conduct:</strong> Tobacco use, alcoholic beverages, lotteries, and gambling are strictly prohibited on all school property.</li>
+                <li><strong>Fire Safety & Doors:</strong> No open flames (candles, lamps) are permitted. Exterior doors must remain locked at all times and must NEVER be propped open. Custodians will let groups in at scheduled times.</li>
+                <li><strong>Custodial Supervision:</strong> At least one custodian/supervisor must be on duty during facility use. Additional labor required will be billed to the user.</li>
+                <li><strong>Mandatory Insurance Coverage:</strong> Evidence of general liability insurance of at least <strong>$1,000,000 per occurrence</strong> naming East Prairie School District 73 as an additional insured must be submitted prior to approval.</li>
+                <li><strong>Renter Cancellation Policy:</strong> Cancellations by the renting organization must be submitted to the Business Office at least <strong>7 days prior</strong> to the scheduled date. Groups will be charged for custodial time if notice is not received within 7 days.</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 4: HOLD HARMLESS & INDEMNIFICATION -->
+        <section class="mb-5 bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px] text-slate-600 leading-relaxed space-y-1">
+            <p><strong class="text-slate-800 uppercase">Hold Harmless & Property Damage Agreement:</strong> Lessee agrees to all rules and regulations set forth by School District 73. Lessee agrees on behalf of themselves and the renting organization to hold District 73, its Board members, and employees harmless from any liability or bodily injury resulting from facility use. The renting organization assumes full financial liability for any damage occurring to property or equipment during or as a result of the rental.</p>
+        </section>
+
+        <!-- DIGITAL SIGNATURE MODULE -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-slate-200 text-xs font-medium">
+            <!-- Lessee Digital Signature -->
+            <div class="flex flex-col space-y-1.5">
+                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Renting Organization Authorized Signature</span>
+                <div class="relative border border-dashed border-slate-300 rounded-lg bg-slate-50/50 h-20 flex items-center justify-center overflow-hidden">
+                    <canvas id="lesseeSigCanvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
+                    <img id="lesseeSigPrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Lessee Signature">
+                    <span class="text-[10px] text-slate-400 select-none pointer-events-none no-print">Sign here using mouse or touch</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                    <button type="button" onclick="clearSignature()" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 text-[10px] py-0.5 px-2 rounded">Clear Pad</button>
+                    <div class="flex items-center gap-1 w-32">
+                        <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                        <input type="text" id="lesseeSigDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Office Authorization Block -->
+            <div class="flex flex-col justify-end space-y-1">
+                <div class="border-b border-slate-400 h-16 w-full print-border-b"></div>
+                <div class="flex justify-between items-center pt-0.5">
+                    <label class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">EPS District 73 Superintendent / Business Office</label>
+                    <span class="text-[9px] text-slate-400">Date Approved</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER & PRINT BUTTON -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+            <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Contract / Save PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        const HOURLY_RATE = 60.00;
+        let dateRowCount = 0;
+
+        function addDateRow(dateVal = '', timeVal = '6:00 PM – 8:00 PM') {
+            dateRowCount++;
+            const container = document.getElementById('dateRowsContainer');
+            const rowDiv = document.createElement('div');
+            rowDiv.id = `date-row-${dateRowCount}`;
+            rowDiv.className = "flex items-center gap-2 bg-white p-2 rounded border border-slate-200 shadow-sm";
+
+            rowDiv.innerHTML = `
+                <span class="text-[10px] font-bold text-slate-400 w-6 text-center shrink-0">#${dateRowCount}</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 flex-1">
+                    <input type="date" class="border border-slate-300 rounded px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-[#002855]" value="${dateVal}">
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 text-xs outline-none focus:ring-1 focus:ring-[#002855]" placeholder="In & Out Time (e.g., 6:00 PM - 8:00 PM)" value="${timeVal}">
+                </div>
+                <button type="button" onclick="removeDateRow(${dateRowCount})" class="no-print text-red-500 hover:text-red-700 font-bold px-2 py-1 text-xs rounded hover:bg-red-50 shrink-0" title="Remove Date">
+                    ✕
+                </button>
+            `;
+            container.appendChild(rowDiv);
+            calculateRentalFees();
+        }
+
+        function addBulkRows(count) {
+            for (let i = 0; i < count; i++) {
+                addDateRow();
+            }
+        }
+
+        function removeDateRow(id) {
+            const row = document.getElementById(`date-row-${id}`);
+            if (row) {
+                row.remove();
+                calculateRentalFees();
+            }
+        }
+
+        function calculateRentalFees() {
+            const orgClass = document.getElementById('orgClass').value;
+            let hours = parseFloat(document.getElementById('totalHours').value) || 0;
+            const sessionCount = document.querySelectorAll('#dateRowsContainer > div').length || 1;
+
+            document.getElementById('lblSessionCount').innerText = sessionCount;
+
+            if (orgClass === 'Class1') {
+                document.getElementById('lblFeePerSession').innerText = '0.00';
+                document.getElementById('lblGrandTotal').innerText = '0.00';
+                return;
+            }
+
+            if (hours < 2 && hours > 0) {
+                hours = 2;
+                document.getElementById('totalHours').value = '2.0';
+            }
+
+            const feePerSession = hours * HOURLY_RATE;
+            const grandTotal = feePerSession * sessionCount;
+
+            document.getElementById('lblFeePerSession').innerText = feePerSession.toFixed(2);
+            document.getElementById('lblGrandTotal').innerText = grandTotal.toFixed(2);
+        }
+
+        // Digital Canvas Setup
+        const canvas = document.getElementById('lesseeSigCanvas');
+        const ctx = canvas.getContext('2d');
+        const printMirrorImg = document.getElementById('lesseeSigPrintMirror');
+        let isDrawing = false;
+
+        function initializeCanvasScaling() {
+            const rect = canvas.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#002855';
+        }
+
+        window.addEventListener('resize', initializeCanvasScaling);
+        setTimeout(initializeCanvasScaling, 200);
+
+        function getCoords(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+            }
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            isDrawing = true;
+            const c = getCoords(e);
+            ctx.beginPath();
+            ctx.moveTo(c.x, c.y);
+            if (e.type === 'touchstart') e.preventDefault();
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const c = getCoords(e);
+            ctx.lineTo(c.x, c.y);
+            ctx.stroke();
+            if (e.type === 'touchmove') e.preventDefault();
+        }
+
+        function stopDraw() { isDrawing = false; }
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        window.addEventListener('mouseup', stopDraw);
+
+        canvas.addEventListener('touchstart', startDraw, { passive: false });
+        canvas.addEventListener('touchmove', draw, { passive: false });
+        window.addEventListener('touchend', stopDraw);
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            printMirrorImg.src = '';
+            printMirrorImg.classList.add('hidden');
+            canvas.classList.remove('hidden');
+        }
+
+        function triggerPrintVoucher() {
+            const orgName = document.getElementById('orgName').value.trim();
+            const originalTitle = "EPSD 73 - Facility Rental Application & Contract";
+            
+            if (orgName) {
+                document.getElementById('pageTitle').innerText = `${orgName} - Facility Rental Contract`;
+            }
+
+            const blankCheckCanvas = document.createElement('canvas');
+            blankCheckCanvas.width = canvas.width;
+            blankCheckCanvas.height = canvas.height;
+            
+            if (canvas.toDataURL() !== blankCheckCanvas.toDataURL()) {
+                printMirrorImg.src = canvas.toDataURL();
+                printMirrorImg.classList.remove('hidden');
+                canvas.classList.add('hidden');
+            }
+
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => {
+                    document.getElementById('pageTitle').innerText = originalTitle;
+                }, 1000);
+            }, 50);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const today = new Date();
+            const dateStr = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`;
+            document.getElementById('lesseeSigDate').value = dateStr;
+            
+            // Add 1 default date row on page load
+            addDateRow();
+        });
+    </script>
+</body>
+</html>
