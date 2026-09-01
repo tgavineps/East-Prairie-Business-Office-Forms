@@ -287,6 +287,50 @@
             <p><strong class="text-slate-800 uppercase">Hold Harmless & Property Damage Agreement:</strong> Lessee agrees to all rules and regulations set forth by School District 73. Lessee agrees on behalf of themselves and the renting organization to hold District 73, its Board members, and employees harmless from any liability or bodily injury resulting from facility use. The renting organization assumes full financial liability for any damage occurring to property or equipment during or as a result of the rental.</p>
         </section>
 
+        <!-- SECTION 5: BUSINESS OFFICE USE ONLY (PAYMENT TRACKING) -->
+        <section class="mb-5 bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-2 text-xs">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-1">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px]">5. Business Office Use Only (Payment Tracking)</h2>
+                <span class="text-[9px] text-slate-400 font-medium italic">For Internal Business Office Processing</span>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2.5 pt-1">
+                <div class="flex flex-col">
+                    <label class="text-slate-500 font-semibold text-[9px] uppercase mb-0.5">Payment Date</label>
+                    <input type="date" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs bg-white focus:ring-1 focus:ring-[#002855]">
+                </div>
+                
+                <div class="flex flex-col">
+                    <label class="text-slate-500 font-semibold text-[9px] uppercase mb-0.5">Payment Method</label>
+                    <select class="border border-slate-300 rounded px-2 py-1 outline-none text-xs bg-white focus:ring-1 focus:ring-[#002855]">
+                        <option value="">Select Method...</option>
+                        <option value="Check">Check</option>
+                        <option value="PushCoin">PushCoin</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Waived">Fee Waived (Class I)</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-slate-500 font-semibold text-[9px] uppercase mb-0.5">Amount Paid</label>
+                    <div class="relative flex items-center">
+                        <span class="absolute left-2 text-slate-400 text-xs">$</span>
+                        <input type="text" class="border border-slate-300 rounded pl-5 pr-2 py-1 outline-none text-xs bg-white w-full focus:ring-1 focus:ring-[#002855]" placeholder="0.00">
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-slate-500 font-semibold text-[9px] uppercase mb-0.5">Check / Ref #</label>
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs bg-white focus:ring-1 focus:ring-[#002855]" placeholder="e.g. #1042">
+                </div>
+
+                <div class="flex flex-col">
+                    <label class="text-slate-500 font-semibold text-[9px] uppercase mb-0.5">Received By</label>
+                    <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs bg-white focus:ring-1 focus:ring-[#002855]" placeholder="Initials / Name">
+                </div>
+            </div>
+        </section>
+
         <!-- DIGITAL SIGNATURE MODULE -->
         <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-slate-200 text-xs font-medium">
             <!-- Lessee Digital Signature -->
