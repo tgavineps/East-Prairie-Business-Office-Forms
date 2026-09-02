@@ -287,31 +287,43 @@
             <p><strong class="text-slate-800 uppercase">Hold Harmless & Property Damage Agreement:</strong> Lessee agrees to all rules and regulations set forth by School District 73. Lessee agrees on behalf of themselves and the renting organization to hold District 73, its Board members, and employees harmless from any liability or bodily injury resulting from facility use. The renting organization assumes full financial liability for any damage occurring to property or equipment during or as a result of the rental.</p>
         </section>
 
-        <!-- SECTION 5: BUSINESS OFFICE USE ONLY (PHYSICAL PEN TRACKING) -->
+        <!-- SECTION 5: BUSINESS OFFICE USE ONLY (ADMIN TRACKING) -->
         <section class="mb-5 bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-2 text-xs">
             <div class="flex items-center justify-between border-b border-slate-200 pb-1">
-                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px]">5. Business Office Use Only (Payment Tracking)</h2>
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[10px]">5. Business Office Use Only (Administrative Tracking)</h2>
                 <span class="text-[9.5px] text-slate-400 font-medium italic">To be completed by Business Office staff upon receipt</span>
             </div>
             
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-2">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 pt-2">
+                <!-- Proof of Insurance Tracker -->
+                <div class="flex items-center gap-1.5 col-span-2 sm:col-span-1 justify-start">
+                    <label class="inline-flex items-center gap-1.5 font-bold text-slate-400 cursor-not-allowed">
+                        <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
+                        <span class="text-[9px] uppercase">Proof of Insurance Rec'd</span>
+                    </label>
+                </div>
+
                 <div class="flex flex-col justify-end">
                     <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
                     <span class="text-slate-500 font-bold text-[9px] uppercase">Date Paid</span>
                 </div>
+                
                 <div class="flex flex-col justify-end">
                     <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
                     <span class="text-slate-500 font-bold text-[9px] uppercase">Payment Method</span>
                 </div>
+
                 <div class="flex flex-col justify-end">
                     <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
                     <span class="text-slate-500 font-bold text-[9px] uppercase">Amount Paid</span>
                 </div>
+
                 <div class="flex flex-col justify-end">
                     <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
                     <span class="text-slate-500 font-bold text-[9px] uppercase">Check / Ref #</span>
                 </div>
-                <div class="flex flex-col justify-end col-span-2 sm:col-span-1">
+
+                <div class="flex flex-col justify-end">
                     <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
                     <span class="text-slate-500 font-bold text-[9px] uppercase">Received By</span>
                 </div>
