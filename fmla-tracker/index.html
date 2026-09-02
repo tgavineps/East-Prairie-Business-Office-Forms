@@ -17,6 +17,7 @@
             body {
                 background-color: #fff !important;
                 padding: 0 !important;
+                font-size: 10px !important;
             }
             .print-hidden, button, input[type="submit"], input[type="reset"] {
                 display: none !important;
@@ -26,6 +27,30 @@
                 border: none !important;
                 padding: 0 !important;
                 max-width: none !important;
+            }
+            header {
+                padding-bottom: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .input-section {
+                gap: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+            .summary-box {
+                padding: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .summary-input {
+                font-size: 1.25rem !important;
+                line-height: 1.5rem !important;
+            }
+            .reconciliation-box {
+                padding: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            .page-break-before {
+                page-break-before: always !important;
             }
             .leave-type-select, .leave-increment-select {
                 -webkit-appearance: none;
@@ -40,12 +65,12 @@
                 color: #4b5563;
                 display: block;
             }
-            .input-section input, .input-section textarea, .summary-input {
+            .input-section input, .input-section textarea {
                 border: none !important;
                 box-shadow: none !important;
                 padding: 0 !important;
                 background-color: transparent !important;
-                font-size: 0.875rem !important;
+                font-size: 0.8rem !important;
                 color: #1e293b;
             }
             .print-border-b {
@@ -57,8 +82,8 @@
             background-color: transparent;
             border: none;
             text-align: center;
-            font-size: 1.75rem;
-            line-height: 2rem;
+            font-size: 1.5rem;
+            line-height: 1.75rem;
             font-weight: 700;
             color: inherit;
             width: 100%;
@@ -71,84 +96,83 @@
     <div class="main-container max-w-6xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
         
         <!-- HEADER BLOCK: District Branding -->
-        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-6 mb-6 border-slate-200 gap-4">
-            <div class="flex items-center gap-4">
-                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-16 w-auto object-contain">
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 mb-4 border-slate-200 gap-4">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
                 <div>
-                    <h1 class="text-xl font-bold text-[#002855] uppercase tracking-wide">FMLA Leave Planning & Tracking Tool</h1>
-                    <p class="text-xs text-slate-500 mt-0.5">East Prairie School District 73 &bull; Business Office</p>
+                    <h1 class="text-lg font-bold text-[#002855] uppercase tracking-wide">FMLA Leave Planning & Tracking Tool</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Office</p>
                 </div>
             </div>
             
-            <div class="text-right text-xs text-slate-500 hidden sm:block">
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block">
                 <p class="font-semibold text-slate-700">7620 East Prairie Road</p>
                 <p>Skokie, IL 60076</p>
             </div>
         </header>
 
         <!-- INPUT SECTION GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 border-b pb-6 border-slate-200 input-section text-xs">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4 border-b pb-4 border-slate-200 input-section text-xs">
             <!-- Row 1 -->
             <div>
-                <label for="employeeName" class="font-bold text-slate-600 uppercase mb-1">Employee Name</label>
-                <input type="text" id="employeeName" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="Full Name">
+                <label for="employeeName" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                <input type="text" id="employeeName" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="Full Name">
             </div>
             <div>
-                <label for="employeePosition" class="font-bold text-slate-600 uppercase mb-1">Position / Title</label>
-                <input type="text" id="employeePosition" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 3rd Grade Teacher, Paraprofessional">
+                <label for="employeePosition" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Position / Title</label>
+                <input type="text" id="employeePosition" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 3rd Grade Teacher, Paraprofessional">
             </div>
 
             <!-- Row 2 -->
             <div>
-                <label for="fmlaReason" class="font-bold text-slate-600 uppercase mb-1">FMLA Qualifying Reason</label>
-                <input type="text" id="fmlaReason" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., Birth of a Child, Personal Medical">
+                <label for="fmlaReason" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">FMLA Qualifying Reason</label>
+                <input type="text" id="fmlaReason" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., Birth of a Child, Personal Medical">
             </div>
             <div>
-                <label for="schoolYearStart" class="font-bold text-slate-600 uppercase mb-1">School Year Start Date (MM/DD/YYYY)</label>
-                <input type="text" id="schoolYearStart" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="08/20/2026">
+                <label for="schoolYearStart" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">School Year Start Date (MM/DD/YYYY)</label>
+                <input type="text" id="schoolYearStart" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="08/20/2026">
             </div>
 
             <!-- Row 3 -->
             <div>
-                <label for="schoolYearEnd" class="font-bold text-slate-600 uppercase mb-1">School Year End Date (MM/DD/YYYY)</label>
-                <input type="text" id="schoolYearEnd" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="06/05/2027">
+                <label for="schoolYearEnd" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">School Year End Date (MM/DD/YYYY)</label>
+                <input type="text" id="schoolYearEnd" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="06/05/2027">
             </div>
             <div>
-                <label for="startDate" class="font-bold text-slate-600 uppercase mb-1">Leave Start Date (MM/DD/YYYY)</label>
-                <input type="text" id="startDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="MM/DD/YYYY">
+                <label for="startDate" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Leave Start Date (MM/DD/YYYY)</label>
+                <input type="text" id="startDate" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="MM/DD/YYYY">
             </div>
 
             <!-- Row 4 -->
             <div>
-                <label for="estimatedReturnToWorkDate" class="font-bold text-slate-600 uppercase mb-1">Estimated Return Date (MM/DD/YYYY)</label>
-                <input type="text" id="estimatedReturnToWorkDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="MM/DD/YYYY">
+                <label for="estimatedReturnToWorkDate" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Estimated Return Date (MM/DD/YYYY)</label>
+                <input type="text" id="estimatedReturnToWorkDate" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="MM/DD/YYYY">
             </div>
             <div>
-                <label for="totalFmlaWeeksUsedInput" class="font-bold text-slate-600 uppercase mb-1">Total FMLA Weeks Planned / Used</label>
-                <input type="number" id="totalFmlaWeeksUsedInput" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 12">
+                <label for="totalFmlaWeeksUsedInput" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Total FMLA Weeks Planned / Used</label>
+                <input type="number" id="totalFmlaWeeksUsedInput" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 12">
             </div>
             
             <!-- Row 5 -->
             <div>
-                <label for="sickDaysAvailable" class="font-bold text-slate-600 uppercase mb-1">Paid Sick Days Available</label>
-                <input type="number" id="sickDaysAvailable" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 30">
-                <p class="mt-1 text-[10px] text-slate-400 font-medium">Leave summary auto-calculates full days. Adjust half-days manually in the ledger below.</p>
+                <label for="sickDaysAvailable" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Paid Sick Days Available</label>
+                <input type="number" id="sickDaysAvailable" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 30">
             </div>
             <div>
-                <label for="dailyRate" class="font-bold text-slate-600 uppercase mb-1">Daily Rate ($)</label>
-                <input type="number" id="dailyRate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 285.50">
+                <label for="dailyRate" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Daily Rate ($)</label>
+                <input type="number" id="dailyRate" class="border border-slate-300 rounded px-2.5 py-1 focus:ring-1 focus:ring-[#002855] outline-none w-full" placeholder="e.g., 285.50">
             </div>
         </div>
 
         <!-- HOLIDAYS AND NON-ATTENDANCE DAYS MODULE -->
-        <div class="mb-6 input-section text-xs">
-            <label class="font-bold text-slate-600 uppercase mb-1 block">Holidays & Non-Attendance Dates</label>
-            <p class="text-[11px] text-slate-500 mb-2">Enter each non-work date on a new line (MM/DD/YYYY) to skip counting on FMLA ledger balance.</p>
-            <textarea id="nonAttendanceDates" rows="3" class="border border-slate-300 rounded p-2 text-xs focus:ring-1 focus:ring-[#002855] outline-none w-full resize-none font-mono" placeholder="10/25/2026&#10;11/26/2026&#10;12/25/2026"></textarea>
+        <div class="mb-4 input-section text-xs print-hidden">
+            <label class="font-bold text-slate-600 uppercase mb-0.5 block text-[10px]">Holidays & Non-Attendance Dates</label>
+            <p class="text-[10px] text-slate-500 mb-1">Enter each non-work date on a new line (MM/DD/YYYY) to skip counting on FMLA ledger balance.</p>
+            <textarea id="nonAttendanceDates" rows="2" class="border border-slate-300 rounded p-1.5 text-xs focus:ring-1 focus:ring-[#002855] outline-none w-full resize-none font-mono" placeholder="10/25/2026&#10;11/26/2026&#10;12/25/2026"></textarea>
         </div>
         
         <!-- ACTION BUTTON INTERFACE -->
-        <div class="flex flex-wrap justify-end gap-3 mb-8 print-hidden border-t pt-4 border-slate-100">
+        <div class="flex flex-wrap justify-end gap-3 mb-6 print-hidden border-t pt-3 border-slate-100">
             <button id="generateBtn" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2 px-6 rounded text-xs tracking-wider uppercase shadow transition-all">
                 Generate FMLA Plan
             </button>
@@ -161,108 +185,104 @@
         </div>
 
         <!-- RESULTS AND SUMMARY SECTION -->
-        <div id="results" class="hidden space-y-6">
-            <div class="bg-slate-50 border border-slate-200 p-5 rounded-xl">
-                <h3 class="text-xs font-bold text-[#002855] uppercase tracking-wider mb-4 border-b border-slate-200 pb-2">Leave Summary & Docking Analysis</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">FMLA Weeks Used</p>
+        <div id="results" class="hidden space-y-4">
+            
+            <!-- PAGE 1 BLOCK: SUMMARY ANALYSIS -->
+            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl summary-box">
+                <h3 class="text-xs font-bold text-[#002855] uppercase tracking-wider mb-3 border-b border-slate-200 pb-1">Leave Summary & Docking Analysis</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-center">
+                    <div class="bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">FMLA Weeks Used</p>
                         <input type="number" id="totalFmlaWeeks" class="summary-input text-[#002855]" readonly>
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Remaining FMLA Weeks</p>
+                    <div class="bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Remaining FMLA Weeks</p>
                         <input type="number" id="remainingFmlaWeeks" class="summary-input text-blue-600" readonly>
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Paid Sick Days</p>
+                    <div class="bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Paid Sick Days</p>
                         <input type="number" id="totalPaidDays" class="summary-input text-emerald-600">
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Unpaid (Dock Days)</p>
+                    <div class="bg-white p-2 rounded-lg border border-slate-200 shadow-sm">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Unpaid (Dock Days)</p>
                         <input type="number" id="totalUnpaidDays" class="summary-input text-red-600">
                     </div>
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm col-span-1 sm:col-span-2 lg:col-span-4">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Estimated Total Payroll Docking ($)</p>
+                    <div class="bg-white p-2 rounded-lg border border-slate-200 shadow-sm col-span-2 lg:col-span-4">
+                        <p class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Estimated Total Payroll Docking ($)</p>
                         <input type="text" id="totalDocking" class="summary-input text-amber-600">
                     </div>
                 </div>
-                <div class="mt-4 text-center border-t border-slate-200 pt-3">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Calculated Return to Work Date</p>
-                    <p id="returnToWorkDate" class="text-base font-bold mt-0.5 text-[#002855]">-</p>
+                <div class="mt-3 text-center border-t border-slate-200 pt-2">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Calculated Return to Work Date</p>
+                    <p id="returnToWorkDate" class="text-sm font-bold text-[#002855]">-</p>
                 </div>
             </div>
 
-            <!-- POST-LEAVE VERIFICATION & RECONCILIATION -->
-            <div class="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3 text-xs">
-                <div class="flex items-center justify-between border-b border-slate-200 pb-1.5">
+            <!-- PAGE 1 BLOCK: POST-LEAVE VERIFICATION & SIGN-OFF -->
+            <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-xl space-y-2 text-xs reconciliation-box">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-1">
                     <h3 class="text-[10px] font-bold text-[#002855] uppercase tracking-wider">Post-Leave Verification & Reconciliation</h3>
-                    <span class="text-[9.5px] text-slate-400 font-medium italic">To be completed upon return</span>
+                    <span class="text-[9px] text-slate-400 font-medium italic">To be completed upon return from leave</span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <!-- Payroll Posting Tracker -->
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-2">
-                        <span class="block text-[9.5px] font-bold text-slate-600 uppercase border-b border-slate-100 pb-1">1. Payroll Posting Verification</span>
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 space-y-1.5">
+                        <span class="block text-[9px] font-bold text-slate-600 uppercase border-b border-slate-100 pb-1">1. Payroll Posting Verification</span>
                         
-                        <div class="flex items-center justify-between text-[11px] pt-1">
-                            <label class="inline-flex items-center gap-2 cursor-pointer font-medium text-slate-700">
+                        <div class="flex items-center justify-between text-[10px] pt-0.5">
+                            <label class="inline-flex items-center gap-1.5 font-medium text-slate-700 cursor-not-allowed">
                                 <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
                                 <span>Sick Days Posted</span>
                             </label>
-                            <div class="flex items-center gap-1 w-32">
-                                <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
-                                <div class="border-b border-slate-300 w-full h-4 print-border-b"></div>
+                            <div class="flex items-center gap-1 w-28">
+                                <span class="text-[8.5px] font-bold text-slate-400 uppercase">Date:</span>
+                                <div class="border-b border-slate-300 w-full h-3.5 print-border-b"></div>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between text-[11px]">
-                            <label class="inline-flex items-center gap-2 cursor-pointer font-medium text-slate-700">
+                        <div class="flex items-center justify-between text-[10px]">
+                            <label class="inline-flex items-center gap-1.5 font-medium text-slate-700 cursor-not-allowed">
                                 <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
                                 <span>Payroll Docking Posted</span>
                             </label>
-                            <div class="flex items-center gap-1 w-32">
-                                <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
-                                <div class="border-b border-slate-300 w-full h-4 print-border-b"></div>
+                            <div class="flex items-center gap-1 w-28">
+                                <span class="text-[8.5px] font-bold text-slate-400 uppercase">Date:</span>
+                                <div class="border-b border-slate-300 w-full h-3.5 print-border-b"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Post-Leave Meeting & Sign-Off -->
-                    <div class="bg-white p-3 rounded-lg border border-slate-200 space-y-2">
-                        <span class="block text-[9.5px] font-bold text-slate-600 uppercase border-b border-slate-100 pb-1">2. Post-Leave Reconciliation Meeting</span>
+                    <!-- Post-Leave Meeting & Employee Sign-Off -->
+                    <div class="bg-white p-2.5 rounded-lg border border-slate-200 space-y-2 flex flex-col justify-between">
+                        <span class="block text-[9px] font-bold text-slate-600 uppercase border-b border-slate-100 pb-1">2. Post-Leave Reconciliation Meeting</span>
                         
-                        <div class="grid grid-cols-2 gap-2 pt-1 text-[10px]">
+                        <div class="grid grid-cols-2 gap-2 text-[9.5px]">
                             <div class="flex flex-col justify-end">
-                                <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
+                                <div class="border-b border-slate-400 h-4 w-full print-border-b mb-0.5"></div>
                                 <span class="text-slate-500 font-bold uppercase">Meeting Date</span>
                             </div>
                             <div class="flex flex-col justify-end">
-                                <div class="border-b border-slate-400 h-5 w-full print-border-b mb-1"></div>
-                                <span class="text-slate-500 font-bold uppercase">Business Office Initials</span>
-                            </div>
-                        </div>
-
-                        <div class="pt-1">
-                            <div class="flex items-center justify-between">
-                                <span class="text-[10px] text-slate-500 font-medium leading-tight">Employee Initials (Confirms leave dates & docking match):</span>
-                                <div class="border-b border-slate-400 w-20 h-5 print-border-b"></div>
+                                <div class="border-b border-slate-400 h-4 w-full print-border-b mb-0.5"></div>
+                                <span class="text-slate-500 font-bold uppercase">Employee Initials</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- LEDGER TABLE -->
-            <div class="overflow-x-auto">
+            <!-- PAGE 2 BREAK & LEDGER TABLE -->
+            <div class="overflow-x-auto page-break-before pt-2">
+                <h3 class="text-xs font-bold text-[#002855] uppercase tracking-wider mb-2 border-b border-slate-200 pb-1">Detailed Daily Leave Ledger</h3>
                 <table class="w-full text-left text-xs border-collapse">
                     <thead>
-                        <tr class="bg-[#002855] text-white font-bold uppercase tracking-wider text-[11px]">
-                            <th class="p-2 border border-[#002855]">Date</th>
-                            <th class="p-2 border border-[#002855]">Day</th>
-                            <th class="p-2 border border-[#002855]">Status</th>
-                            <th class="p-2 border border-[#002855]">Leave Type</th>
-                            <th class="p-2 border border-[#002855]">Leave Increment</th>
-                            <th class="p-2 border border-[#002855] text-right">Days Used</th>
+                        <tr class="bg-[#002855] text-white font-bold uppercase tracking-wider text-[10px]">
+                            <th class="p-1.5 border border-[#002855]">Date</th>
+                            <th class="p-1.5 border border-[#002855]">Day</th>
+                            <th class="p-1.5 border border-[#002855]">Status</th>
+                            <th class="p-1.5 border border-[#002855]">Leave Type</th>
+                            <th class="p-1.5 border border-[#002855]">Leave Increment</th>
+                            <th class="p-1.5 border border-[#002855] text-right">Days Used</th>
                         </tr>
                     </thead>
                     <tbody id="trackerTableBody" class="divide-y divide-slate-200 border border-slate-200">
@@ -445,31 +465,31 @@
 
                     if (status === 'Weekend' || status === 'Holiday/Non-Attendance') {
                         newRow.innerHTML = `
-                            <td class="p-2 border-r border-slate-200">${d.toLocaleDateString('en-US')}</td>
-                            <td class="p-2 border-r border-slate-200">${d.toLocaleDateString('en-US', { weekday: 'short' })}</td>
-                            <td class="p-2 border-r border-slate-200 font-semibold">${status}</td>
-                            <td class="p-2 border-r border-slate-200">N/A (Non-Work Day)</td>
-                            <td class="p-2 border-r border-slate-200">N/A</td>
-                            <td class="p-2 days-used text-right font-semibold">0.0</td>
+                            <td class="p-1.5 border-r border-slate-200">${d.toLocaleDateString('en-US')}</td>
+                            <td class="p-1.5 border-r border-slate-200">${d.toLocaleDateString('en-US', { weekday: 'short' })}</td>
+                            <td class="p-1.5 border-r border-slate-200 font-semibold">${status}</td>
+                            <td class="p-1.5 border-r border-slate-200">N/A (Non-Work Day)</td>
+                            <td class="p-1.5 border-r border-slate-200">N/A</td>
+                            <td class="p-1.5 days-used text-right font-semibold">0.0</td>
                         `;
                     } else {
                         newRow.innerHTML = `
-                            <td class="p-2 border-r border-slate-200 font-medium text-slate-800">${d.toLocaleDateString('en-US')}</td>
-                            <td class="p-2 border-r border-slate-200 text-slate-600">${d.toLocaleDateString('en-US', { weekday: 'short' })}</td>
-                            <td class="p-2 border-r border-slate-200 font-bold text-slate-700">${status}</td>
-                            <td class="p-2 border-r border-slate-200">
+                            <td class="p-1.5 border-r border-slate-200 font-medium text-slate-800">${d.toLocaleDateString('en-US')}</td>
+                            <td class="p-1.5 border-r border-slate-200 text-slate-600">${d.toLocaleDateString('en-US', { weekday: 'short' })}</td>
+                            <td class="p-1.5 border-r border-slate-200 font-bold text-slate-700">${status}</td>
+                            <td class="p-1.5 border-r border-slate-200">
                                 <select class="bg-transparent border-none p-0 text-xs w-full cursor-pointer leave-type-select font-semibold outline-none">
                                     <option value="Paid Sick Day" ${leaveType === "Paid Sick Day" ? 'selected' : ''}>Paid Sick Day</option>
                                     <option value="Unpaid (Dock Day)" ${leaveType === "Unpaid (Dock Day)" ? 'selected' : ''}>Unpaid (Dock Day)</option>
                                 </select>
                             </td>
-                            <td class="p-2 border-r border-slate-200">
+                            <td class="p-1.5 border-r border-slate-200">
                                 <select class="bg-transparent border-none p-0 text-xs w-full cursor-pointer leave-increment-select font-medium outline-none">
                                     <option value="1">Full Day</option>
                                     <option value="0.5">Half Day</option>
                                 </select>
                             </td>
-                            <td class="p-2 days-used text-right font-bold text-slate-900">${daysUsed.toFixed(1)}</td>
+                            <td class="p-1.5 days-used text-right font-bold text-slate-900">${daysUsed.toFixed(1)}</td>
                         `;
                     }
                     trackerTableBody.appendChild(newRow);
