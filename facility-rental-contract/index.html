@@ -64,11 +64,19 @@
                 </div>
                 <div class="flex flex-col">
                     <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Organization Classification</label>
-                    <select id="orgClass" onchange="calculateRentalFees()" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none bg-white">
-                        <option value="Class1">Class I — School, Youth & Community Service (No Fee)</option>
-                        <option value="Class2" selected>Class II — Within D73 Boundaries ($60.00 / Hour)</option>
+                    <select id="orgClass" onchange="calculateRentalFees()" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none bg-white font-medium">
+                        <option value="Class1">Class I — School, Youth & Community Partner (No Fee)</option>
+                        <option value="Class2" selected>Class II — District 73 Community Groups & Non-Profits ($60.00 / Hour)</option>
                     </select>
                 </div>
+            </div>
+
+            <!-- CLASSIFICATION & SCHEDULING PRIORITY POLICY CALLOUT -->
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px] text-slate-600 space-y-1.5 leading-relaxed">
+                <div class="font-bold text-[#002855] uppercase tracking-wider text-[9.5px]">Organization Classifications & Priority Policy:</div>
+                <p>• <strong>Scheduling Priority:</strong> District 73 prioritizes facility requests from recognized school-affiliated groups, long-standing community partners, and local youth organizations before considering other community requests.</p>
+                <p>• <strong>Class I (Fee Waived):</strong> School-sponsored activities, PTA/PTCO events, governmental entities, long-standing local non-profit community partners, and local youth service organizations operating within District 73 boundaries.</p>
+                <p>• <strong>Class II ($60.00 / Hour):</strong> Non-profit community organizations, civic groups, and local resident-led community activities operating within District 73 boundaries that do not hold primary Class I partnership status. All facility use must adhere to District non-discrimination policies.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
