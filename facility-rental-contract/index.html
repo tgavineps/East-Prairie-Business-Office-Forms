@@ -65,8 +65,8 @@
                 <div class="flex flex-col">
                     <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Organization Classification</label>
                     <select id="orgClass" onchange="calculateRentalFees()" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none bg-white font-medium">
-                        <option value="Class1">Class I — School, Youth & Community Partner (No Fee)</option>
-                        <option value="Class2" selected>Class II — District 73 Community Groups & Non-Profits ($60.00 / Hour)</option>
+                        <option value="Class1">Class I — School & Recognized Primary Partners (No Base Fee)</option>
+                        <option value="Class2" selected>Class II — Local Youth Organizations & Extracurricular Groups ($60.00 / Hour)</option>
                     </select>
                 </div>
             </div>
@@ -74,9 +74,9 @@
             <!-- CLASSIFICATION & SCHEDULING PRIORITY POLICY CALLOUT -->
             <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 text-[10px] text-slate-600 space-y-1.5 leading-relaxed">
                 <div class="font-bold text-[#002855] uppercase tracking-wider text-[9.5px]">Organization Classifications & Priority Policy:</div>
-                <p>• <strong>Scheduling Priority:</strong> District 73 prioritizes facility requests from recognized school-affiliated groups, long-standing community partners, and local youth organizations before considering other community requests.</p>
-                <p>• <strong>Class I (Fee Waived):</strong> School-sponsored activities, PTA or Foundation events, long-standing local non-profit community partners, and local youth service organizations operating within District 73 boundaries.</p>
-                <p>• <strong>Class II ($60.00 / Hour):</strong> Non-profit community organizations, civic groups, and local resident-led community activities operating within District 73 boundaries that do not hold primary Class I partnership status.</p>
+                <p>• <strong>Scheduling Priority:</strong> District 73 prioritizes facility requests from recognized school-affiliated programs and primary community partners before considering external group or organizational requests.</p>
+                <p>• <strong>Class I (Base Fee Waived):</strong> School District 73 academic/extracurricular activities, PTA/PTCO events, governmental entities, and recognized primary district youth partners.</p>
+                <p>• <strong>Class II ($60.00 / Hour):</strong> Independent youth groups, community extracurricular programs, local non-profit organizations, and resident-led groups operating within District 73 boundaries.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -94,113 +94,21 @@
                 </div>
             </div>
 
-            <!-- INDIVIDUAL SUPERVISOR & KEYCARD MANAGEMENT TABLE -->
+            <!-- DYNAMIC INDIVIDUAL SUPERVISOR & KEYCARD MANAGEMENT MODULE -->
             <div class="bg-slate-50 p-3.5 rounded-lg border border-slate-200 space-y-3">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-200 pb-1.5">
-                    <span class="block font-bold text-slate-700 uppercase text-[10px]">Designated Adult Supervisors & Individual Keycard Tracking</span>
-                    <span class="text-[9.5px] text-slate-500 italic">Keycard # and Return Checkboxes are reserved for Business Office staff</span>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-2">
+                    <div>
+                        <span class="block font-bold text-slate-700 uppercase text-[10px]">Designated Adult Supervisors & Keycard Tracking</span>
+                        <span class="text-[9.5px] text-slate-500 italic">Keycard # and Return Checkboxes are reserved for Business Office staff</span>
+                    </div>
+                    <button type="button" onclick="addSupervisorRow()" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold text-[10px] px-3 py-1.5 rounded transition-all flex items-center gap-1 shadow-sm shrink-0">
+                        <span>+ Add Supervisor</span>
+                    </button>
                 </div>
                 
-                <!-- Supervisor 1 -->
-                <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div class="flex flex-col sm:col-span-1">
-                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #1 Full Name</label>
-                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name">
-                        </div>
-                        <div class="flex flex-col">
-                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #1 Phone Number</label>
-                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
-                            <div class="flex items-center gap-3">
-                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup1Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
-                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup1Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Business Office Use Row -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
-                        <div class="flex items-center gap-1.5">
-                            <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
-                            <div class="border-b border-slate-300 w-full h-4 print-border-b"></div>
-                        </div>
-                        <div class="flex items-center justify-start sm:justify-end gap-2">
-                            <label class="inline-flex items-center gap-1.5 font-bold text-slate-400 cursor-not-allowed">
-                                <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
-                                <span>Keycard Returned (Office Use)</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Supervisor 2 -->
-                <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div class="flex flex-col sm:col-span-1">
-                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #2 Full Name</label>
-                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name">
-                        </div>
-                        <div class="flex flex-col">
-                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #2 Phone Number</label>
-                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
-                            <div class="flex items-center gap-3">
-                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup2Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
-                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup2Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Business Office Use Row -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
-                        <div class="flex items-center gap-1.5">
-                            <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
-                            <div class="border-b border-slate-300 w-full h-4 print-border-b"></div>
-                        </div>
-                        <div class="flex items-center justify-start sm:justify-end gap-2">
-                            <label class="inline-flex items-center gap-1.5 font-bold text-slate-400 cursor-not-allowed">
-                                <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
-                                <span>Keycard Returned (Office Use)</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Supervisor 3 -->
-                <div class="bg-white p-2.5 rounded border border-slate-200 space-y-2">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        <div class="flex flex-col sm:col-span-1">
-                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #3 Full Name</label>
-                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name">
-                        </div>
-                        <div class="flex flex-col">
-                            <label class="text-slate-500 font-semibold text-[9px] uppercase">Supervisor #3 Phone Number</label>
-                            <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000">
-                        </div>
-                        <div class="flex flex-col justify-center">
-                            <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
-                            <div class="flex items-center gap-3">
-                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup3Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
-                                <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup3Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Business Office Use Row -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
-                        <div class="flex items-center gap-1.5">
-                            <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
-                            <div class="border-b border-slate-300 w-full h-4 print-border-b"></div>
-                        </div>
-                        <div class="flex items-center justify-start sm:justify-end gap-2">
-                            <label class="inline-flex items-center gap-1.5 font-bold text-slate-400 cursor-not-allowed">
-                                <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
-                                <span>Keycard Returned (Office Use)</span>
-                            </label>
-                        </div>
-                    </div>
+                <!-- Dynamic Supervisor Rows Container -->
+                <div id="supervisorContainer" class="space-y-2.5">
+                    <!-- Supervisor Rows dynamically render here -->
                 </div>
             </div>
 
@@ -253,19 +161,33 @@
                 </div>
             </div>
 
-            <!-- COST CALCULATION SUMMARY -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
-                <div class="flex flex-col justify-center">
-                    <span class="font-bold text-slate-500 uppercase text-[9px]">Total Sessions Requested</span>
-                    <span class="text-sm font-bold text-slate-800 mt-0.5"><span id="lblSessionCount">1</span> Session(s)</span>
+            <!-- COST CALCULATION SUMMARY & PHYSICAL PEN ADDITIONAL LABOR FIELD -->
+            <div class="space-y-2">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <div class="flex flex-col justify-center">
+                        <span class="font-bold text-slate-500 uppercase text-[9px]">Total Sessions Requested</span>
+                        <span class="text-sm font-bold text-slate-800 mt-0.5"><span id="lblSessionCount">1</span> Session(s)</span>
+                    </div>
+                    <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                        <span class="font-bold text-slate-500 uppercase text-[9px]">Base Rental Fee Per Session</span>
+                        <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblFeePerSession">120.00</span></span>
+                    </div>
+                    <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
+                        <span class="font-bold text-slate-500 uppercase text-[9px]">Grand Estimated Base Total</span>
+                        <span class="text-base font-black text-[#002855] mt-0.5">$<span id="lblGrandTotal">120.00</span></span>
+                    </div>
                 </div>
-                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
-                    <span class="font-bold text-slate-500 uppercase text-[9px]">Fee Per Session</span>
-                    <span class="text-sm font-semibold text-slate-800 mt-0.5">$<span id="lblFeePerSession">120.00</span></span>
-                </div>
-                <div class="flex flex-col justify-center border-t md:border-t-0 md:border-l border-slate-200 pt-2 md:pt-0 md:pl-3">
-                    <span class="font-bold text-slate-500 uppercase text-[9px]">Grand Estimated Total</span>
-                    <span class="text-base font-black text-[#002855] mt-0.5">$<span id="lblGrandTotal">120.00</span></span>
+
+                <!-- Business Office Additional Fee Physical Fill Line -->
+                <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[10px]">
+                    <div class="flex flex-col">
+                        <span class="font-bold text-[#002855] uppercase">Additional Staffing / Custodial Charges (Office Use)</span>
+                        <span class="text-slate-500 text-[9.5px]">Assessed by Business Office for weekend coverage, extended labor, or technical requirements.</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0 w-36">
+                        <span class="font-bold text-slate-600">$</span>
+                        <div class="border-b border-slate-400 w-full h-4 print-border-b"></div>
+                    </div>
                 </div>
             </div>
 
@@ -279,12 +201,12 @@
         <section class="mb-5 text-[10.5px] leading-relaxed text-slate-700 space-y-1.5">
             <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">3. Regulations & Rental Conditions</h2>
             <ul class="list-disc pl-5 space-y-1">
-                <li><strong>Rental Rate & Duration:</strong> Rental fees are billed at <strong>$60.00 per hour</strong> with a mandatory <strong>2-hour minimum rental block</strong> ($120.00 base fee). Rental time begins when facilities are opened and ends when the group departs.</li>
+                <li><strong>Rental Rate & Duration:</strong> Standard rental fees are billed at <strong>$60.00 per hour</strong> with a mandatory <strong>2-hour minimum rental block</strong> ($120.00 base fee). Rental time begins when facilities are opened and ends when the group departs.</li>
+                <li><strong>Custodial & Supplemental Labor Fees:</strong> All facility rentals require custodial supervision. Standard custodial oversight during normal working hours is included in the hourly rate. However, requests requiring <strong>weekend access, after-hours coverage, extensive room setups/breakdowns, or specialized technical support</strong> will incur additional hourly labor fees billed directly to the renting organization at current District overtime rates.</li>
                 <li><strong>District Reservation of Rights & Cancellation:</strong> East Prairie School District 73 reserves the right to deny, alter, reschedule, or cancel any rental agreement—either in whole or for specific dates—for any reason, including scheduling conflicts or District operational needs. If the District cancels a rental date due to a facility conflict, any prepaid rental fees for the affected date(s) will be promptly refunded.</li>
                 <li><strong>Scope of Access:</strong> Rental access includes only facilities specifically named in this agreement, nearby hallways, and restrooms. Classroom space is not available for rental.</li>
                 <li><strong>Prohibited Conduct:</strong> Tobacco use, alcoholic beverages, lotteries, and gambling are strictly prohibited on all school property.</li>
                 <li><strong>Fire Safety & Doors:</strong> No open flames (candles, lamps) are permitted. Exterior doors must remain locked at all times and must NEVER be propped open.</li>
-                <li><strong>Custodial Supervision:</strong> At least one custodian/supervisor must be on duty during facility use. Additional labor required will be billed to the user.</li>
                 <li><strong>Mandatory Insurance Coverage:</strong> Evidence of general liability insurance of at least <strong>$1,000,000 per occurrence</strong> naming East Prairie School District 73 as an additional insured must be submitted prior to approval.</li>
                 <li><strong>Renter Cancellation Policy:</strong> Cancellations by the renting organization must be submitted to the Business Office at least <strong>7 days prior</strong> to the scheduled date. Groups will be charged for custodial time if notice is not received within 7 days.</li>
             </ul>
@@ -379,6 +301,64 @@
     <script>
         const HOURLY_RATE = 60.00;
         let dateRowCount = 0;
+        let supervisorRowCount = 0;
+
+        function addSupervisorRow(fullName = '', phoneVal = '') {
+            supervisorRowCount++;
+            const container = document.getElementById('supervisorContainer');
+            const supDiv = document.createElement('div');
+            supDiv.id = `sup-row-${supervisorRowCount}`;
+            supDiv.className = "bg-white p-2.5 rounded border border-slate-200 space-y-2 relative";
+
+            supDiv.innerHTML = `
+                <div class="flex items-center justify-between border-b border-slate-100 pb-1">
+                    <span class="text-[9.5px] font-bold text-[#002855] uppercase">Supervisor #${supervisorRowCount}</span>
+                    ${supervisorRowCount > 1 ? `
+                        <button type="button" onclick="removeSupervisorRow(${supervisorRowCount})" class="no-print text-red-500 hover:text-red-700 font-bold text-xs px-1.5 py-0.5 rounded hover:bg-red-50" title="Remove Supervisor">
+                            ✕ Remove
+                        </button>
+                    ` : ''}
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <div class="flex flex-col sm:col-span-1">
+                        <label class="text-slate-500 font-semibold text-[9px] uppercase">Full Name</label>
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="Full Name" value="${fullName}">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="text-slate-500 font-semibold text-[9px] uppercase">Phone Number</label>
+                        <input type="text" class="border border-slate-300 rounded px-2 py-1 outline-none text-xs focus:ring-1 focus:ring-[#002855]" placeholder="(000) 000-0000" value="${phoneVal}">
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <span class="text-slate-500 font-semibold text-[9px] uppercase mb-1">Keycard Needed?</span>
+                        <div class="flex items-center gap-3">
+                            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup${supervisorRowCount}Key" value="Yes" class="w-3.5 h-3.5 text-[#002855]"><span class="text-xs">Yes</span></label>
+                            <label class="inline-flex items-center gap-1 cursor-pointer"><input type="radio" name="sup${supervisorRowCount}Key" value="No" class="w-3.5 h-3.5 text-[#002855]" checked><span class="text-xs">No</span></label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Business Office Use Row -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-100 bg-slate-50/60 p-1.5 rounded text-[10px]">
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-bold text-[#002855] uppercase shrink-0">Assigned Keycard #:</span>
+                        <div class="border-b border-slate-300 w-full h-4 print-border-b"></div>
+                    </div>
+                    <div class="flex items-center justify-start sm:justify-end gap-2">
+                        <label class="inline-flex items-center gap-1.5 font-bold text-slate-400 cursor-not-allowed">
+                            <input type="checkbox" disabled onclick="return false;" class="w-3.5 h-3.5 text-[#002855] rounded cursor-not-allowed">
+                            <span>Keycard Returned (Office Use)</span>
+                        </label>
+                    </div>
+                </div>
+            `;
+            container.appendChild(supDiv);
+        }
+
+        function removeSupervisorRow(id) {
+            const row = document.getElementById(`sup-row-${id}`);
+            if (row) {
+                row.remove();
+            }
+        }
 
         function addDateRow(dateVal = '', timeVal = '6:00 PM – 8:00 PM') {
             dateRowCount++;
@@ -533,7 +513,8 @@
             const dateStr = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`;
             document.getElementById('lesseeSigDate').value = dateStr;
             
-            // Add 1 default date row on page load
+            // Add 1 default supervisor row & 1 default date row on page load
+            addSupervisorRow();
             addDateRow();
         });
     </script>
