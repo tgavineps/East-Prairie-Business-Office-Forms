@@ -10,7 +10,14 @@
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
         
         @media print {
-            body { background-color: #fff !important; padding: 0 !important; font-size: 11px !important; }
+            html, body { 
+                background-color: #fff !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+                font-size: 11px !important; 
+                height: auto !important;
+                overflow: visible !important;
+            }
             .no-print { display: none !important; }
             .print-container { 
                 max-width: none !important; 
@@ -208,7 +215,7 @@
                 <li><strong>Prohibited Conduct:</strong> Tobacco use, alcoholic beverages, lotteries, and gambling are strictly prohibited on all school property.</li>
                 <li><strong>Fire Safety & Doors:</strong> No open flames (candles, lamps) are permitted. Exterior doors must remain locked at all times and must NEVER be propped open.</li>
                 <li><strong>Mandatory Insurance Coverage:</strong> Evidence of general liability insurance of at least $1,000,000 per occurrence naming East Prairie School District 73 as an additional insured must be submitted prior to approval.</li>
-                <li><strong>Renter Cancellation Policy: C</strong>ancellations by the renting organization must be submitted to the Business Office at least 7 days prior to the scheduled date. Groups will be charged for custodial time if notice is not received within 7 days.</li>
+                <li><strong>Renter Cancellation Policy:</strong> Cancellations by the renting organization must be submitted to the Business Office at least 7 days prior to the scheduled date. Groups will be charged for custodial time if notice is not received within 7 days.</li>
             </ul>
         </section>
 
@@ -504,6 +511,10 @@
                 window.print();
                 setTimeout(() => {
                     document.getElementById('pageTitle').innerText = originalTitle;
+                    if (!printMirrorImg.classList.contains('hidden')) {
+                        printMirrorImg.classList.add('hidden');
+                        canvas.classList.remove('hidden');
+                    }
                 }, 1000);
             }, 50);
         }
