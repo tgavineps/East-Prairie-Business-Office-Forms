@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Travel Expense Reimbursement Form</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">EPSD 73 - Travel Reimbursement Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        @media print {
+            html, body { 
+                background-color: #fff !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+                font-size: 11px !important; 
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .no-print { display: none !important; }
+            .print-hidden-section { display: none !important; }
+            .print-container { 
+                max-width: none !important; 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+            }
+            input::placeholder, textarea::placeholder { color: transparent !important; }
+            input[type="text"], input[type="number"], select, input[type="date"], textarea { 
+                border: none !important; 
+                border-bottom: 1px solid #94a3b8 !important; 
+                background: transparent !important; 
+                border-radius: 0 !important; 
+                padding-left: 0.15rem !important; 
+            }
+            .print-border-b { border-bottom: 1px solid #94a3b8 !important; }
+            section { page-break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <!-- TOP HUB NAVIGATION BAR (HIDDEN IN PRINT) -->
+    <div class="no-print max-w-4xl mx-auto mb-4 flex items-center justify-between">
+        <a href="../index.html" class="inline-flex items-center gap-2 text-xs font-semibold text-[#002855] hover:text-[#003d82] transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to Business Office Hub
+        </a>
+    </div>
+
+    <div class="print-container max-w-4xl mx-auto bg-white rounded-xl shadow-md border-t-8 border-[#002855] p-6 md:p-8">
+        
+        <!-- HEADER BLOCK: District Branding -->
+        <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-3 mb-4 border-slate-200 gap-3">
+            <div class="flex items-center gap-3">
+                <img src="../logoh.png" alt="East Prairie School District 73 Logo" class="h-12 w-auto object-contain">
+                <div>
+                    <h1 class="text-base font-bold text-[#002855] uppercase tracking-wide">Travel Reimbursement Form</h1>
+                    <p class="text-[11px] text-slate-500">East Prairie School District 73 &bull; Business Office</p>
+                </div>
+            </div>
+            <div class="text-right text-[10px] text-slate-500 hidden sm:block whitespace-nowrap">
+                <p class="font-semibold text-slate-700">7620 East Prairie Road</p>
+                <p>Skokie, IL 60076</p>
+                <p>Ph: (847) 673-1141</p>
+            </div>
+        </header>
+
+        <!-- SECTION 1: EMPLOYEE & TRIP INFORMATION -->
+        <section class="mb-5 space-y-3 text-xs">
+            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px] border-b pb-1 border-slate-200">1. Employee & Trip Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="flex flex-col">
+                    <label for="employeeName" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
+                    <input type="text" id="employeeName" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="Full Name">
+                </div>
+                <div class="flex flex-col">
+                    <label for="purpose" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Purpose of Trip</label>
+                    <input type="text" id="purpose" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="e.g., Professional Development Conference">
+                </div>
+                <div class="flex flex-col">
+                    <label for="travelStartDate" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Travel Start Date</label>
+                    <input type="date" id="travelStartDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none">
+                </div>
+                <div class="flex flex-col">
+                    <label for="travelEndDate" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Travel End Date</label>
+                    <input type="date" id="travelEndDate" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none">
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: HOTEL REIMBURSEMENT -->
+        <section id="secHotel" class="mb-5 space-y-2 text-xs">
+            <div class="flex items-center justify-between border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px]">2. Hotel Reimbursement</h2>
+                <button type="button" id="addHotelRowBtn" onclick="addExpenseRow('hotel');" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold text-[10px] px-3 py-1 rounded transition-all shadow-sm">
+                    + Add Row
+                </button>
+            </div>
+            
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left table-auto text-xs">
+                    <thead>
+                        <tr class="bg-[#002855] text-white text-[10px] uppercase font-bold tracking-wider">
+                            <th class="p-2 rounded-tl w-32">Date</th>
+                            <th class="p-2">Description</th>
+                            <th class="p-2 text-right w-28">Amount ($)</th>
+                            <th class="p-2 rounded-tr w-8 text-right no-print"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="hotelTableBody">
+                        <!-- Rows dynamically generated -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-slate-100 font-bold border-t border-slate-200">
+                            <td colspan="2" class="p-2 text-right text-slate-700 uppercase text-[10px]">Subtotal Hotel:</td>
+                            <td class="p-2 text-right text-[#002855]">$<span id="totalHotelAmount">0.00</span></td>
+                            <td class="p-2 no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 3: TRAVEL REIMBURSEMENT -->
+        <section id="secTravel" class="mb-5 space-y-2 text-xs">
+            <div class="flex items-center justify-between border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px]">3. Travel Expenses</h2>
+                <button type="button" id="addTravelRowBtn" onclick="addExpenseRow('travel');" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold text-[10px] px-3 py-1 rounded transition-all shadow-sm">
+                    + Add Row
+                </button>
+            </div>
+            
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left table-auto text-xs">
+                    <thead>
+                        <tr class="bg-[#002855] text-white text-[10px] uppercase font-bold tracking-wider">
+                            <th class="p-2 rounded-tl w-32">Date</th>
+                            <th class="p-2">Description</th>
+                            <th class="p-2 text-right w-28">Amount ($)</th>
+                            <th class="p-2 rounded-tr w-8 text-right no-print"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="travelTableBody">
+                        <!-- Rows dynamically generated -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-slate-100 font-bold border-t border-slate-200">
+                            <td colspan="2" class="p-2 text-right text-slate-700 uppercase text-[10px]">Subtotal Travel:</td>
+                            <td class="p-2 text-right text-[#002855]">$<span id="totalTravelAmount">0.00</span></td>
+                            <td class="p-2 no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 4: MILEAGE REIMBURSEMENT -->
+        <section id="secMileage" class="mb-5 space-y-2 text-xs">
+            <div class="flex items-center justify-between border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px]">4. Mileage Reimbursement</h2>
+                <button type="button" id="addMileageRowBtn" onclick="addMileageRow();" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold text-[10px] px-3 py-1 rounded transition-all shadow-sm">
+                    + Add Row
+                </button>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-3">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white p-2.5 rounded border border-slate-200">
+                    <!-- EDITABLE IRS MILEAGE RATE FIELD WITH IRS LINK -->
+                    <div class="flex flex-col">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <label for="irsMileageRate" class="font-bold text-slate-600 uppercase text-[10px]">IRS Mileage Rate ($ / Mile)</label>
+                            <a href="https://www.irs.gov/tax-professionals/standard-mileage-rates" target="_blank" rel="noopener noreferrer" class="no-print text-[9.5px] font-semibold text-[#002855] underline hover:text-[#003d82]">
+                                Check IRS Rate ↗
+                            </a>
+                        </div>
+                        <input type="number" step="0.005" id="irsMileageRate" value="0.76" class="border border-slate-300 rounded px-2.5 py-1.5 font-bold text-[#002855] focus:ring-1 focus:ring-[#002855] outline-none" oninput="calculateGrandTotal()">
+                        <span class="text-[9px] text-slate-400 mt-0.5">Enter official IRS standard mileage rate.</span>
+                    </div>
+
+                    <!-- REGULAR COMMUTE DEDUCTION FIELD -->
+                    <div class="flex flex-col">
+                        <label for="homeToSchoolMiles" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Regular One-Way Commute (Miles)</label>
+                        <input type="number" step="0.01" id="homeToSchoolMiles" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="0.00" oninput="calculateGrandTotal()">
+                        <span class="text-[9px] text-slate-400 mt-0.5">Regular one-way commute is deducted from each leg/line logged below.</span>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left table-auto text-xs">
+                        <thead>
+                            <tr class="bg-[#002855] text-white text-[10px] uppercase font-bold tracking-wider">
+                                <th class="p-2 rounded-tl w-28">Date</th>
+                                <th class="p-2">Description</th>
+                                <th class="p-2 text-right w-24">Trip Miles</th>
+                                <th class="p-2 text-right w-28">Net Reimb. Miles</th>
+                                <th class="p-2 text-right w-24">Amount ($)</th>
+                                <th class="p-2 rounded-tr w-8 text-right no-print"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="mileageTableBody">
+                            <!-- Rows dynamically generated -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-slate-100 font-bold border-t border-slate-200">
+                                <td colspan="4" class="p-2 text-right text-slate-700 uppercase text-[10px]">Subtotal Mileage:</td>
+                                <td class="p-2 text-right text-[#002855]">$<span id="totalMileageAmount">0.00</span></td>
+                                <td class="p-2 no-print"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: OTHER EXPENSES -->
+        <section id="secOther" class="mb-5 space-y-2 text-xs">
+            <div class="flex items-center justify-between border-b pb-1 border-slate-200">
+                <h2 class="font-bold text-[#002855] uppercase tracking-wider text-[11px]">5. Other / Miscellaneous Expenses</h2>
+                <button type="button" id="addOtherRowBtn" onclick="addExpenseRow('other');" class="no-print bg-[#002855] hover:bg-[#003d82] text-white font-bold text-[10px] px-3 py-1 rounded transition-all shadow-sm">
+                    + Add Row
+                </button>
+            </div>
+            
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 overflow-x-auto">
+                <table class="w-full text-left table-auto text-xs">
+                    <thead>
+                        <tr class="bg-[#002855] text-white text-[10px] uppercase font-bold tracking-wider">
+                            <th class="p-2 rounded-tl w-32">Date</th>
+                            <th class="p-2">Description</th>
+                            <th class="p-2 text-right w-28">Amount ($)</th>
+                            <th class="p-2 rounded-tr w-8 text-right no-print"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="otherTableBody">
+                        <!-- Rows dynamically generated -->
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-slate-100 font-bold border-t border-slate-200">
+                            <td colspan="2" class="p-2 text-right text-slate-700 uppercase text-[10px]">Subtotal Other:</td>
+                            <td class="p-2 text-right text-[#002855]">$<span id="totalOtherAmount">0.00</span></td>
+                            <td class="p-2 no-print"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 6: GRAND TOTAL REIMBURSEMENT -->
+        <section class="mb-5 bg-slate-50 border border-slate-200 rounded-lg p-3.5 text-center">
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Grand Total Reimbursement Claimed</p>
+            <p id="grandTotalAmount" class="text-2xl font-black text-[#002855] mt-0.5">$0.00</p>
+        </section>
+
+        <!-- SECTION 7: APPROVAL SIGNATURES -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-slate-200 text-xs font-medium">
+            <div class="flex flex-col space-y-1.5">
+                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</span>
+                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="flex items-center gap-1 w-32 pt-1">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                    <input type="date" id="employeeSignatureDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                </div>
+            </div>
+
+            <div class="flex flex-col space-y-1.5">
+                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Supervisor Approval Signature</span>
+                <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
+                <div class="flex items-center gap-1 w-32 pt-1">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
+                    <input type="date" id="approverSignatureDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER & PRINT BUTTON -->
+        <footer class="mt-6 pt-3 border-t border-slate-200 text-center no-print">
+            <button onclick="triggerPrint()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-10 rounded text-xs tracking-wider uppercase shadow transition-all">
+                Print Form / Save PDF
+            </button>
+        </footer>
+
+    </div>
+
+    <script>
+        function calculateSubtotal(tableId) {
+            const tableBody = document.getElementById(tableId);
+            const rows = tableBody.querySelectorAll('tr');
+            let subtotal = 0;
+            rows.forEach(row => {
+                const amountInput = row.querySelector('.amount-input');
+                if (amountInput) {
+                    const amount = parseFloat(amountInput.value) || 0;
+                    subtotal += amount;
+                }
+            });
+            return subtotal;
+        }
+
+        function calculateMileageSubtotal() {
+            const tableBody = document.getElementById('mileageTableBody');
+            const rows = tableBody.querySelectorAll('tr');
+            const homeToSchoolMiles = parseFloat(document.getElementById('homeToSchoolMiles').value) || 0;
+            const irsRate = parseFloat(document.getElementById('irsMileageRate').value) || 0;
+
+            let mileageSubtotal = 0;
+
+            rows.forEach(row => {
+                const milesInput = row.querySelector('.mileage-input');
+                const reimbMilesCell = row.querySelector('.reimbursable-miles-cell');
+                const amountCell = row.querySelector('.mileage-amount-cell');
+
+                if (milesInput) {
+                    const tripMiles = parseFloat(milesInput.value) || 0;
+                    const netReimbursableMiles = Math.max(0, tripMiles - homeToSchoolMiles);
+                    const rowAmount = netReimbursableMiles * irsRate;
+
+                    if (reimbMilesCell) reimbMilesCell.innerText = netReimbursableMiles.toFixed(2);
+                    if (amountCell) amountCell.innerText = `$${rowAmount.toFixed(2)}`;
+
+                    mileageSubtotal += rowAmount;
+                }
+            });
+
+            return mileageSubtotal;
+        }
+
+        function calculateGrandTotal() {
+            const hotelTotal = calculateSubtotal('hotelTableBody');
+            const travelTotal = calculateSubtotal('travelTableBody');
+            const mileageTotal = calculateMileageSubtotal();
+            const otherTotal = calculateSubtotal('otherTableBody');
+            const grandTotal = hotelTotal + travelTotal + mileageTotal + otherTotal;
+
+            document.getElementById('totalHotelAmount').innerText = hotelTotal.toFixed(2);
+            document.getElementById('totalTravelAmount').innerText = travelTotal.toFixed(2);
+            document.getElementById('totalMileageAmount').innerText = mileageTotal.toFixed(2);
+            document.getElementById('totalOtherAmount').innerText = otherTotal.toFixed(2);
+            document.getElementById('grandTotalAmount').innerText = `$${grandTotal.toFixed(2)}`;
+        }
+
+        function togglePrintSection(secId, tableBodyId) {
+            const sec = document.getElementById(secId);
+            const tbody = document.getElementById(tableBodyId);
+            if (!sec || !tbody) return;
+
+            let hasData = false;
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const val = input.value.trim();
+                    if (val !== '' && val !== '0' && val !== '0.00') {
+                        hasData = true;
+                    }
+                });
+            });
+
+            if (hasData) {
+                sec.classList.remove('print-hidden-section');
+            } else {
+                sec.classList.add('print-hidden-section');
+            }
+        }
+
+        function checkPrintSections() {
+            togglePrintSection('secHotel', 'hotelTableBody');
+            togglePrintSection('secTravel', 'travelTableBody');
+            togglePrintSection('secMileage', 'mileageTableBody');
+            togglePrintSection('secOther', 'otherTableBody');
+        }
+
+        function triggerPrint() {
+            checkPrintSections();
+            setTimeout(() => {
+                window.print();
+            }, 50);
+        }
+
+        window.addEventListener('beforeprint', checkPrintSections);
+        window.addEventListener('afterprint', () => {
+            document.querySelectorAll('.print-hidden-section').forEach(el => {
+                el.classList.remove('print-hidden-section');
+            });
+        });
+
+        function addExpenseRow(type) {
+            const tableBody = document.getElementById(`${type}TableBody`);
+            const newRow = document.createElement('tr');
+            newRow.className = 'border-b border-slate-200 hover:bg-slate-100/50 transition-colors';
+
+            let placeholderText = 'Description';
+            if (type === 'hotel') placeholderText = 'e.g., Hotel Stay';
+            else if (type === 'travel') placeholderText = 'e.g., Flight, Taxi, Tolls';
+            else if (type === 'other') placeholderText = 'e.g., Conference Registration';
+
+            newRow.innerHTML = `
+                <td class="p-1.5"><input type="date" class="border border-slate-300 rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-[#002855]"></td>
+                <td class="p-1.5"><input type="text" class="border border-slate-300 rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-[#002855]" placeholder="${placeholderText}"></td>
+                <td class="p-1.5 text-right"><input type="number" step="0.01" oninput="calculateGrandTotal()" class="border border-slate-300 rounded px-2 py-1 text-xs w-full text-right amount-input outline-none focus:ring-1 focus:ring-[#002855]" placeholder="0.00"></td>
+                <td class="p-1.5 text-right no-print"><button type="button" onclick="this.closest('tr').remove(); calculateGrandTotal();" class="text-red-500 hover:text-red-700 font-bold px-1 text-sm">✕</button></td>
+            `;
+
+            tableBody.appendChild(newRow);
+            calculateGrandTotal();
+        }
+
+        function addMileageRow() {
+            const tableBody = document.getElementById('mileageTableBody');
+            const newRow = document.createElement('tr');
+            newRow.className = 'border-b border-slate-200 hover:bg-slate-100/50 transition-colors';
+
+            newRow.innerHTML = `
+                <td class="p-1.5"><input type="date" class="border border-slate-300 rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-[#002855]"></td>
+                <td class="p-1.5"><input type="text" class="border border-slate-300 rounded px-2 py-1 text-xs w-full outline-none focus:ring-1 focus:ring-[#002855]" placeholder="e.g., Home to Event or Event to Home"></td>
+                <td class="p-1.5 text-right"><input type="number" step="0.01" oninput="calculateGrandTotal()" class="border border-slate-300 rounded px-2 py-1 text-xs w-full text-right mileage-input outline-none focus:ring-1 focus:ring-[#002855]" placeholder="0.00"></td>
+                <td class="p-1.5 text-right font-semibold text-slate-700 reimbursable-miles-cell">0.00</td>
+                <td class="p-1.5 text-right font-bold text-[#002855] mileage-amount-cell">$0.00</td>
+                <td class="p-1.5 text-right no-print"><button type="button" onclick="this.closest('tr').remove(); calculateGrandTotal();" class="text-red-500 hover:text-red-700 font-bold px-1 text-sm">✕</button></td>
+            `;
+
+            tableBody.appendChild(newRow);
+            calculateGrandTotal();
+        }
+
+        window.onload = function() {
+            addExpenseRow('hotel');
+            addExpenseRow('travel');
+            addMileageRow();
+            addExpenseRow('other');
+            calculateGrandTotal();
+        };
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
