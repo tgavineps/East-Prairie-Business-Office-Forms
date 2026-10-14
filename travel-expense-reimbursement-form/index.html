@@ -1,16 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Travel Expense Reimbursement Form</title>
-    
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -195,9 +184,9 @@
 
                     <!-- REGULAR COMMUTE DEDUCTION FIELD -->
                     <div class="flex flex-col">
-                        <label for="homeToSchoolMiles" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Regular One-Way Commute (Miles)</label>
+                        <label for="homeToSchoolMiles" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Regular Home-to-School Commute (One-Way Miles)</label>
                         <input type="number" step="0.01" id="homeToSchoolMiles" class="border border-slate-300 rounded px-2.5 py-1.5 focus:ring-1 focus:ring-[#002855] outline-none" placeholder="0.00" oninput="calculateGrandTotal()">
-                        <span class="text-[9px] text-slate-400 mt-0.5">Regular one-way commute is deducted from each leg/line logged below.</span>
+                        <span class="text-[9px] text-slate-500 mt-0.5 leading-tight">Enter your normal one-way commute from home to school. This distance will be backed out of each trip leg logged below.</span>
                     </div>
                 </div>
 
@@ -272,18 +261,18 @@
             <div class="flex flex-col space-y-1.5">
                 <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</span>
                 <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
-                <div class="flex items-center gap-1 w-32 pt-1">
+                <div class="flex items-center gap-1 w-36 pt-1">
                     <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
-                    <input type="date" id="employeeSignatureDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                    <input type="text" id="employeeSignatureDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent" placeholder="MM/DD/YYYY">
                 </div>
             </div>
 
             <div class="flex flex-col space-y-1.5">
                 <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Supervisor Approval Signature</span>
                 <div class="border-b border-slate-400 h-10 w-full print-border-b"></div>
-                <div class="flex items-center gap-1 w-32 pt-1">
+                <div class="flex items-center gap-1 w-36 pt-1">
                     <span class="text-[9px] font-bold text-slate-400 uppercase">Date:</span>
-                    <input type="date" id="approverSignatureDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent">
+                    <input type="text" id="approverSignatureDate" class="border-b border-slate-300 outline-none text-xs w-full bg-transparent" placeholder="MM/DD/YYYY">
                 </div>
             </div>
         </section>
@@ -439,6 +428,18 @@
         }
 
         window.onload = function() {
+            // Auto-populate signature dates formatted MM/DD/YYYY
+            const today = new Date();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            const year = today.getFullYear();
+            const formattedDateStr = `${month}/${day}/${year}`;
+
+            const empDateInput = document.getElementById('employeeSignatureDate');
+            const appDateInput = document.getElementById('approverSignatureDate');
+            if (empDateInput) empDateInput.value = formattedDateStr;
+            if (appDateInput) appDateInput.value = formattedDateStr;
+
             addExpenseRow('hotel');
             addExpenseRow('travel');
             addMileageRow();
@@ -447,8 +448,4 @@
         };
     </script>
 </body>
-</html>
-    
-  </body>
-  
 </html>
