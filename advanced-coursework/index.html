@@ -12,13 +12,13 @@
         @media print {
             @page {
                 size: letter portrait;
-                margin: 0.4in 0.45in 0.4in 0.45in;
+                margin: 0.38in 0.42in 0.38in 0.42in;
             }
             html, body { 
                 background-color: #fff !important; 
                 padding: 0 !important; 
                 margin: 0 !important;
-                font-size: 10.2pt !important; 
+                font-size: 10pt !important; 
                 color: #0f172a !important;
             }
             .no-print { display: none !important; }
@@ -40,8 +40,8 @@
                 border-bottom: 1.5px solid #94a3b8 !important; 
                 background: transparent !important; 
                 border-radius: 0 !important; 
-                padding: 0.15rem 0.25rem !important; 
-                font-size: 10.2pt !important;
+                padding: 0.12rem 0.2rem !important; 
+                font-size: 10pt !important;
                 font-weight: 600 !important;
             }
             .print-border-b { border-bottom: 1.5px solid #94a3b8 !important; }
@@ -149,12 +149,12 @@
                 </div>
             </div>
 
-            <!-- PROGRAM-ONLY: INTENTION / OBJECTIVE SELECTOR -->
+            <!-- PROGRAM-ONLY: INTENTION / OBJECTIVE SELECTOR (SINGLE CHOICE ONLY) -->
             <div id="f1-program-intention" class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
-                <span class="block font-bold text-slate-700 uppercase mb-1.5 text-[9.5px]">Program Intention & Objective (Check all that apply):</span>
+                <span class="block font-bold text-slate-700 uppercase mb-1.5 text-[9.5px]">Program Intention & Objective:</span>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10.5px]">
                     <label class="flex items-start gap-1.5 cursor-pointer">
-                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
+                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5" checked>
                         <span><strong>Master's Degree</strong> (First or Second Master's)</span>
                     </label>
                     <label class="flex items-start gap-1.5 cursor-pointer">
@@ -172,54 +172,92 @@
                 </div>
             </div>
 
-            <!-- PROGRAM-ONLY: COURSE SCHEDULE TABLE -->
-            <div id="f1-program-courses" class="text-xs space-y-1">
-                <div class="flex items-center justify-between">
-                    <label class="font-bold text-slate-600 uppercase text-[9.5px]">Program Coursework Schedule / Projected Classes</label>
-                    <span class="text-[9px] text-slate-500 italic">Please attach university program plan sheet if available</span>
+            <!-- PROGRAM-ONLY: COURSE SCHEDULE CHOICE & TABLE -->
+            <div id="f1-program-courses" class="text-xs space-y-2">
+                <!-- Course Entry Method Selector -->
+                <div class="bg-slate-100/90 border border-slate-200 rounded-lg p-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <span class="font-bold text-slate-700 uppercase text-[9.5px]">Coursework Details:</span>
+                    <div class="flex items-center gap-4 text-[10.5px]">
+                        <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                            <input type="radio" name="courseEntryMethod" id="method-manual" value="manual" checked onchange="toggleCourseEntryMethod()" class="w-4 h-4 text-[#002855]">
+                            <span class="font-semibold text-slate-700">Enter Courses Below</span>
+                        </label>
+                        <label class="inline-flex items-center gap-1.5 cursor-pointer">
+                            <input type="radio" name="courseEntryMethod" id="method-attached" value="attached" onchange="toggleCourseEntryMethod()" class="w-4 h-4 text-[#002855]">
+                            <span class="font-semibold text-slate-700">Attaching Program Plan Sheet</span>
+                        </label>
+                    </div>
                 </div>
-                <div class="border border-slate-300 rounded-lg overflow-hidden">
-                    <table class="w-full text-[10px] text-left border-collapse">
-                        <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[8.5px] border-b border-slate-300">
-                            <tr>
-                                <th class="p-1.5 border-r border-slate-300 w-8 text-center">#</th>
-                                <th class="p-1.5 border-r border-slate-300">Course Number & Title</th>
-                                <th class="p-1.5 border-r border-slate-300 w-24 text-center">Semester Hrs</th>
-                                <th class="p-1.5 w-32 text-center">Projected Term/Year</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-200 bg-white">
-                            <tr>
-                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">1</td>
-                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent" placeholder="e.g., EDU 501: Research in Education"></td>
-                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent" placeholder="3.0"></td>
-                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent" placeholder="Fall 2026"></td>
-                            </tr>
-                            <tr>
-                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">2</td>
-                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
-                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
-                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
-                            </tr>
-                            <tr>
-                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">3</td>
-                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
-                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
-                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
-                            </tr>
-                            <tr>
-                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">4</td>
-                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
-                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
-                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
-                            </tr>
-                            <tr class="bg-slate-50 font-semibold text-[9.5px]">
-                                <td colspan="2" class="p-1 text-right pr-2 text-slate-600 border-r border-slate-200">Total Program Credit Hours / Attached Program Roster:</td>
-                                <td class="p-1 text-center border-r border-slate-200"><input type="text" class="w-full text-center text-xs outline-none bg-transparent font-bold" placeholder="Hrs"></td>
-                                <td class="p-1 text-center text-slate-500 font-normal"><label class="flex items-center justify-center gap-1 cursor-pointer"><input type="checkbox" class="w-3.5 h-3.5 text-[#002855]"> <span>Full Plan Attached</span></label></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <!-- 1. MANUAL ENTRY TABLE CONTAINER -->
+                <div id="course-table-wrapper" class="space-y-1.5">
+                    <div class="flex items-center justify-between">
+                        <label class="font-bold text-slate-600 uppercase text-[9.5px]">Program Coursework Schedule / Projected Classes</label>
+                        <button type="button" onclick="addCourseRow()" class="no-print text-[10px] font-bold text-[#002855] hover:text-[#003d82] flex items-center gap-1 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            Add Course Row
+                        </button>
+                    </div>
+                    <div class="border border-slate-300 rounded-lg overflow-hidden">
+                        <table class="w-full text-[10px] text-left border-collapse">
+                            <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[8.5px] border-b border-slate-300">
+                                <tr>
+                                    <th class="p-1.5 border-r border-slate-300 w-8 text-center">#</th>
+                                    <th class="p-1.5 border-r border-slate-300">Course Number & Title</th>
+                                    <th class="p-1.5 border-r border-slate-300 w-24 text-center">Semester Hrs</th>
+                                    <th class="p-1.5 w-32 text-center">Projected Term/Year</th>
+                                </tr>
+                            </thead>
+                            <tbody id="course-tbody" class="divide-y divide-slate-200 bg-white">
+                                <tr>
+                                    <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200 row-num">1</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent" placeholder="e.g., EDU 501: Research in Education"></td>
+                                    <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent" placeholder="3.0"></td>
+                                    <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent" placeholder="Fall 2026"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200 row-num">2</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                    <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200 row-num">3</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                    <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200 row-num">4</td>
+                                    <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                                    <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                    <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="bg-slate-50 border-t border-slate-200 font-semibold text-[9.5px]">
+                                <tr>
+                                    <td colspan="2" class="p-1.5 text-right pr-2 text-slate-600 border-r border-slate-200">Total Anticipated Program Credit Hours:</td>
+                                    <td class="p-1 text-center border-r border-slate-200"><input type="text" class="w-full text-center text-xs outline-none bg-transparent font-bold" placeholder="Hrs"></td>
+                                    <td class="p-1 text-center text-slate-400 font-normal italic">All courses listed</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 2. ATTACHED PRINTOUT CONFIRMATION BOX (SHOWN WHEN "ATTACHING PLAN" IS SELECTED) -->
+                <div id="course-attached-wrapper" class="hidden bg-emerald-50 border-2 border-dashed border-emerald-300 rounded-lg p-3 text-center space-y-1">
+                    <div class="flex items-center justify-center gap-2 text-emerald-800 font-bold text-xs">
+                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Official University Program Coursework Plan Attached</span>
+                    </div>
+                    <p class="text-[10.5px] text-slate-600">
+                        Employee has indicated that a complete degree plan or endorsement course schedule from the college/university is attached to this request. Individual course typing is not required.
+                    </p>
+                    <div class="pt-1 flex items-center justify-center gap-2 text-xs">
+                        <label class="font-bold text-slate-700 text-[10px] uppercase">Anticipated Total Program Semester Hours:</label>
+                        <input type="text" class="border-b border-slate-400 text-xs font-bold w-20 text-center bg-transparent outline-none" placeholder="e.g., 36.0">
+                    </div>
                 </div>
             </div>
 
@@ -495,6 +533,34 @@
         let currentActiveStep = 'form1';
         let currentPreapprovalMode = 'program';
         const initializedPads = { 1: false, 2: false, 3: false };
+
+        function toggleCourseEntryMethod() {
+            const isAttached = document.getElementById('method-attached').checked;
+            const tableWrapper = document.getElementById('course-table-wrapper');
+            const attachedWrapper = document.getElementById('course-attached-wrapper');
+
+            if (isAttached) {
+                tableWrapper.classList.add('hidden');
+                attachedWrapper.classList.remove('hidden');
+            } else {
+                tableWrapper.classList.remove('hidden');
+                attachedWrapper.classList.add('hidden');
+            }
+        }
+
+        function addCourseRow() {
+            const tbody = document.getElementById('course-tbody');
+            const rowCount = tbody.querySelectorAll('tr').length + 1;
+            
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200 row-num">${rowCount}</td>
+                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+            `;
+            tbody.appendChild(tr);
+        }
 
         function setPreapprovalMode(mode) {
             currentPreapprovalMode = mode;
