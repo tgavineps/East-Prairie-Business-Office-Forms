@@ -50,6 +50,11 @@
                 padding: 0.1rem !important;
                 font-size: 9pt !important;
             }
+            .intention-card {
+                border: 1px solid #cbd5e1 !important;
+                background-color: transparent !important;
+                padding: 0.4rem 0.6rem !important;
+            }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
@@ -149,21 +154,33 @@
                 </div>
             </div>
 
-            <!-- PROGRAM-ONLY: INTENTION / OBJECTIVE SELECTOR -->
-            <div id="f1-program-intention" class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
-                <span class="block font-bold text-slate-700 uppercase mb-1.5 text-[9.5px]">Program Intention & Objective:</span>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-[10.5px]">
-                    <label class="flex items-start gap-1.5 cursor-pointer">
-                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5" checked>
-                        <span><strong>Master's Degree</strong></span>
+            <!-- PROGRAM-ONLY: INTENTION / OBJECTIVE SELECTOR (CLEAN EVEN SPACING) -->
+            <div id="f1-program-intention" class="bg-slate-50/90 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
+                <span class="block font-bold text-[#002855] uppercase text-[10px] tracking-wider">Program Intention & Objective:</span>
+                
+                <div class="space-y-2">
+                    <label class="intention-card flex items-center justify-between p-2.5 rounded-lg border border-slate-200 bg-white hover:border-[#002855] cursor-pointer transition-all shadow-sm">
+                        <div class="flex items-center gap-2.5">
+                            <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] focus:ring-[#002855]" checked>
+                            <span class="font-bold text-slate-800 text-[11px]">Master's Degree</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-medium">Graduate Degree Track</span>
                     </label>
-                    <label class="flex items-start gap-1.5 cursor-pointer">
-                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
-                        <span><strong>Endorsement Program</strong> (e.g., ESL, Reading, Bilingual, LBS1)</span>
+
+                    <label class="intention-card flex items-center justify-between p-2.5 rounded-lg border border-slate-200 bg-white hover:border-[#002855] cursor-pointer transition-all shadow-sm">
+                        <div class="flex items-center gap-2.5">
+                            <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] focus:ring-[#002855]">
+                            <span class="font-bold text-slate-800 text-[11px]">Endorsement Program</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-medium">e.g., ESL, Reading Specialist, Bilingual, LBS1</span>
                     </label>
-                    <label class="flex items-start gap-1.5 cursor-pointer">
-                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
-                        <span><strong>Post-Master's Graduate Hours</strong> (MA+32 Lane Movement)</span>
+
+                    <label class="intention-card flex items-center justify-between p-2.5 rounded-lg border border-slate-200 bg-white hover:border-[#002855] cursor-pointer transition-all shadow-sm">
+                        <div class="flex items-center gap-2.5">
+                            <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] focus:ring-[#002855]">
+                            <span class="font-bold text-slate-800 text-[11px]">Post-Master's Graduate Hours</span>
+                        </div>
+                        <span class="text-[10px] text-slate-500 font-medium">MA+32 Salary Scale Movement</span>
                     </label>
                 </div>
             </div>
