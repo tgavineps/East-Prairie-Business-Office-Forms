@@ -45,6 +45,11 @@
                 font-weight: 600 !important;
             }
             .print-border-b { border-bottom: 1.5px solid #94a3b8 !important; }
+            table input {
+                border-bottom: none !important;
+                padding: 0.1rem !important;
+                font-size: 9pt !important;
+            }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
@@ -68,13 +73,13 @@
             </div>
         </header>
 
-        <!-- STEP SELECTION TABS (HIDDEN WHEN PRINTING) -->
+        <!-- 3 MAIN STEP SELECTION TABS (HIDDEN WHEN PRINTING) -->
         <div class="no-print mb-5">
             <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Select Process Step:</p>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
                 <button onclick="switchTab('form1')" id="tab-form1" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all bg-[#002855] text-white shadow-sm">
-                    <span>1. Course Approval</span>
-                    <span class="text-[9px] font-normal opacity-80">Pre-Approval Request</span>
+                    <span>1. Pre-Approval Request</span>
+                    <span class="text-[9px] font-normal opacity-80">Full Program or Single Course</span>
                 </button>
                 <button onclick="switchTab('form2')" id="tab-form2" class="flex flex-col items-center justify-center p-2.5 rounded-lg font-bold text-xs transition-all text-slate-600 hover:bg-slate-200">
                     <span>2. Tuition Reimbursement</span>
@@ -87,16 +92,40 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- FORM #1: REQUEST FOR COURSE APPROVAL       -->
-        <!-- ========================================== -->
+        <!-- ======================================================== -->
+        <!-- FORM #1: PRE-APPROVAL REQUEST (WITH INTERNAL TOGGLE)     -->
+        <!-- ======================================================== -->
         <div id="form1-container" class="form-step space-y-3.5">
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-2.5 text-[11px] text-slate-700 leading-snug">
-                <strong class="text-[#002855]">Form #1 Instructions:</strong> Submit prior to beginning coursework to ensure reimbursement eligibility and lane credit. Submit <strong>one single form</strong> with attached course schedule for full degree or endorsement programs rather than individual forms per class.
+            
+            <!-- TOGGLE SLIDER FOR PROGRAM VS SINGLE COURSE (NO PRINT) -->
+            <div class="no-print bg-slate-100 p-1.5 rounded-xl border border-slate-300 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <span class="text-xs font-bold text-[#002855] px-2 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-[#002855]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                    What are you seeking approval for?
+                </span>
+                <div class="flex items-center bg-white p-1 rounded-lg border border-slate-200 shadow-sm w-full sm:w-auto">
+                    <button type="button" onclick="setPreapprovalMode('program')" id="btn-mode-program" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-[#002855] text-white shadow-sm">
+                        Full Degree / Endorsement Program (Recommended)
+                    </button>
+                    <button type="button" onclick="setPreapprovalMode('single')" id="btn-mode-single" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all">
+                        Single Standalone Course
+                    </button>
+                </div>
             </div>
 
-            <h2 class="font-bold text-[#002855] uppercase tracking-wider text-xs border-b pb-1 border-slate-200">Section I — Employee Request for Course Approval</h2>
+            <!-- INSTRUCTION BOX -->
+            <div id="f1-instructions-program" class="bg-blue-50 border border-blue-200 rounded-lg p-2.5 text-[11px] text-slate-700 leading-snug">
+                <strong class="text-[#002855]">Form #1 Instructions (Program Pre-Approval):</strong> Submit this form prior to beginning an entire degree or endorsement sequence. Approving your full program upfront ensures all included classes qualify for reimbursement and future lane movement without submitting individual forms per class.
+            </div>
+            <div id="f1-instructions-single" class="bg-blue-50 border border-blue-200 rounded-lg p-2.5 text-[11px] text-slate-700 leading-snug hidden">
+                <strong class="text-[#002855]">Form #1 Instructions (Single Course Pre-Approval):</strong> Submit this form prior to the start of an individual, standalone graduate course to ensure reimbursement eligibility and lane advancement credit.
+            </div>
 
+            <h2 id="f1-section1-title" class="font-bold text-[#002855] uppercase tracking-wider text-xs border-b pb-1 border-slate-200">
+                Section I — Degree or Endorsement Program Pre-Approval Request
+            </h2>
+
+            <!-- SHARED EMPLOYEE INFO -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 <div class="flex flex-col">
                     <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Employee Name</label>
@@ -108,34 +137,111 @@
                 </div>
             </div>
 
+            <!-- INSTITUTION & TITLE -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                <div class="flex flex-col">
-                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Course Title & Number</label>
-                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="e.g., EDU 501 / Master's Program Schedule">
-                </div>
                 <div class="flex flex-col">
                     <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">College / University Name</label>
                     <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="University Name">
                 </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                 <div class="flex flex-col">
-                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Term Dates (Start — End)</label>
-                    <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="e.g., 09/01/2026 - 12/15/2026">
-                </div>
-                <div class="flex flex-col">
-                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Semester Credit Hours</label>
-                    <input type="number" step="0.5" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="3.0">
+                    <label id="f1-title-label" class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Official Program Title</label>
+                    <input type="text" id="f1-title-input" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="e.g., M.Ed. in Curriculum & Instruction">
                 </div>
             </div>
 
-            <div class="flex flex-col text-xs">
-                <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Course Description & Relation to Position</label>
-                <textarea rows="2" class="border border-slate-300 rounded p-2 text-xs outline-none resize-none" placeholder="Provide course summary and alignment with district responsibilities..."></textarea>
+            <!-- PROGRAM-ONLY: INTENTION / OBJECTIVE SELECTOR -->
+            <div id="f1-program-intention" class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-xs">
+                <span class="block font-bold text-slate-700 uppercase mb-1.5 text-[9.5px]">Program Intention & Objective (Check all that apply):</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10.5px]">
+                    <label class="flex items-start gap-1.5 cursor-pointer">
+                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
+                        <span><strong>Master's Degree</strong> (First or Second Master's)</span>
+                    </label>
+                    <label class="flex items-start gap-1.5 cursor-pointer">
+                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
+                        <span><strong>Endorsement Program</strong> (e.g., ESL, Reading, Bilingual, LBS1)</span>
+                    </label>
+                    <label class="flex items-start gap-1.5 cursor-pointer">
+                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
+                        <span><strong>Post-Master's Graduate Hours</strong> (MA+16 / MA+32 Lane Movement)</span>
+                    </label>
+                    <label class="flex items-start gap-1.5 cursor-pointer">
+                        <input type="radio" name="programGoal" class="w-4 h-4 text-[#002855] mt-0.5">
+                        <span><strong>Other ISBE Recognized Credential</strong></span>
+                    </label>
+                </div>
             </div>
 
-            <!-- Signature Block -->
+            <!-- PROGRAM-ONLY: COURSE SCHEDULE TABLE -->
+            <div id="f1-program-courses" class="text-xs space-y-1">
+                <div class="flex items-center justify-between">
+                    <label class="font-bold text-slate-600 uppercase text-[9.5px]">Program Coursework Schedule / Projected Classes</label>
+                    <span class="text-[9px] text-slate-500 italic">Please attach university program plan sheet if available</span>
+                </div>
+                <div class="border border-slate-300 rounded-lg overflow-hidden">
+                    <table class="w-full text-[10px] text-left border-collapse">
+                        <thead class="bg-slate-100 text-slate-700 uppercase font-bold text-[8.5px] border-b border-slate-300">
+                            <tr>
+                                <th class="p-1.5 border-r border-slate-300 w-8 text-center">#</th>
+                                <th class="p-1.5 border-r border-slate-300">Course Number & Title</th>
+                                <th class="p-1.5 border-r border-slate-300 w-24 text-center">Semester Hrs</th>
+                                <th class="p-1.5 w-32 text-center">Projected Term/Year</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 bg-white">
+                            <tr>
+                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">1</td>
+                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent" placeholder="e.g., EDU 501: Research in Education"></td>
+                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent" placeholder="3.0"></td>
+                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent" placeholder="Fall 2026"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">2</td>
+                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">3</td>
+                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-1 text-center font-bold text-slate-400 border-r border-slate-200">4</td>
+                                <td class="p-1 border-r border-slate-200"><input type="text" class="w-full text-xs outline-none bg-transparent"></td>
+                                <td class="p-1 border-r border-slate-200 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                                <td class="p-1 text-center"><input type="text" class="w-full text-center text-xs outline-none bg-transparent"></td>
+                            </tr>
+                            <tr class="bg-slate-50 font-semibold text-[9.5px]">
+                                <td colspan="2" class="p-1 text-right pr-2 text-slate-600 border-r border-slate-200">Total Program Credit Hours / Attached Program Roster:</td>
+                                <td class="p-1 text-center border-r border-slate-200"><input type="text" class="w-full text-center text-xs outline-none bg-transparent font-bold" placeholder="Hrs"></td>
+                                <td class="p-1 text-center text-slate-500 font-normal"><label class="flex items-center justify-center gap-1 cursor-pointer"><input type="checkbox" class="w-3.5 h-3.5 text-[#002855]"> <span>Full Plan Attached</span></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SINGLE-ONLY: TERM DATES, CREDITS & DESCRIPTION -->
+            <div id="f1-single-details" class="space-y-3 hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Term Dates (Start — End)</label>
+                        <input type="text" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="e.g., 09/01/2026 - 12/15/2026">
+                    </div>
+                    <div class="flex flex-col">
+                        <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Semester Credit Hours</label>
+                        <input type="number" step="0.5" class="border border-slate-300 rounded px-2.5 py-1.5 text-xs outline-none" placeholder="3.0">
+                    </div>
+                </div>
+                <div class="flex flex-col text-xs">
+                    <label class="font-bold text-slate-600 uppercase mb-0.5 text-[10px]">Course Description & Relation to Position</label>
+                    <textarea rows="2" class="border border-slate-300 rounded p-2 text-xs outline-none resize-none" placeholder="Provide course summary and alignment with district responsibilities..."></textarea>
+                </div>
+            </div>
+
+            <!-- SIGNATURE BLOCK -->
             <div class="pt-1.5 border-t border-slate-200">
                 <div class="flex flex-col space-y-1.5 max-w-md">
                     <span class="text-[9.5px] font-bold text-slate-500 uppercase tracking-wider">Employee Signature</span>
@@ -154,13 +260,14 @@
                 </div>
             </div>
 
-            <!-- District Office Section -->
+            <!-- DISTRICT ADMINISTRATION SECTION -->
             <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-2 mt-2">
                 <h3 class="font-bold text-slate-700 uppercase text-[10px]">Section II — District Office Administration</h3>
                 <div class="flex items-center gap-6 text-[11px]">
-                    <span class="font-semibold text-slate-600">Proposed Course Approval:</span>
+                    <span id="f1-admin-approval-label" class="font-semibold text-slate-600">Overall Pre-Approval:</span>
                     <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Approved</span></label>
                     <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Denied</span></label>
+                    <label class="flex items-center gap-1.5 cursor-pointer"><input type="checkbox" class="w-4 h-4 text-[#002855]"> <span>Conditional (See Notes)</span></label>
                 </div>
                 <div class="grid grid-cols-2 gap-6 pt-1 items-end">
                     <div>
@@ -175,9 +282,9 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- FORM #2: TUITION REIMBURSEMENT REQUEST     -->
-        <!-- ========================================== -->
+        <!-- ======================================================== -->
+        <!-- FORM #2: TUITION REIMBURSEMENT REQUEST                   -->
+        <!-- ======================================================== -->
         <div id="form2-container" class="form-step space-y-3.5 hidden">
             <div class="bg-purple-50 border border-purple-200 rounded-lg p-2.5 text-[11px] text-slate-700 leading-snug">
                 <strong class="text-purple-900">Form #2 Instructions:</strong> Submit after course completion with grade of <strong>B or higher</strong>. Must attach transcript and proof of payment. Reimbursed annually in May (CBA 10.6).
@@ -273,9 +380,9 @@
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- FORM #3: LANE ADVANCEMENT REQUEST          -->
-        <!-- ========================================== -->
+        <!-- ======================================================== -->
+        <!-- FORM #3: LANE ADVANCEMENT REQUEST                        -->
+        <!-- ======================================================== -->
         <div id="form3-container" class="form-step space-y-3.5 hidden">
             <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-2.5 text-[11px] text-slate-700 leading-snug">
                 <strong class="text-emerald-900">Form #3 Instructions:</strong> Request salary lane movement upon credential attainment. Processed annually in October (retroactive to school year start). Must attach transcripts (CBA 10.10).
@@ -386,7 +493,60 @@
 
     <script>
         let currentActiveStep = 'form1';
+        let currentPreapprovalMode = 'program';
         const initializedPads = { 1: false, 2: false, 3: false };
+
+        function setPreapprovalMode(mode) {
+            currentPreapprovalMode = mode;
+            const btnProg = document.getElementById('btn-mode-program');
+            const btnSingle = document.getElementById('btn-mode-single');
+            
+            const instrProg = document.getElementById('f1-instructions-program');
+            const instrSingle = document.getElementById('f1-instructions-single');
+            
+            const titleHeader = document.getElementById('f1-section1-title');
+            const titleLabel = document.getElementById('f1-title-label');
+            const titleInput = document.getElementById('f1-title-input');
+
+            const progIntention = document.getElementById('f1-program-intention');
+            const progCourses = document.getElementById('f1-program-courses');
+            const singleDetails = document.getElementById('f1-single-details');
+            const adminApprovalLabel = document.getElementById('f1-admin-approval-label');
+
+            if (mode === 'program') {
+                btnProg.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-[#002855] text-white shadow-sm";
+                btnSingle.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all";
+
+                instrProg.classList.remove('hidden');
+                instrSingle.classList.add('hidden');
+
+                titleHeader.innerText = "Section I — Degree or Endorsement Program Pre-Approval Request";
+                titleLabel.innerText = "Official Program Title";
+                titleInput.placeholder = "e.g., M.Ed. in Curriculum & Instruction";
+
+                progIntention.classList.remove('hidden');
+                progCourses.classList.remove('hidden');
+                singleDetails.classList.add('hidden');
+
+                adminApprovalLabel.innerText = "Overall Program Pre-Approval:";
+            } else {
+                btnSingle.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-[#002855] text-white shadow-sm";
+                btnProg.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all";
+
+                instrSingle.classList.remove('hidden');
+                instrProg.classList.add('hidden');
+
+                titleHeader.innerText = "Section I — Single Course Pre-Approval Request";
+                titleLabel.innerText = "Course Title & Course Number";
+                titleInput.placeholder = "e.g., EDU 501: Advanced Curriculum Design";
+
+                progIntention.classList.add('hidden');
+                progCourses.classList.add('hidden');
+                singleDetails.classList.remove('hidden');
+
+                adminApprovalLabel.innerText = "Proposed Course Pre-Approval:";
+            }
+        }
 
         function switchTab(stepId) {
             currentActiveStep = stepId;
@@ -406,7 +566,7 @@
             }, 100);
         }
 
-        // Auto-sync Employee Name inputs across all 3 form steps
+        // Auto-sync Employee Name inputs across all form steps
         document.querySelectorAll('.emp-name').forEach(input => {
             input.addEventListener('input', (e) => {
                 const val = e.target.value;
