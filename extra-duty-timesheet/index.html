@@ -14,12 +14,18 @@
         .input-row-focus:focus-within {
             background-color: #f0f7ff;
         }
+        
         @media print {
+            @page {
+                size: letter portrait;
+                margin: 0.3in 0.35in 0.3in 0.35in;
+            }
             body {
                 background-color: #fff !important;
                 padding: 0 !important;
+                margin: 0 !important;
                 width: 100% !important;
-                zoom: 95%;
+                font-size: 8pt !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -31,16 +37,18 @@
                 margin: 0 !important;
                 box-shadow: none !important;
                 border: none !important;
-                padding: 0.25rem !important;
+                padding: 0 !important;
             }
             .print-table {
-                font-size: 0.75rem !important;
+                font-size: 7.5pt !important;
                 width: 100% !important;
+                table-layout: fixed !important;
                 border-collapse: collapse !important;
             }
             .print-table th, .print-table td {
-                padding: 0.35rem !important;
-                border: 1px solid #d1d5db !important;
+                padding: 0.18rem 0.25rem !important;
+                border: 1px solid #cbd5e1 !important;
+                vertical-align: middle !important;
             }
             input[type="text"], input[type="number"], select, input[type="time"], input[type="date"] {
                 border: none !important;
@@ -50,48 +58,75 @@
                 -webkit-appearance: none !important;
                 pointer-events: none !important;
                 width: 100% !important;
+                font-size: 7.5pt !important;
             }
+            
+            /* Prevent duplicate text: hide select box completely on print; display mirror div */
+            .select-assignment {
+                display: none !important;
+            }
+            .assignment-print-display {
+                display: block !important;
+                font-size: 7.5pt !important;
+                line-height: 1.15 !important;
+                font-weight: 600 !important;
+                color: #0f172a !important;
+            }
+
             .unlogged-day-row {
                 display: none !important;
             }
             header {
-                margin-top: 4px !important;
-                margin-bottom: 12px !important;
+                margin-top: 0 !important;
+                margin-bottom: 6px !important;
+                padding: 0 !important;
+            }
+            header img {
+                height: 38px !important;
+                width: auto !important;
+            }
+            .section-header-compact {
+                margin-bottom: 4px !important;
+                padding-bottom: 2px !important;
             }
             .summary-space {
-                margin-top: 1rem !important;
-                gap: 1rem !important;
+                margin-top: 6px !important;
+                gap: 6px !important;
+            }
+            .payroll-banner {
+                padding: 0.4rem 0.75rem !important;
             }
             .signature-space {
-                margin-top: 1rem !important;
-                padding-top: 1rem !important;
+                margin-top: 6px !important;
+                padding-top: 6px !important;
             }
         }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-3 md:p-6">
 
-    <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-6 pb-8 border-t-8 border-[#002855]">
+    <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-5 pb-8 border-t-8 border-[#002855]">
         
-        <header class="w-full flex items-center justify-center pt-2 pb-6">
+        <header class="w-full flex items-center justify-center pt-1 pb-4">
             <img src="../logoh.png" 
                  alt="East Prairie School District 73" 
-                 class="w-80 max-w-full h-auto object-contain p-0 m-0 block"
+                 class="w-72 max-w-full h-auto object-contain p-0 m-0 block"
                  onerror="this.onerror=null; this.src='./logoh.png';">
         </header>
 
-        <section class="mb-5">
-            <div class="border-b pb-1.5 mb-3 border-[#002855]/20">
-                <h2 class="text-base font-bold text-gray-800">1. Extra Duty Timesheet — Employee & Pay Period Information</h2>
+        <!-- SECTION 1: HEADER INFO -->
+        <section class="mb-4">
+            <div class="section-header-compact border-b pb-1 mb-2.5 border-[#002855]/20">
+                <h2 class="text-xs md:text-sm font-bold text-gray-800 uppercase tracking-wide">1. Employee & Pay Period Information</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div class="flex flex-col">
-                    <label for="tsEmployeeName" class="text-gray-700 font-semibold mb-1 text-xs">Employee Name</label>
-                    <input type="text" id="tsEmployeeName" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors" placeholder="Full Name">
+                    <label for="tsEmployeeName" class="text-gray-700 font-semibold mb-0.5 text-[11px] uppercase">Employee Name</label>
+                    <input type="text" id="tsEmployeeName" class="border border-gray-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-[#002855] focus:border-[#002855] font-semibold" placeholder="Full Name">
                 </div>
                 <div class="flex flex-col">
-                    <label for="tsMonthSelect" class="text-gray-700 font-semibold mb-1 text-xs">Month</label>
-                    <select id="tsMonthSelect" onchange="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors">
+                    <label for="tsMonthSelect" class="text-gray-700 font-semibold mb-0.5 text-[11px] uppercase">Month</label>
+                    <select id="tsMonthSelect" onchange="generateCalendarRows()" class="border border-gray-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-[#002855] focus:border-[#002855] font-semibold">
                         <option value="0">January</option>
                         <option value="1">February</option>
                         <option value="2">March</option>
@@ -107,42 +142,43 @@
                     </select>
                 </div>
                 <div class="flex flex-col">
-                    <label for="tsYearSelect" class="text-gray-700 font-semibold mb-1 text-xs">Year</label>
-                    <input type="text" id="tsYearSelect" oninput="generateCalendarRows()" class="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#002855] focus:border-[#002855] transition-colors">
+                    <label for="tsYearSelect" class="text-gray-700 font-semibold mb-0.5 text-[11px] uppercase">Year</label>
+                    <input type="text" id="tsYearSelect" oninput="generateCalendarRows()" class="border border-gray-300 rounded px-2.5 py-1.5 text-xs focus:ring-1 focus:ring-[#002855] focus:border-[#002855] font-semibold">
                 </div>
             </div>
         </section>
 
-        <section class="mb-5">
-            <div class="border-b pb-1.5 mb-2.5 border-[#002855]/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <!-- SECTION 2: DAILY ACTIVITY LOG -->
+        <section class="mb-3">
+            <div class="section-header-compact border-b pb-1 mb-2 border-[#002855]/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                 <div>
-                    <h2 class="text-base font-bold text-gray-800">2. Daily Activity Log</h2>
-                    <p class="text-xs text-slate-500 mt-0.5 no-print">Tip: Fill in a row and click <strong class="text-[#002855]">Copy</strong> to apply the exact same entry across multiple days.</p>
+                    <h2 class="text-xs md:text-sm font-bold text-gray-800 uppercase tracking-wide">2. Daily Activity Log</h2>
+                    <p class="text-[10.5px] text-slate-500 no-print">Fill in a row and click <strong class="text-[#002855]">Copy</strong> to duplicate across days. Blank rows hide when printing.</p>
                 </div>
-                <div class="flex items-center gap-4 no-print select-none">
-                    <label class="inline-flex items-center cursor-pointer bg-slate-100 px-3 py-1.5 rounded-lg border border-gray-200">
+                <div class="flex items-center gap-3 no-print select-none">
+                    <label class="inline-flex items-center cursor-pointer bg-slate-100 px-2.5 py-1 rounded border border-gray-200">
                         <input type="checkbox" id="toggleWeekends" onchange="generateCalendarRows()" class="sr-only peer">
-                        <div class="relative w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#002855]"></div>
-                        <span class="ms-2 text-xs font-semibold text-gray-700">Show Weekends</span>
+                        <div class="relative w-8 h-4 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-[#002855]"></div>
+                        <span class="ms-2 text-[11px] font-semibold text-gray-700">Show Weekends</span>
                     </label>
-                    <button type="button" onclick="clearAllRows()" class="border border-red-200 text-red-500 hover:bg-red-50 text-xs py-1.5 px-3 rounded-lg transition-all font-medium">
+                    <button type="button" onclick="clearAllRows()" class="border border-red-200 text-red-500 hover:bg-red-50 text-[11px] py-1 px-2.5 rounded transition-all font-medium">
                         Clear Grid
                     </button>
                 </div>
             </div>
 
             <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
-                <table class="print-table w-full text-left text-xs min-w-[800px]">
+                <table class="print-table w-full text-left text-xs min-w-[750px]">
                     <thead>
-                        <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
-                            <th class="p-2 border-r border-gray-200 w-24 text-center">Date</th>
-                            <th class="p-2 border-r border-gray-200 min-w-[320px]">Assignment / Position Activity Category</th>
-                            <th class="p-2 border-r border-gray-200 w-28 text-center">Time In</th>
-                            <th class="p-2 border-r border-gray-200 w-28 text-center">Time Out</th>
-                            <th class="p-2 border-r border-gray-200 w-20 text-right">Hours</th>
-                            <th class="p-2 border-r border-gray-200 w-20 text-right">Rate</th>
-                            <th class="p-2 text-right w-24 border-r border-gray-200 print:border-r-0">Gross Pay</th>
-                            <th class="p-2 text-center w-16 no-print">Action</th>
+                        <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-[10px] print:text-[7pt]">
+                            <th class="p-1.5 border-r border-gray-200 w-[12%] text-center">Date</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[41%]">Assignment / Position Activity Category</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[11%] text-center">Time In</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[11%] text-center">Time Out</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[8%] text-right">Hours</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[8%] text-right">Rate</th>
+                            <th class="p-1.5 border-r border-gray-200 print:border-r-0 w-[9%] text-right">Gross</th>
+                            <th class="p-1.5 text-center w-[6%] no-print">Action</th>
                         </tr>
                     </thead>
                     <tbody id="timesheetLedgerBody" class="bg-white divide-y divide-gray-200">
@@ -151,63 +187,61 @@
             </div>
         </section>
 
-        <section class="summary-space mt-4 flex flex-col gap-5">
-            <div class="bg-slate-950 text-white rounded-xl p-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <!-- SECTION 3: SUMMARY & SIGNATURES -->
+        <section class="summary-space flex flex-col gap-3">
+            <div class="payroll-banner bg-slate-950 text-white rounded-xl p-3 flex flex-row justify-between items-center gap-3">
                 <div>
-                    <h3 class="text-sm font-semibold text-slate-200">Payroll Summary</h3>
-                    <p class="text-[11px] text-slate-400 mt-0.5">* Clock values rounded to the nearest 1/4 hour.</p>
+                    <h3 class="text-xs font-semibold text-slate-200 uppercase tracking-wide">Payroll Summary</h3>
+                    <p class="text-[9.5px] text-slate-400 leading-none mt-0.5">* Clock values rounded to nearest 1/4 hour.</p>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 items-center">
-                    <div class="flex items-baseline gap-2">
-                        <span class="text-[10px] uppercase font-bold tracking-widest opacity-60">Total Hours:</span>
-                        <span id="lblMonthlyHours" class="text-2xl font-black text-slate-200 tracking-tight">0.00</span>
+                <div class="flex flex-row gap-6 items-center">
+                    <div class="flex items-baseline gap-1.5">
+                        <span class="text-[9px] uppercase font-bold tracking-widest opacity-60">Total Hours:</span>
+                        <span id="lblMonthlyHours" class="text-xl md:text-2xl font-black text-slate-200 tracking-tight">0.00</span>
                     </div>
-                    <div class="flex items-baseline gap-2 border-t sm:border-t-0 sm:border-l border-slate-800 pt-1.5 sm:pt-0 sm:pl-8">
-                        <span class="text-[10px] uppercase font-bold tracking-widest text-emerald-400">Total Gross Pay:</span>
-                        <span id="lblMonthlyTotal" class="text-3xl font-black text-emerald-400 tracking-tight">$0.00</span>
+                    <div class="flex items-baseline gap-1.5 border-l border-slate-800 pl-6">
+                        <span class="text-[9px] uppercase font-bold tracking-widest text-emerald-400">Total Gross:</span>
+                        <span id="lblMonthlyTotal" class="text-2xl md:text-3xl font-black text-emerald-400 tracking-tight">$0.00</span>
                     </div>
                 </div>
             </div>
 
-            <div class="signature-space border-t pt-5 border-gray-200">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+            <div class="signature-space border-t pt-3 border-gray-200">
+                <div class="grid grid-cols-2 gap-x-8 items-end">
                     
-                    <div class="flex flex-col space-y-2">
-                        <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Employee Authorization Signature</span>
-                        <div class="relative border-2 border-dashed border-gray-300 rounded-xl bg-slate-50/50 overflow-hidden h-24 flex items-center justify-center">
+                    <div class="flex flex-col space-y-1">
+                        <span class="text-[9px] text-gray-500 font-bold uppercase tracking-wider">Employee Authorization Signature</span>
+                        <div class="relative border-2 border-dashed border-gray-300 rounded-lg bg-slate-50/50 overflow-hidden h-16 flex items-center justify-center">
                             <canvas id="tsSignatureCanvas" class="absolute inset-0 w-full h-full cursor-crosshair z-10"></canvas>
                             <img id="tsSignaturePrintMirror" class="absolute max-h-full object-contain hidden pointer-events-none z-20" alt="Employee Digital Signature">
-                            <span class="text-xs text-slate-400 select-none pointer-events-none no-print">Sign inside this box using touch or mouse</span>
+                            <span class="text-[10px] text-slate-400 select-none pointer-events-none no-print">Sign inside box</span>
                         </div>
-                        <div class="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
-                            <button type="button" id="btnClearSignature" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 font-medium py-1 px-2.5 rounded text-[11px] transition-colors self-start">
-                                Clear Signature Pad
+                        <div class="flex justify-between items-center pt-0.5">
+                            <button type="button" id="btnClearSignature" class="no-print border border-slate-200 hover:bg-slate-50 text-slate-500 font-medium py-0.5 px-2 rounded text-[10px] transition-colors">
+                                Clear Signature
                             </button>
-                            <div class="flex flex-col gap-1 w-full sm:w-44">
-                                <div class="flex items-center gap-1.5">
-                                    <span class="text-[10px] font-bold text-gray-400 uppercase shrink-0">Date:</span>
-                                    <input type="text" id="tsSignatureDate" class="border-b border-gray-300 focus:border-[#002855] outline-none text-xs p-0.5 w-full bg-transparent font-medium">
-                                </div>
-                                <input type="date" id="tsSignatureDatePicker" onchange="syncSignatureDatePicker(this.value)" class="no-print border border-gray-200 rounded px-1.5 py-0.5 text-[11px] text-gray-600 focus:outline-none focus:ring-1 focus:ring-[#002855]">
+                            <div class="flex items-center gap-1 w-36">
+                                <span class="text-[9px] font-bold text-gray-400 uppercase shrink-0">Date:</span>
+                                <input type="text" id="tsSignatureDate" class="border-b border-gray-300 outline-none text-xs p-0 w-full bg-transparent font-medium">
                             </div>
                         </div>
                     </div>
                     
-                    <div class="flex flex-col space-y-5 justify-end">
+                    <div class="flex flex-col space-y-3 justify-end">
                         <div class="flex flex-col">
-                            <div class="border-b-2 border-gray-400 h-10"></div>
-                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Supervisor / Administrator Approval</span>
+                            <div class="border-b-2 border-gray-400 h-8"></div>
+                            <span class="text-[9px] text-gray-500 font-bold uppercase tracking-wider mt-1">Supervisor / Administrator Approval</span>
                         </div>
-                        <div class="flex flex-col w-48">
-                            <div class="border-b-2 border-gray-400 h-9"></div>
-                            <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mt-1.5">Date</span>
+                        <div class="flex flex-col w-36">
+                            <div class="border-b-2 border-gray-400 h-6"></div>
+                            <span class="text-[9px] text-gray-500 font-bold uppercase tracking-wider mt-0.5">Date</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="text-center no-print pt-2">
-                <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-8 rounded-lg text-sm shadow-md transition-all transform hover:scale-[1.01]">
+                <button onclick="triggerPrintVoucher()" class="bg-[#002855] hover:bg-[#003d82] text-white font-bold py-2.5 px-8 rounded-lg text-xs tracking-wider uppercase shadow-md transition-all">
                     Print Form / Save PDF Document
                 </button>
             </div>
@@ -219,37 +253,34 @@
         <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 space-y-4 border border-slate-200">
             <div class="flex items-start justify-between border-b pb-3 border-slate-100">
                 <div>
-                    <h3 class="font-bold text-base text-[#002855]">Duplicate Entry to Other Days</h3>
+                    <h3 class="font-bold text-sm text-[#002855] uppercase tracking-wide">Duplicate Entry to Other Days</h3>
                     <p id="copySourceInfo" class="text-xs text-slate-500 mt-0.5">Copying details from selected row</p>
                 </div>
                 <button type="button" onclick="closeCopyModal()" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-bold">&times;</button>
             </div>
 
-            <!-- Quick Preset Selectors -->
             <div class="flex flex-wrap gap-2 text-xs">
-                <button type="button" onclick="selectCopyPreset('weekdays')" class="bg-blue-50 text-[#002855] hover:bg-blue-100 font-semibold px-2.5 py-1 rounded-md border border-blue-200">
+                <button type="button" onclick="selectCopyPreset('weekdays')" class="bg-blue-50 text-[#002855] hover:bg-blue-100 font-semibold px-2.5 py-1 rounded border border-blue-200">
                     All Weekdays (Mon–Fri)
                 </button>
-                <button type="button" onclick="selectCopyPreset('all')" class="bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold px-2.5 py-1 rounded-md border border-slate-200">
+                <button type="button" onclick="selectCopyPreset('all')" class="bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold px-2.5 py-1 rounded border border-slate-200">
                     All Days in Month
                 </button>
-                <button type="button" onclick="selectCopyPreset('none')" class="text-slate-500 hover:text-slate-700 font-medium px-2.5 py-1 rounded-md">
+                <button type="button" onclick="selectCopyPreset('none')" class="text-slate-500 hover:text-slate-700 font-medium px-2 py-1">
                     Deselect All
                 </button>
             </div>
 
-            <!-- Grid of Target Days -->
-            <div class="max-h-60 overflow-y-auto border border-slate-200 rounded-xl p-3 bg-slate-50/50">
+            <div class="max-h-56 overflow-y-auto border border-slate-200 rounded-xl p-3 bg-slate-50/50">
                 <div id="copyDaysGrid" class="grid grid-cols-4 sm:grid-cols-6 gap-2 text-xs">
-                    <!-- Populated dynamically via JS -->
                 </div>
             </div>
 
             <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-100">
-                <button type="button" onclick="closeCopyModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">
+                <button type="button" onclick="closeCopyModal()" class="px-4 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">
                     Cancel
                 </button>
-                <button type="button" onclick="applyCopySelections()" class="px-5 py-2 text-xs font-bold text-white bg-[#002855] hover:bg-[#003d82] rounded-lg shadow-sm">
+                <button type="button" onclick="applyCopySelections()" class="px-5 py-1.5 text-xs font-bold text-white bg-[#002855] hover:bg-[#003d82] rounded-lg shadow-sm">
                     Apply to Selected Days
                 </button>
             </div>
@@ -334,38 +365,42 @@
                     }
                 }
 
-                const dayLabel = `${d} — ${dayNames[dayOfWeek]}`;
+                const dayLabel = `${d}-${dayNames[dayOfWeek]}`;
                 const rowBg = isWeekend ? 'bg-amber-50/40 text-amber-900' : 'bg-white';
                 
                 const savedState = userFormDataState[d] || { assignment: "", customText: "", inTime: "", outTime: "", hours: "—", rate: "—", gross: "—", isUnlogged: true };
 
                 tableMarkup += `
                     <tr id="row-day-${d}" class="input-row-focus ${savedState.isUnlogged ? 'unlogged-day-row' : ''} border-b border-gray-200 transition-colors ${rowBg}">
-                        <td class="p-2 border-r border-gray-200 font-bold text-center bg-slate-50/60">${dayLabel}</td>
+                        <td class="p-1 border-r border-gray-200 font-bold text-center bg-slate-50/60 whitespace-nowrap">${dayLabel}</td>
                         
-                        <td class="p-2 border-r border-gray-200 space-y-1.5">
-                            <select id="assign-${d}" onchange="processRowCalculation(${d})" class="w-full border border-gray-300 rounded p-1 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855]">
+                        <td class="p-1 border-r border-gray-200">
+                            <!-- SCREEN SELECT -->
+                            <select id="assign-${d}" onchange="processRowCalculation(${d})" class="select-assignment w-full border border-gray-300 rounded p-0.5 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855]">
                                 ${assignmentOptionsMarkup}
                             </select>
                             
-                            <div id="custom-container-${d}" class="hidden no-print flex gap-2">
-                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Please clarify specific role context or project assignments..." class="flex-1 border border-slate-300 bg-slate-50/50 rounded p-1 text-xs text-slate-800 placeholder-slate-400 focus:ring-1 focus:ring-[#002855] focus:outline-none">
+                            <!-- CUSTOM INPUT (SCREEN ONLY) -->
+                            <div id="custom-container-${d}" class="hidden no-print flex gap-1 mt-1">
+                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Clarify role/assignment context..." class="flex-1 border border-slate-300 bg-slate-50/50 rounded px-1.5 py-0.5 text-xs text-slate-800 placeholder-slate-400 focus:ring-1 focus:ring-[#002855] focus:outline-none">
                             </div>
-                            <div id="custom-print-mirror-${d}" class="hidden print:block text-xs font-semibold text-gray-800 italic"></div>
+
+                            <!-- PRINT MIRROR (DISPLAYS AS STATIC CLEAN TEXT WHEN PRINTING) -->
+                            <div id="assignment-print-mirror-${d}" class="assignment-print-display hidden"></div>
                         </td>
                         
-                        <td class="p-1 border-r border-gray-200 text-center">
-                            <input type="time" id="in-${d}" value="${savedState.inTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                        <td class="p-0.5 border-r border-gray-200 text-center">
+                            <input type="time" id="in-${d}" value="${savedState.inTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-0.5 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
                         </td>
-                        <td class="p-1 border-r border-gray-200 text-center">
-                            <input type="time" id="out-${d}" value="${savedState.outTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-1 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                        <td class="p-0.5 border-r border-gray-200 text-center">
+                            <input type="time" id="out-${d}" value="${savedState.outTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-0.5 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
                         </td>
                         
-                        <td id="hours-${d}" class="p-2 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
-                        <td id="rate-${d}" class="p-2 border-r border-gray-200 text-right text-gray-500 font-medium">${savedState.rate}</td>
-                        <td id="gross-${d}" class="p-2 text-right font-semibold text-gray-900 border-r border-gray-200 print:border-r-0">${savedState.gross}</td>
-                        <td class="p-1 text-center no-print">
-                            <button type="button" onclick="openCopyModal(${d})" title="Copy this row to other days" class="px-2 py-1 text-[11px] font-semibold text-[#002855] hover:bg-blue-50 border border-slate-200 rounded transition-colors">
+                        <td id="hours-${d}" class="p-1 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
+                        <td id="rate-${d}" class="p-1 border-r border-gray-200 text-right text-gray-500 font-medium whitespace-nowrap">${savedState.rate}</td>
+                        <td id="gross-${d}" class="p-1 text-right font-semibold text-gray-900 border-r border-gray-200 print:border-r-0 whitespace-nowrap">${savedState.gross}</td>
+                        <td class="p-0.5 text-center no-print">
+                            <button type="button" onclick="openCopyModal(${d})" title="Copy row to other days" class="px-1.5 py-0.5 text-[10px] font-bold text-[#002855] hover:bg-blue-50 border border-slate-200 rounded">
                                 Copy
                             </button>
                         </td>
@@ -427,7 +462,7 @@
 
             const customContainer = document.getElementById('custom-container-' + dayNum);
             const customTextInput = document.getElementById('custom-text-' + dayNum);
-            const printMirror = document.getElementById('custom-print-mirror-' + dayNum);
+            const printMirror = document.getElementById('assignment-print-mirror-' + dayNum);
             
             const inTimeVal = document.getElementById('in-' + dayNum).value;
             const outTimeVal = document.getElementById('out-' + dayNum).value;
@@ -447,12 +482,12 @@
                 let outputDisplayName = selectedText;
                 
                 if (explanationText) {
-                    outputDisplayName = `${selectedText} (${explanationText})`;
+                    outputDisplayName = `${selectedText} — ${explanationText}`;
                 }
                 printMirror.innerText = outputDisplayName;
             } else {
                 customContainer.classList.add('hidden');
-                printMirror.innerText = "";
+                printMirror.innerText = selectedText;
                 
                 const lowerText = selectedText.toLowerCase();
                 if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
@@ -464,6 +499,7 @@
                 hoursCell.innerText = "—";
                 rateCell.innerText = "—";
                 grossCell.innerText = "—";
+                printMirror.innerText = "";
                 rowElement.classList.add('unlogged-day-row');
                 recalculateGrandTotals();
                 return;
@@ -484,8 +520,8 @@
             hoursCell.innerText = finalHours > 0 ? finalHours.toFixed(2) : "0.00";
 
             if (isVariableRateType) {
-                rateCell.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
-                grossCell.innerHTML = `<span class="text-[11px] font-bold tracking-wide text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
+                rateCell.innerHTML = `<span class="text-[10px] print:text-[7pt] font-bold text-amber-600 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
+                grossCell.innerHTML = `<span class="text-[10px] print:text-[7pt] font-bold text-amber-600 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
             } else {
                 const dailyGross = finalHours * hourlyRate;
                 rateCell.innerText = `$${hourlyRate.toFixed(2)}`;
@@ -523,7 +559,7 @@
             totalHoursDisplay.innerText = totalHoursSum.toFixed(2);
             
             if (hasVariableTBD) {
-                totalPayDisplay.innerHTML = `$${totalGrossSum.toFixed(2)}<span class="text-xs text-amber-400 font-medium ml-1 block sm:inline">* (+TBD)</span>`;
+                totalPayDisplay.innerHTML = `$${totalGrossSum.toFixed(2)}<span class="text-[11px] text-amber-400 font-medium ml-1 block sm:inline">* (+TBD)</span>`;
             } else {
                 totalPayDisplay.innerText = `$${totalGrossSum.toFixed(2)}`;
             }
@@ -566,20 +602,20 @@
             const daysInMonth = new Date(yearInput, monthInput + 1, 0).getDate();
             const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-            document.getElementById('copySourceInfo').innerText = `Copying details from Day ${sourceDay} (${selectEl.value || 'Custom Hours'} ${inEl.value ? inEl.value + '–' + outEl.value : ''})`;
+            document.getElementById('copySourceInfo').innerText = `Copying from Day ${sourceDay} (${selectEl.value || 'Custom'} ${inEl.value ? inEl.value + '–' + outEl.value : ''})`;
 
             const grid = document.getElementById('copyDaysGrid');
             let gridMarkup = "";
 
             for (let d = 1; d <= daysInMonth; d++) {
-                if (d === sourceDay) continue; // Don't copy to itself
+                if (d === sourceDay) continue;
                 const dateObj = new Date(yearInput, monthInput, d);
                 const dayOfWeek = dateObj.getDay();
                 const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
                 const dayName = dayNames[dayOfWeek];
 
                 gridMarkup += `
-                    <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer ${isWeekend ? 'opacity-70 bg-amber-50/50' : ''}">
+                    <label class="flex items-center gap-1.5 p-1 rounded border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer ${isWeekend ? 'opacity-70 bg-amber-50/50' : ''}">
                         <input type="checkbox" value="${d}" data-weekend="${isWeekend}" class="copy-target-checkbox w-3.5 h-3.5 text-[#002855] rounded">
                         <span class="font-medium text-[11px]">${d} <span class="text-[9px] text-slate-400">(${dayName})</span></span>
                     </label>
@@ -625,7 +661,6 @@
 
             const targetDays = Array.from(checkboxes).map(cb => parseInt(cb.value));
 
-            // Ensure weekend rows exist if any chosen target is a weekend
             const showWeekendsToggle = document.getElementById('toggleWeekends');
             const hasWeekendTarget = targetDays.some(d => {
                 const year = parseInt(document.getElementById('tsYearSelect').value);
@@ -667,7 +702,7 @@
             closeCopyModal();
         }
 
-        // --- DIGITAL SIGNATURE CANVAS HANDLING ---
+        // --- SIGNATURE PAD ---
         const canvas = document.getElementById('tsSignatureCanvas');
         const ctx = canvas.getContext('2d');
         const clearSigBtn = document.getElementById('btnClearSignature');
@@ -676,6 +711,7 @@
 
         function initializeCanvasScaling() {
             const rect = canvas.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
             canvas.width = rect.width * 2;
             canvas.height = rect.height * 2;
             ctx.scale(2, 2);
@@ -737,16 +773,10 @@
             canvas.classList.remove('hidden');
         });
 
-        function syncSignatureDatePicker(rawDateVal) {
-            if (!rawDateVal) return;
-            const [year, month, day] = rawDateVal.split('-');
-            document.getElementById('tsSignatureDate').value = `${month}/${day}/${year}`;
-        }
-
+        // Set signature date default
         const todayObj = new Date();
-        const defaultISO = todayObj.toISOString().split('T')[0];
-        document.getElementById('tsSignatureDatePicker').value = defaultISO;
-        syncSignatureDatePicker(defaultISO);
+        const dateStr = `${String(todayObj.getMonth() + 1).padStart(2, '0')}/${String(todayObj.getDate()).padStart(2, '0')}/${todayObj.getFullYear()}`;
+        document.getElementById('tsSignatureDate').value = dateStr;
 
         function triggerPrintVoucher() {
             const empNameInput = document.getElementById('tsEmployeeName').value.trim();
