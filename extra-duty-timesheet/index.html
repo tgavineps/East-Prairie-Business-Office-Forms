@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">East Prairie School District 73 - Extra Duty Timesheet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -76,7 +76,8 @@
         <header class="w-full flex items-center justify-center pt-2 pb-6">
             <img src="../logoh.png" 
                  alt="East Prairie School District 73" 
-                 class="w-80 max-w-full h-auto object-contain p-0 m-0 block">
+                 class="w-80 max-w-full h-auto object-contain p-0 m-0 block"
+                 onerror="this.onerror=null; this.src='./logoh.png';">
         </header>
 
         <section class="mb-5">
@@ -116,7 +117,7 @@
             <div class="border-b pb-1.5 mb-2.5 border-[#002855]/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h2 class="text-base font-bold text-gray-800">2. Daily Activity Log</h2>
-                    <p class="text-xs text-slate-500 mt-0.5 no-print">Tip: Leave unused days completely blank—they will automatically hide when printing or saving as a PDF.</p>
+                    <p class="text-xs text-slate-500 mt-0.5 no-print">Tip: Fill in a row and click <strong class="text-[#002855]">Copy</strong> to apply the exact same entry across multiple days.</p>
                 </div>
                 <div class="flex items-center gap-4 no-print select-none">
                     <label class="inline-flex items-center cursor-pointer bg-slate-100 px-3 py-1.5 rounded-lg border border-gray-200">
@@ -131,7 +132,7 @@
             </div>
 
             <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
-                <table class="print-table w-full text-left text-xs min-w-[750px]">
+                <table class="print-table w-full text-left text-xs min-w-[800px]">
                     <thead>
                         <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider">
                             <th class="p-2 border-r border-gray-200 w-24 text-center">Date</th>
@@ -140,7 +141,8 @@
                             <th class="p-2 border-r border-gray-200 w-28 text-center">Time Out</th>
                             <th class="p-2 border-r border-gray-200 w-20 text-right">Hours</th>
                             <th class="p-2 border-r border-gray-200 w-20 text-right">Rate</th>
-                            <th class="p-2 text-right w-24">Gross Pay</th>
+                            <th class="p-2 text-right w-24 border-r border-gray-200 print:border-r-0">Gross Pay</th>
+                            <th class="p-2 text-center w-16 no-print">Action</th>
                         </tr>
                     </thead>
                     <tbody id="timesheetLedgerBody" class="bg-white divide-y divide-gray-200">
@@ -212,6 +214,48 @@
         </section>
     </div>
 
+    <!-- QUICK COPY MODAL (NO-PRINT) -->
+    <div id="copyModal" class="no-print fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-5 space-y-4 border border-slate-200">
+            <div class="flex items-start justify-between border-b pb-3 border-slate-100">
+                <div>
+                    <h3 class="font-bold text-base text-[#002855]">Duplicate Entry to Other Days</h3>
+                    <p id="copySourceInfo" class="text-xs text-slate-500 mt-0.5">Copying details from selected row</p>
+                </div>
+                <button type="button" onclick="closeCopyModal()" class="text-slate-400 hover:text-slate-600 p-1 text-sm font-bold">&times;</button>
+            </div>
+
+            <!-- Quick Preset Selectors -->
+            <div class="flex flex-wrap gap-2 text-xs">
+                <button type="button" onclick="selectCopyPreset('weekdays')" class="bg-blue-50 text-[#002855] hover:bg-blue-100 font-semibold px-2.5 py-1 rounded-md border border-blue-200">
+                    All Weekdays (Mon–Fri)
+                </button>
+                <button type="button" onclick="selectCopyPreset('all')" class="bg-slate-100 text-slate-700 hover:bg-slate-200 font-semibold px-2.5 py-1 rounded-md border border-slate-200">
+                    All Days in Month
+                </button>
+                <button type="button" onclick="selectCopyPreset('none')" class="text-slate-500 hover:text-slate-700 font-medium px-2.5 py-1 rounded-md">
+                    Deselect All
+                </button>
+            </div>
+
+            <!-- Grid of Target Days -->
+            <div class="max-h-60 overflow-y-auto border border-slate-200 rounded-xl p-3 bg-slate-50/50">
+                <div id="copyDaysGrid" class="grid grid-cols-4 sm:grid-cols-6 gap-2 text-xs">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-100">
+                <button type="button" onclick="closeCopyModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-lg">
+                    Cancel
+                </button>
+                <button type="button" onclick="applyCopySelections()" class="px-5 py-2 text-xs font-bold text-white bg-[#002855] hover:bg-[#003d82] rounded-lg shadow-sm">
+                    Apply to Selected Days
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const assignmentOptionsMarkup = `
             <option value="" selected>— Leave Blank / No Work Logged —</option>
@@ -220,9 +264,6 @@
             </optgroup>
             <optgroup label="Academic Substitution ($31.11/hr)">
                 <option value="Assigned Teacher Substitution">Assigned Teacher Substitution</option>
-            </optgroup>
-            <optgroup label="Substitute Paraprofessional ($20.00/hr)">
-                <option value="Daily Substitute Paraprofessional">Daily Substitute Paraprofessional</option>
             </optgroup>
             <optgroup label="Coaching & Intramurals ($40.44/hr)">
                 <option value="Track and Field/CC">Track and Field / CC</option>
@@ -253,6 +294,9 @@
                 <option value="Scheduling">Scheduling</option>
             </optgroup>
             <optgroup label="Special Variable Rates (Business Office Verified)">
+                <option value="Paraprofessional">Paraprofessional</option>
+                <option value="Substitute Teacher">Substitute Teacher</option>
+                <option value="Substitute Paraprofessional">Substitute Paraprofessional</option>
                 <option value="Overtime">Overtime</option>
                 <option value="Professional Development">Professional Development</option>
                 <option value="Other">Other (Specify Custom Role Below)...</option>
@@ -264,6 +308,7 @@
         const totalPayDisplay = document.getElementById('lblMonthlyTotal');
         
         let userFormDataState = {};
+        let activeCopySourceDay = null;
 
         function generateCalendarRows() {
             const yearInput = parseInt(document.getElementById('tsYearSelect').value) || new Date().getFullYear();
@@ -318,7 +363,12 @@
                         
                         <td id="hours-${d}" class="p-2 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
                         <td id="rate-${d}" class="p-2 border-r border-gray-200 text-right text-gray-500 font-medium">${savedState.rate}</td>
-                        <td id="gross-${d}" class="p-2 text-right font-semibold text-gray-900">${savedState.gross}</td>
+                        <td id="gross-${d}" class="p-2 text-right font-semibold text-gray-900 border-r border-gray-200 print:border-r-0">${savedState.gross}</td>
+                        <td class="p-1 text-center no-print">
+                            <button type="button" onclick="openCopyModal(${d})" title="Copy this row to other days" class="px-2 py-1 text-[11px] font-semibold text-[#002855] hover:bg-blue-50 border border-slate-200 rounded transition-colors">
+                                Copy
+                            </button>
+                        </td>
                     </tr>
                 `;
             }
@@ -359,6 +409,18 @@
             return hours * 60 + minutes;
         }
 
+        function isVariableRateRole(roleText) {
+            const variableRoles = [
+                "Other", 
+                "Overtime", 
+                "Professional Development", 
+                "Paraprofessional", 
+                "Substitute Teacher", 
+                "Substitute Paraprofessional"
+            ];
+            return variableRoles.includes(roleText);
+        }
+
         function processRowCalculation(dayNum) {
             const selectEl = document.getElementById(`assign-${dayNum}`);
             if (!selectEl) return;
@@ -377,7 +439,7 @@
             let selectedText = selectEl.value;
             let hourlyRate = 40.44; 
 
-            const isVariableRateType = (selectedText === "Other" || selectedText === "Overtime" || selectedText === "Professional Development");
+            const isVariableRateType = isVariableRateRole(selectedText);
 
             if (isVariableRateType) {
                 customContainer.classList.remove('hidden');
@@ -393,9 +455,7 @@
                 printMirror.innerText = "";
                 
                 const lowerText = selectedText.toLowerCase();
-                if (lowerText.includes('paraprofessional')) {
-                    hourlyRate = 20.00;
-                } else if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
+                if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
                     hourlyRate = 31.11;
                 }
             }
@@ -489,6 +549,125 @@
             }
         }
 
+        // --- COPY ENTRY TO OTHER DAYS LOGIC ---
+        function openCopyModal(sourceDay) {
+            const selectEl = document.getElementById(`assign-${sourceDay}`);
+            const inEl = document.getElementById(`in-${sourceDay}`);
+            const outEl = document.getElementById(`out-${sourceDay}`);
+            
+            if (!selectEl.value && !inEl.value && !outEl.value) {
+                alert(`Day ${sourceDay} has no details logged yet. Fill out this row first before copying.`);
+                return;
+            }
+
+            activeCopySourceDay = sourceDay;
+            const yearInput = parseInt(document.getElementById('tsYearSelect').value) || new Date().getFullYear();
+            const monthInput = parseInt(document.getElementById('tsMonthSelect').value);
+            const daysInMonth = new Date(yearInput, monthInput + 1, 0).getDate();
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+            document.getElementById('copySourceInfo').innerText = `Copying details from Day ${sourceDay} (${selectEl.value || 'Custom Hours'} ${inEl.value ? inEl.value + '–' + outEl.value : ''})`;
+
+            const grid = document.getElementById('copyDaysGrid');
+            let gridMarkup = "";
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                if (d === sourceDay) continue; // Don't copy to itself
+                const dateObj = new Date(yearInput, monthInput, d);
+                const dayOfWeek = dateObj.getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                const dayName = dayNames[dayOfWeek];
+
+                gridMarkup += `
+                    <label class="flex items-center gap-1.5 p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer ${isWeekend ? 'opacity-70 bg-amber-50/50' : ''}">
+                        <input type="checkbox" value="${d}" data-weekend="${isWeekend}" class="copy-target-checkbox w-3.5 h-3.5 text-[#002855] rounded">
+                        <span class="font-medium text-[11px]">${d} <span class="text-[9px] text-slate-400">(${dayName})</span></span>
+                    </label>
+                `;
+            }
+            grid.innerHTML = gridMarkup;
+
+            document.getElementById('copyModal').classList.remove('hidden');
+        }
+
+        function closeCopyModal() {
+            document.getElementById('copyModal').classList.add('hidden');
+            activeCopySourceDay = null;
+        }
+
+        function selectCopyPreset(preset) {
+            const checkboxes = document.querySelectorAll('.copy-target-checkbox');
+            checkboxes.forEach(cb => {
+                const isWeekend = cb.getAttribute('data-weekend') === 'true';
+                if (preset === 'weekdays') {
+                    cb.checked = !isWeekend;
+                } else if (preset === 'all') {
+                    cb.checked = true;
+                } else {
+                    cb.checked = false;
+                }
+            });
+        }
+
+        function applyCopySelections() {
+            if (!activeCopySourceDay) return;
+
+            const sourceAssign = document.getElementById(`assign-${activeCopySourceDay}`).value;
+            const sourceCustom = document.getElementById(`custom-text-${activeCopySourceDay}`).value;
+            const sourceIn = document.getElementById(`in-${activeCopySourceDay}`).value;
+            const sourceOut = document.getElementById(`out-${activeCopySourceDay}`).value;
+
+            const checkboxes = document.querySelectorAll('.copy-target-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert("Please select at least one day to copy this entry to.");
+                return;
+            }
+
+            const targetDays = Array.from(checkboxes).map(cb => parseInt(cb.value));
+
+            // Ensure weekend rows exist if any chosen target is a weekend
+            const showWeekendsToggle = document.getElementById('toggleWeekends');
+            const hasWeekendTarget = targetDays.some(d => {
+                const year = parseInt(document.getElementById('tsYearSelect').value);
+                const month = parseInt(document.getElementById('tsMonthSelect').value);
+                const dayOfWeek = new Date(year, month, d).getDay();
+                return (dayOfWeek === 0 || dayOfWeek === 6);
+            });
+
+            if (hasWeekendTarget && !showWeekendsToggle.checked) {
+                showWeekendsToggle.checked = true;
+                generateCalendarRows();
+            }
+
+            targetDays.forEach(targetDay => {
+                userFormDataState[targetDay] = {
+                    assignment: sourceAssign,
+                    customText: sourceCustom,
+                    inTime: sourceIn,
+                    outTime: sourceOut,
+                    hours: "—",
+                    rate: "—",
+                    gross: "—",
+                    isUnlogged: false
+                };
+
+                const selectEl = document.getElementById(`assign-${targetDay}`);
+                const customEl = document.getElementById(`custom-text-${targetDay}`);
+                const inEl = document.getElementById(`in-${targetDay}`);
+                const outEl = document.getElementById(`out-${targetDay}`);
+
+                if (selectEl) selectEl.value = sourceAssign;
+                if (customEl) customEl.value = sourceCustom;
+                if (inEl) inEl.value = sourceIn;
+                if (outEl) outEl.value = sourceOut;
+
+                processRowCalculation(targetDay);
+            });
+
+            closeCopyModal();
+        }
+
+        // --- DIGITAL SIGNATURE CANVAS HANDLING ---
         const canvas = document.getElementById('tsSignatureCanvas');
         const ctx = canvas.getContext('2d');
         const clearSigBtn = document.getElementById('btnClearSignature');
@@ -598,7 +777,7 @@
             }, 50);
         }
 
-        // Auto-select the current month & current year upon opening the page
+        // Auto-select current month & year
         const currentInitDate = new Date();
         document.getElementById('tsMonthSelect').value = currentInitDate.getMonth();
         document.getElementById('tsYearSelect').value = currentInitDate.getFullYear();
