@@ -18,14 +18,14 @@
         @media print {
             @page {
                 size: letter portrait;
-                margin: 0.3in 0.35in 0.3in 0.35in;
+                margin: 0.32in 0.38in 0.32in 0.38in;
             }
             body {
                 background-color: #fff !important;
                 padding: 0 !important;
                 margin: 0 !important;
                 width: 100% !important;
-                font-size: 8pt !important;
+                font-size: 8.2pt !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -40,7 +40,7 @@
                 padding: 0 !important;
             }
             .print-table {
-                font-size: 7.5pt !important;
+                font-size: 7.8pt !important;
                 width: 100% !important;
                 table-layout: fixed !important;
                 border-collapse: collapse !important;
@@ -58,16 +58,16 @@
                 -webkit-appearance: none !important;
                 pointer-events: none !important;
                 width: 100% !important;
-                font-size: 7.5pt !important;
+                font-size: 7.8pt !important;
             }
             
-            /* Prevent duplicate text: hide select box completely on print; display mirror div */
+            /* Hide dropdown select on print; display single static print text */
             .select-assignment {
                 display: none !important;
             }
             .assignment-print-display {
                 display: block !important;
-                font-size: 7.5pt !important;
+                font-size: 7.8pt !important;
                 line-height: 1.15 !important;
                 font-weight: 600 !important;
                 color: #0f172a !important;
@@ -78,26 +78,30 @@
             }
             header {
                 margin-top: 0 !important;
-                margin-bottom: 6px !important;
-                padding: 0 !important;
+                margin-bottom: 8px !important;
+                padding-top: 0 !important;
+                padding-bottom: 4px !important;
             }
             header img {
-                height: 38px !important;
+                height: 56px !important;
+                max-height: 56px !important;
                 width: auto !important;
+                display: block !important;
+                margin: 0 auto !important;
             }
             .section-header-compact {
                 margin-bottom: 4px !important;
                 padding-bottom: 2px !important;
             }
             .summary-space {
-                margin-top: 6px !important;
+                margin-top: 8px !important;
                 gap: 6px !important;
             }
             .payroll-banner {
-                padding: 0.4rem 0.75rem !important;
+                padding: 0.45rem 0.8rem !important;
             }
             .signature-space {
-                margin-top: 6px !important;
+                margin-top: 8px !important;
                 padding-top: 6px !important;
             }
         }
@@ -107,10 +111,11 @@
 
     <div id="form-container" class="print-container max-w-6xl mx-auto bg-white rounded-2xl shadow-xl px-4 md:px-8 pt-5 pb-8 border-t-8 border-[#002855]">
         
-        <header class="w-full flex items-center justify-center pt-1 pb-4">
+        <!-- HEADER WITH PROPORTIONATE LOGO -->
+        <header class="w-full flex items-center justify-center pt-2 pb-5 border-b border-slate-100 print:border-none">
             <img src="../logoh.png" 
                  alt="East Prairie School District 73" 
-                 class="w-72 max-w-full h-auto object-contain p-0 m-0 block"
+                 class="h-14 md:h-16 w-auto object-contain block"
                  onerror="this.onerror=null; this.src='./logoh.png';">
         </header>
 
@@ -170,7 +175,7 @@
             <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
                 <table class="print-table w-full text-left text-xs min-w-[750px]">
                     <thead>
-                        <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-[10px] print:text-[7pt]">
+                        <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-[10px] print:text-[7.2pt]">
                             <th class="p-1.5 border-r border-gray-200 w-[12%] text-center">Date</th>
                             <th class="p-1.5 border-r border-gray-200 w-[41%]">Assignment / Position Activity Category</th>
                             <th class="p-1.5 border-r border-gray-200 w-[11%] text-center">Time In</th>
