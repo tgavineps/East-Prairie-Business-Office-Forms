@@ -126,7 +126,7 @@
                  class="h-14 md:h-16 w-auto object-contain block"
                  onerror="this.onerror=null; this.src='./logoh.png';">
             <span id="printModeSubtitle" class="hidden print:block text-[9pt] font-bold text-[#002855] uppercase tracking-wider mt-1">
-                Extra Duty & Stipend Timesheet
+                Extra Duty Timesheet
             </span>
         </header>
 
@@ -138,7 +138,7 @@
             </div>
             <div class="flex items-center bg-white p-1 rounded-lg border border-slate-200 shadow-sm w-full sm:w-auto">
                 <button type="button" onclick="setTimesheetMode('extraduty')" id="btn-mode-extraduty" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-[#002855] text-white shadow-sm">
-                    Extra Duty / Stipend
+                    Extra Duty
                 </button>
                 <button type="button" onclick="setTimesheetMode('para')" id="btn-mode-para" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all">
                     Paraprofessional
@@ -434,7 +434,7 @@
                 thHours.className = "p-1.5 border-r border-gray-200 w-[8%] text-right";
 
                 summaryHeading.innerText = "Payroll Summary";
-                printSubtitle.innerText = "Extra Duty & Stipend Timesheet";
+                printSubtitle.innerText = "Extra Duty Timesheet";
                 summaryFootnote.innerText = "* Clock values rounded to nearest 1/4 hour.";
                 helperText.innerHTML = `Fill in a row and click <strong class="text-[#002855]">Copy</strong> to duplicate across days. Blank rows hide when printing.`;
             }
