@@ -470,4 +470,478 @@
                         <td class="p-1 border-r border-gray-200 font-bold text-center bg-slate-50/60 whitespace-nowrap">${dayLabel}</td>
                         
                         <td class="p-1 border-r border-gray-200">
-                            <select id="assign-${d}" onchange="processRowCalculation(${d})" class="select-assignment w-full border border-gray-300 rounded p-0.5 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855
+                            <select id="assign-${d}" onchange="processRowCalculation(${d})" class="select-assignment w-full border border-gray-300 rounded p-0.5 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855]">
+                                ${activeOptions}
+                            </select>
+                            
+                            <div id="custom-container-${d}" class="hidden no-print flex gap-1 mt-1">
+                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Clarify role/building context..." class="flex-1 border border-slate-300 bg-slate-50/50 rounded px-1.5 py-0.5 text-xs text-slate-800 placeholder-slate-400 focus:ring-1 focus:ring-[#002855] focus:outline-none">
+                            </div>
+
+                            <div id="assignment-print-mirror-${d}" class="assignment-print-display hidden"></div>
+                        </td>
+                        
+                        <td class="p-0.5 border-r border-gray-200 text-center">
+                            <input type="time" id="in-${d}" value="${savedState.inTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-0.5 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                        </td>
+                        <td class="p-0.5 border-r border-gray-200 text-center">
+                            <input type="time" id="out-${d}" value="${savedState.outTime}" oninput="processRowCalculation(${d})" class="border border-gray-300 rounded p-0.5 text-center w-full text-xs focus:ring-1 focus:ring-[#002855]">
+                        </td>
+
+                        <td id="lunch-cell-${d}" class="p-1 border-r border-gray-200 text-center ${isParaMode ? '' : 'hidden'}">
+                            <label class="lunch-screen-control inline-flex items-center justify-center gap-1 cursor-pointer select-none">
+                                <input type="checkbox" id="lunch-${d}" ${savedState.workedLunch ? 'checked' : ''} onchange="processRowCalculation(${d})" class="w-3.5 h-3.5 text-[#002855] rounded">
+                                <span class="text-[10px] font-semibold text-slate-600">Yes</span>
+                            </label>
+                            <div id="lunch-print-mirror-${d}" class="lunch-print-display hidden text-slate-700"></div>
+                        </td>
+                        
+                        <td id="hours-${d}" class="p-1 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
+                        <td id="rate-${d}" class="p-1 border-r border-gray-200 text-right text-gray-500 font-medium whitespace-nowrap">${savedState.rate}</td>
+                        <td id="gross-${d}" class="p-1 text-right font-semibold text-gray-900 border-r border-gray-200 print:border-r-0 whitespace-nowrap">${savedState.gross}</td>
+                        <td class="p-0.5 text-center no-print">
+                            <button type="button" onclick="openCopyModal(${d})" title="Copy row to other days" class="px-1.5 py-0.5 text-[10px] font-bold text-[#002855] hover:bg-blue-50 border border-slate-200 rounded">
+                                Copy
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            ledgerBody.innerHTML = tableMarkup;
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                if (userFormDataState[d] && document.getElementById(`assign-${d}`)) {
+                    document.getElementById(`assign-${d}`).value = userFormDataState[d].assignment;
+                    document.getElementById(`custom-text-${d}`).value = userFormDataState[d].customText;
+                    processRowCalculation(d);
+                }
+            }
+            recalculateGrandTotals();
+        }
+
+        function captureCurrentState() {
+            for (let d = 1; d <= 31; d++) {
+                const selectEl = document.getElementById(`assign-${d}`);
+                if (selectEl) {
+                    const lunchEl = document.getElementById(`lunch-${d}`);
+                    userFormDataState[d] = {
+                        assignment: selectEl.value,
+                        customText: document.getElementById(`custom-text-${d}`).value,
+                        inTime: document.getElementById(`in-${d}`).value,
+                        outTime: document.getElementById(`out-${d}`).value,
+                        workedLunch: lunchEl ? lunchEl.checked : false,
+                        hours: document.getElementById(`hours-${d}`).innerText,
+                        rate: document.getElementById(`rate-${d}`).innerText,
+                        gross: document.getElementById(`gross-${d}`).innerText,
+                        isUnlogged: document.getElementById(`row-day-${d}`).classList.contains('unlogged-day-row')
+                    };
+                }
+            }
+        }
+
+        function timeToMinutes(timeStr) {
+            if (!timeStr) return 0;
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function isVariableRateRole(roleText) {
+            const variableRoles = [
+                "Other", 
+                "Professional Development", 
+                "Paraprofessional", 
+                "Substitute Teacher"
+            ];
+            return variableRoles.includes(roleText);
+        }
+
+        function processRowCalculation(dayNum) {
+            const selectEl = document.getElementById(`assign-${dayNum}`);
+            if (!selectEl) return;
+
+            const customContainer = document.getElementById('custom-container-' + dayNum);
+            const customTextInput = document.getElementById('custom-text-' + dayNum);
+            const printMirror = document.getElementById('assignment-print-mirror-' + dayNum);
+            const lunchCheckbox = document.getElementById('lunch-' + dayNum);
+            const lunchPrintMirror = document.getElementById('lunch-print-mirror-' + dayNum);
+            
+            const inTimeVal = document.getElementById('in-' + dayNum).value;
+            const outTimeVal = document.getElementById('out-' + dayNum).value;
+            const hoursCell = document.getElementById('hours-' + dayNum);
+            const rateCell = document.getElementById('rate-' + dayNum);
+            const grossCell = document.getElementById('gross-' + dayNum);
+            const rowElement = document.getElementById('row-day-' + dayNum);
+
+            const isParaMode = (currentTimesheetMode === 'para');
+            const workedLunch = lunchCheckbox ? lunchCheckbox.checked : false;
+
+            let selectedText = selectEl.value;
+            let hourlyRate = 40.44; 
+
+            const isVariableRateType = isVariableRateRole(selectedText);
+
+            if (isVariableRateType) {
+                customContainer.classList.remove('hidden');
+                let explanationText = customTextInput.value.trim();
+                let outputDisplayName = selectedText;
+                
+                if (explanationText) {
+                    outputDisplayName = `${selectedText} — ${explanationText}`;
+                }
+                printMirror.innerText = outputDisplayName;
+            } else {
+                customContainer.classList.add('hidden');
+                printMirror.innerText = selectedText;
+                
+                const lowerText = selectedText.toLowerCase();
+                if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
+                    hourlyRate = 31.11;
+                }
+            }
+
+            if (!selectEl.value && !inTimeVal && !outTimeVal) {
+                hoursCell.innerText = "—";
+                rateCell.innerText = "—";
+                grossCell.innerText = "—";
+                printMirror.innerText = "";
+                if (lunchPrintMirror) lunchPrintMirror.innerText = "";
+                rowElement.classList.add('unlogged-day-row');
+                recalculateGrandTotals();
+                return;
+            }
+
+            rowElement.classList.remove('unlogged-day-row');
+
+            const inMins = timeToMinutes(inTimeVal);
+            const outMins = timeToMinutes(outTimeVal);
+            
+            let finalHours = 0;
+            if (inTimeVal && outTimeVal && outMins > inMins) {
+                const rawDiff = outMins - inMins;
+                let roundedMinutes = Math.round(rawDiff / 15) * 15;
+
+                // Deduct 30 minutes in Paraprofessional mode if "Worked Thru Lunch" is NOT checked
+                if (isParaMode && !workedLunch && roundedMinutes > 30) {
+                    roundedMinutes -= 30;
+                }
+
+                finalHours = roundedMinutes / 60;
+            }
+
+            if (lunchPrintMirror && isParaMode) {
+                if (workedLunch) {
+                    lunchPrintMirror.innerText = "Yes (Paid)";
+                    lunchPrintMirror.className = "lunch-print-display hidden text-emerald-700 font-bold";
+                } else {
+                    lunchPrintMirror.innerText = "No (-30m)";
+                    lunchPrintMirror.className = "lunch-print-display hidden text-slate-500";
+                }
+            }
+
+            hoursCell.innerText = finalHours > 0 ? finalHours.toFixed(2) : "0.00";
+
+            if (isVariableRateType) {
+                rateCell.innerHTML = `<span class="text-[10px] print:text-[7pt] font-bold text-amber-600 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
+                grossCell.innerHTML = `<span class="text-[10px] print:text-[7pt] font-bold text-amber-600 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 uppercase print:border-none print:bg-transparent print:p-0">TBD</span>`;
+            } else {
+                const dailyGross = finalHours * hourlyRate;
+                rateCell.innerText = `$${hourlyRate.toFixed(2)}`;
+                grossCell.innerText = dailyGross > 0 ? `$${dailyGross.toFixed(2)}` : "$0.00";
+            }
+
+            recalculateGrandTotals();
+        }
+
+        function recalculateGrandTotals() {
+            let totalHoursSum = 0;
+            let totalGrossSum = 0;
+            let hasVariableTBD = false;
+
+            for (let d = 1; d <= 31; d++) {
+                const hoursCell = document.getElementById(`hours-${d}`);
+                const grossCell = document.getElementById(`gross-${d}`);
+                
+                if (hoursCell && grossCell) {
+                    const hourVal = parseFloat(hoursCell.innerText);
+                    const grossText = grossCell.innerText;
+                    
+                    if (!isNaN(hourVal) && hourVal > 0) {
+                        totalHoursSum += hourVal;
+                    }
+                    
+                    if (grossText.startsWith('$')) {
+                        totalGrossSum += parseFloat(grossText.replace('$', '')) || 0;
+                    } else if (grossText.includes('TBD') && hourVal > 0) {
+                        hasVariableTBD = true;
+                    }
+                }
+            }
+
+            totalHoursDisplay.innerText = totalHoursSum.toFixed(2);
+            
+            if (hasVariableTBD) {
+                totalPayDisplay.innerHTML = `$${totalGrossSum.toFixed(2)}<span class="text-[11px] text-amber-400 font-medium ml-1 block sm:inline">* (+TBD)</span>`;
+            } else {
+                totalPayDisplay.innerText = `$${totalGrossSum.toFixed(2)}`;
+            }
+        }
+
+        function clearAllRows() {
+            if (confirm("Are you sure you want to clear out all logs?")) {
+                userFormDataState = {};
+                for (let d = 1; d <= 31; d++) {
+                    const selectEl = document.getElementById(`assign-${d}`);
+                    if (selectEl) selectEl.value = "";
+                    
+                    const textEl = document.getElementById(`custom-text-${d}`);
+                    if (textEl) textEl.value = "";
+                    
+                    const inEl = document.getElementById(`in-${d}`);
+                    if (inEl) inEl.value = "";
+                    
+                    const outEl = document.getElementById(`out-${d}`);
+                    if (outEl) outEl.value = "";
+
+                    const lunchEl = document.getElementById(`lunch-${d}`);
+                    if (lunchEl) lunchEl.checked = false;
+                }
+                generateCalendarRows();
+            }
+        }
+
+        // --- COPY ENTRY TO OTHER DAYS LOGIC ---
+        function openCopyModal(sourceDay) {
+            const selectEl = document.getElementById(`assign-${sourceDay}`);
+            const inEl = document.getElementById(`in-${sourceDay}`);
+            const outEl = document.getElementById(`out-${sourceDay}`);
+            
+            if (!selectEl.value && !inEl.value && !outEl.value) {
+                alert(`Day ${sourceDay} has no details logged yet. Fill out this row first before copying.`);
+                return;
+            }
+
+            activeCopySourceDay = sourceDay;
+            const yearInput = parseInt(document.getElementById('tsYearSelect').value) || new Date().getFullYear();
+            const monthInput = parseInt(document.getElementById('tsMonthSelect').value);
+            const daysInMonth = new Date(yearInput, monthInput + 1, 0).getDate();
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+            document.getElementById('copySourceInfo').innerText = `Copying from Day ${sourceDay} (${selectEl.value || 'Custom'} ${inEl.value ? inEl.value + '–' + outEl.value : ''})`;
+
+            const grid = document.getElementById('copyDaysGrid');
+            let gridMarkup = "";
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                if (d === sourceDay) continue;
+                const dateObj = new Date(yearInput, monthInput, d);
+                const dayOfWeek = dateObj.getDay();
+                const isWeekend = (dayOfWeek === 0 || dayOfWeek === 6);
+                const dayName = dayNames[dayOfWeek];
+
+                gridMarkup += `
+                    <label class="flex items-center gap-1.5 p-1 rounded border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer ${isWeekend ? 'opacity-70 bg-amber-50/50' : ''}">
+                        <input type="checkbox" value="${d}" data-weekend="${isWeekend}" class="copy-target-checkbox w-3.5 h-3.5 text-[#002855] rounded">
+                        <span class="font-medium text-[11px]">${d} <span class="text-[9px] text-slate-400">(${dayName})</span></span>
+                    </label>
+                `;
+            }
+            grid.innerHTML = gridMarkup;
+
+            document.getElementById('copyModal').classList.remove('hidden');
+        }
+
+        function closeCopyModal() {
+            document.getElementById('copyModal').classList.add('hidden');
+            activeCopySourceDay = null;
+        }
+
+        function selectCopyPreset(preset) {
+            const checkboxes = document.querySelectorAll('.copy-target-checkbox');
+            checkboxes.forEach(cb => {
+                const isWeekend = cb.getAttribute('data-weekend') === 'true';
+                if (preset === 'weekdays') {
+                    cb.checked = !isWeekend;
+                } else if (preset === 'all') {
+                    cb.checked = true;
+                } else {
+                    cb.checked = false;
+                }
+            });
+        }
+
+        function applyCopySelections() {
+            if (!activeCopySourceDay) return;
+
+            const sourceAssign = document.getElementById(`assign-${activeCopySourceDay}`).value;
+            const sourceCustom = document.getElementById(`custom-text-${activeCopySourceDay}`).value;
+            const sourceIn = document.getElementById(`in-${activeCopySourceDay}`).value;
+            const sourceOut = document.getElementById(`out-${activeCopySourceDay}`).value;
+            const sourceLunchEl = document.getElementById(`lunch-${activeCopySourceDay}`);
+            const sourceLunch = sourceLunchEl ? sourceLunchEl.checked : false;
+
+            const checkboxes = document.querySelectorAll('.copy-target-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert("Please select at least one day to copy this entry to.");
+                return;
+            }
+
+            const targetDays = Array.from(checkboxes).map(cb => parseInt(cb.value));
+
+            const showWeekendsToggle = document.getElementById('toggleWeekends');
+            const hasWeekendTarget = targetDays.some(d => {
+                const year = parseInt(document.getElementById('tsYearSelect').value);
+                const month = parseInt(document.getElementById('tsMonthSelect').value);
+                const dayOfWeek = new Date(year, month, d).getDay();
+                return (dayOfWeek === 0 || dayOfWeek === 6);
+            });
+
+            if (hasWeekendTarget && !showWeekendsToggle.checked) {
+                showWeekendsToggle.checked = true;
+                generateCalendarRows();
+            }
+
+            targetDays.forEach(targetDay => {
+                userFormDataState[targetDay] = {
+                    assignment: sourceAssign,
+                    customText: sourceCustom,
+                    inTime: sourceIn,
+                    outTime: sourceOut,
+                    workedLunch: sourceLunch,
+                    hours: "—",
+                    rate: "—",
+                    gross: "—",
+                    isUnlogged: false
+                };
+
+                const selectEl = document.getElementById(`assign-${targetDay}`);
+                const customEl = document.getElementById(`custom-text-${targetDay}`);
+                const inEl = document.getElementById(`in-${targetDay}`);
+                const outEl = document.getElementById(`out-${targetDay}`);
+                const lunchEl = document.getElementById(`lunch-${targetDay}`);
+
+                if (selectEl) selectEl.value = sourceAssign;
+                if (customEl) customEl.value = sourceCustom;
+                if (inEl) inEl.value = sourceIn;
+                if (outEl) outEl.value = sourceOut;
+                if (lunchEl) lunchEl.checked = sourceLunch;
+
+                processRowCalculation(targetDay);
+            });
+
+            closeCopyModal();
+        }
+
+        // --- SIGNATURE PAD ---
+        const canvas = document.getElementById('tsSignatureCanvas');
+        const ctx = canvas.getContext('2d');
+        const clearSigBtn = document.getElementById('btnClearSignature');
+        const printMirrorImg = document.getElementById('tsSignaturePrintMirror');
+        let isDrawing = false;
+
+        function initializeCanvasScaling() {
+            const rect = canvas.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) return;
+            canvas.width = rect.width * 2;
+            canvas.height = rect.height * 2;
+            ctx.scale(2, 2);
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.strokeStyle = '#002855';
+        }
+
+        window.addEventListener('resize', initializeCanvasScaling);
+        setTimeout(initializeCanvasScaling, 200);
+
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return {
+                    x: e.touches[0].clientX - rect.left,
+                    y: e.touches[0].clientY - rect.top
+                };
+            }
+            return {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            };
+        }
+
+        function startSigDraw(e) {
+            isDrawing = true;
+            const coords = getCoordinates(e);
+            ctx.beginPath();
+            ctx.moveTo(coords.x, coords.y);
+            if (e.type === 'touchstart') e.preventDefault();
+        }
+
+        function drawSig(e) {
+            if (!isDrawing) return;
+            const coords = getCoordinates(e);
+            ctx.lineTo(coords.x, coords.y);
+            ctx.stroke();
+            if (e.type === 'touchmove') e.preventDefault();
+        }
+
+        function stopSigDraw() {
+            isDrawing = false;
+        }
+
+        canvas.addEventListener('mousedown', startSigDraw);
+        canvas.addEventListener('mousemove', drawSig);
+        window.addEventListener('mouseup', stopSigDraw);
+
+        canvas.addEventListener('touchstart', startSigDraw, { passive: false });
+        canvas.addEventListener('touchmove', drawSig, { passive: false });
+        window.addEventListener('touchend', stopSigDraw);
+
+        clearSigBtn.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            printMirrorImg.src = '';
+            printMirrorImg.classList.add('hidden');
+            canvas.classList.remove('hidden');
+        });
+
+        const todayObj = new Date();
+        const dateStr = `${String(todayObj.getMonth() + 1).padStart(2, '0')}/${String(todayObj.getDate()).padStart(2, '0')}/${todayObj.getFullYear()}`;
+        document.getElementById('tsSignatureDate').value = dateStr;
+
+        function triggerPrintVoucher() {
+            const empNameInput = document.getElementById('tsEmployeeName').value.trim();
+            const originalTitle = "East Prairie School District 73 - Extra Duty & Hourly Timesheet";
+            
+            if (empNameInput) {
+                document.getElementById('pageTitle').innerText = `${empNameInput} - Timesheet`;
+            } else {
+                document.getElementById('pageTitle').innerText = originalTitle;
+            }
+
+            const blankCheckCanvas = document.createElement('canvas');
+            blankCheckCanvas.width = canvas.width;
+            blankCheckCanvas.height = canvas.height;
+            
+            if (canvas.toDataURL() !== blankCheckCanvas.toDataURL()) {
+                printMirrorImg.src = canvas.toDataURL();
+                printMirrorImg.classList.remove('hidden');
+                canvas.classList.add('hidden');
+            }
+            
+            setTimeout(() => {
+                window.print();
+                
+                setTimeout(() => {
+                    document.getElementById('pageTitle').innerText = originalTitle;
+                }, 1000);
+            }, 50);
+        }
+
+        // Auto-select current month & year
+        const currentInitDate = new Date();
+        document.getElementById('tsMonthSelect').value = currentInitDate.getMonth();
+        document.getElementById('tsYearSelect').value = currentInitDate.getFullYear();
+
+        generateCalendarRows();
+    </script>
+</body>
+</html>
