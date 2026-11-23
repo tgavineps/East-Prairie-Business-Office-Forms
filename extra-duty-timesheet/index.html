@@ -366,17 +366,7 @@
         `;
 
         const paraOptionsMarkup = `
-            <option value="">— Leave Blank / No Work Logged —</option>
-            <optgroup label="Paraprofessional & Hourly Roles (Business Office Verified)">
-                <option value="Paraprofessional" selected>Paraprofessional</option>
-                <option value="Substitute Teacher">Substitute Teacher</option>
-                <option value="Professional Development">Professional Development</option>
-                <option value="Other">Other (Specify Custom Role Below)...</option>
-            </optgroup>
-            <optgroup label="Extra Duty / Supervision ($31.11/hr)">
-                <option value="Supervisors: Basketball and Volleyball Games, Game Clock, etc.">Supervisors: Basketball/Volleyball Games, Clock, etc.</option>
-                <option value="Assigned Teacher Substitution">Assigned Teacher Substitution</option>
-            </optgroup>
+            <option value="Paraprofessional" selected>Paraprofessional</option>
         `;
 
         const ledgerBody = document.getElementById('timesheetLedgerBody');
@@ -395,7 +385,7 @@
             for (let d = 1; d <= 31; d++) {
                 const st = userFormDataState[d];
                 if (!st) continue;
-                if (mode === 'para' && !st.assignment && !st.inTime && !st.outTime) {
+                if (mode === 'para') {
                     st.assignment = "Paraprofessional";
                 } else if (mode === 'extraduty' && prevMode === 'para' && st.assignment === "Paraprofessional" && !st.inTime && !st.outTime && !st.customText) {
                     st.assignment = "";
@@ -530,11 +520,14 @@
             for (let d = 1; d <= daysInMonth; d++) {
                 const assignEl = document.getElementById(`assign-${d}`);
                 if (assignEl) {
-                    if (userFormDataState[d]) {
+                    if (isParaMode) {
+                        assignEl.value = "Paraprofessional";
+                        if (userFormDataState[d]) {
+                            document.getElementById(`custom-text-${d}`).value = userFormDataState[d].customText;
+                        }
+                    } else if (userFormDataState[d]) {
                         assignEl.value = userFormDataState[d].assignment;
                         document.getElementById(`custom-text-${d}`).value = userFormDataState[d].customText;
-                    } else if (isParaMode) {
-                        assignEl.value = "Paraprofessional";
                     }
                     processRowCalculation(d);
                 }
