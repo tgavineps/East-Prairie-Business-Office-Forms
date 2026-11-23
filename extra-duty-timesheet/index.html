@@ -200,18 +200,18 @@
             </div>
 
             <div class="overflow-x-auto border border-gray-200 rounded-xl shadow-sm bg-slate-50/50">
-                <table class="print-table w-full text-left text-xs min-w-[780px]">
+                <table class="print-table w-full text-left text-xs min-w-[750px]">
                     <thead>
                         <tr class="bg-slate-100 border-b border-gray-300 text-gray-700 font-bold uppercase tracking-wider text-[10px] print:text-[7.2pt]">
-                            <th class="p-1.5 border-r border-gray-200 w-[11%] text-center">Date</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[12%] text-center">Date</th>
                             <th id="th-assignment" class="p-1.5 border-r border-gray-200 w-[41%]">Assignment / Position Activity Category</th>
-                            <th class="p-1.5 border-r border-gray-200 w-[11%] text-center">Time In</th>
-                            <th class="p-1.5 border-r border-gray-200 w-[11%] text-center">Time Out</th>
-                            <th id="th-lunch" class="p-1.5 border-r border-gray-200 w-[13%] text-center hidden">Worked Thru Lunch?</th>
-                            <th class="p-1.5 border-r border-gray-200 w-[8%] text-right">Hours</th>
-                            <th class="p-1.5 border-r border-gray-200 w-[8%] text-right">Rate</th>
-                            <th class="p-1.5 border-r border-gray-200 print:border-r-0 w-[10%] text-right">Gross</th>
-                            <th class="p-1.5 text-center w-[6%] no-print">Action</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[12%] text-center">Time In</th>
+                            <th class="p-1.5 border-r border-gray-200 w-[12%] text-center">Time Out</th>
+                            <th id="th-lunch" class="p-1.5 border-r border-gray-200 w-[15%] text-center hidden">Worked Thru Lunch?</th>
+                            <th id="th-hours" class="p-1.5 border-r border-gray-200 w-[8%] text-right">Hours</th>
+                            <th id="th-rate" class="p-1.5 border-r border-gray-200 w-[8%] text-right">Rate</th>
+                            <th id="th-gross" class="p-1.5 border-r border-gray-200 print:border-r-0 w-[9%] text-right">Gross</th>
+                            <th class="p-1.5 text-center w-[7%] no-print">Action</th>
                         </tr>
                     </thead>
                     <tbody id="timesheetLedgerBody" class="bg-white divide-y divide-gray-200">
@@ -224,15 +224,15 @@
         <section class="summary-space flex flex-col gap-3">
             <div class="payroll-banner bg-slate-950 text-white rounded-xl p-3 flex flex-row justify-between items-center gap-3">
                 <div>
-                    <h3 class="text-xs font-semibold text-slate-200 uppercase tracking-wide">Payroll Summary</h3>
+                    <h3 id="summaryHeading" class="text-xs font-semibold text-slate-200 uppercase tracking-wide">Payroll Summary</h3>
                     <p id="summaryFootnote" class="text-[9.5px] text-slate-400 leading-none mt-0.5">* Clock values rounded to nearest 1/4 hour.</p>
                 </div>
                 <div class="flex flex-row gap-6 items-center">
                     <div class="flex items-baseline gap-1.5">
                         <span class="text-[9px] uppercase font-bold tracking-widest opacity-60">Total Hours:</span>
-                        <span id="lblMonthlyHours" class="text-xl md:text-2xl font-black text-slate-200 tracking-tight">0.00</span>
+                        <span id="lblMonthlyHours" class="text-xl md:text-2xl font-black text-emerald-400 tracking-tight">0.00</span>
                     </div>
-                    <div class="flex items-baseline gap-1.5 border-l border-slate-800 pl-6">
+                    <div id="grossSummaryWrapper" class="flex items-baseline gap-1.5 border-l border-slate-800 pl-6">
                         <span class="text-[9px] uppercase font-bold tracking-widest text-emerald-400">Total Gross:</span>
                         <span id="lblMonthlyTotal" class="text-2xl md:text-3xl font-black text-emerald-400 tracking-tight">$0.00</span>
                     </div>
@@ -397,6 +397,11 @@
             const btnPara = document.getElementById('btn-mode-para');
             const thLunch = document.getElementById('th-lunch');
             const thAssign = document.getElementById('th-assignment');
+            const thHours = document.getElementById('th-hours');
+            const thRate = document.getElementById('th-rate');
+            const thGross = document.getElementById('th-gross');
+            const grossSummaryWrapper = document.getElementById('grossSummaryWrapper');
+            const summaryHeading = document.getElementById('summaryHeading');
             const printSubtitle = document.getElementById('printModeSubtitle');
             const summaryFootnote = document.getElementById('summaryFootnote');
             const helperText = document.getElementById('gridHelperText');
@@ -406,10 +411,15 @@
                 btnExtra.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all";
                 
                 thLunch.classList.remove('hidden');
-                thAssign.classList.remove('w-[41%]');
-                thAssign.classList.add('w-[28%]');
+                thRate.classList.add('hidden');
+                thGross.classList.add('hidden');
+                grossSummaryWrapper.classList.add('hidden');
 
-                printSubtitle.innerText = "Paraprofessional & Hourly Staff Timesheet";
+                thAssign.className = "p-1.5 border-r border-gray-200 w-[39%]";
+                thHours.className = "p-1.5 border-r border-gray-200 print:border-r-0 w-[10%] text-right";
+
+                summaryHeading.innerText = "Hours Summary";
+                printSubtitle.innerText = "Paraprofessional Timesheet";
                 summaryFootnote.innerText = "* Rounded to 1/4 hr. 30-min unpaid lunch is automatically deducted unless 'Worked Thru Lunch' is checked.";
                 helperText.innerHTML = `Leave <strong>Worked Thru Lunch</strong> unchecked to deduct 30 mins automatically. Days without Time In/Out will hide when printing.`;
             } else {
@@ -417,9 +427,14 @@
                 btnPara.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all";
                 
                 thLunch.classList.add('hidden');
-                thAssign.classList.remove('w-[28%]');
-                thAssign.classList.add('w-[41%]');
+                thRate.classList.remove('hidden');
+                thGross.classList.remove('hidden');
+                grossSummaryWrapper.classList.remove('hidden');
 
+                thAssign.className = "p-1.5 border-r border-gray-200 w-[41%]";
+                thHours.className = "p-1.5 border-r border-gray-200 w-[8%] text-right";
+
+                summaryHeading.innerText = "Payroll Summary";
                 printSubtitle.innerText = "Extra Duty & Stipend Timesheet";
                 summaryFootnote.innerText = "* Clock values rounded to nearest 1/4 hour.";
                 helperText.innerHTML = `Fill in a row and click <strong class="text-[#002855]">Copy</strong> to duplicate across days. Blank rows hide when printing.`;
@@ -503,9 +518,9 @@
                             <div id="lunch-print-mirror-${d}" class="lunch-print-display hidden text-slate-700"></div>
                         </td>
                         
-                        <td id="hours-${d}" class="p-1 border-r border-gray-200 text-right font-medium text-gray-500">${savedState.hours}</td>
-                        <td id="rate-${d}" class="p-1 border-r border-gray-200 text-right text-gray-500 font-medium whitespace-nowrap">${savedState.rate}</td>
-                        <td id="gross-${d}" class="p-1 text-right font-semibold text-gray-900 border-r border-gray-200 print:border-r-0 whitespace-nowrap">${savedState.gross}</td>
+                        <td id="hours-${d}" class="p-1 border-r border-gray-200 ${isParaMode ? 'print:border-r-0' : ''} text-right font-medium text-gray-500">${savedState.hours}</td>
+                        <td id="rate-${d}" class="p-1 border-r border-gray-200 text-right text-gray-500 font-medium whitespace-nowrap ${isParaMode ? 'hidden' : ''}">${savedState.rate}</td>
+                        <td id="gross-${d}" class="p-1 text-right font-semibold text-gray-900 border-r border-gray-200 print:border-r-0 whitespace-nowrap ${isParaMode ? 'hidden' : ''}">${savedState.gross}</td>
                         <td class="p-0.5 text-center no-print">
                             <button type="button" onclick="openCopyModal(${d})" title="Copy row to other days" class="px-1.5 py-0.5 text-[10px] font-bold text-[#002855] hover:bg-blue-50 border border-slate-200 rounded">
                                 Copy
@@ -736,8 +751,8 @@
             const inEl = document.getElementById(`in-${sourceDay}`);
             const outEl = document.getElementById(`out-${sourceDay}`);
             
-            if (!selectEl.value && !inEl.value && !outEl.value) {
-                alert(`Day ${sourceDay} has no details logged yet. Fill out this row first before copying.`);
+            if (!inEl.value && !outEl.value && (!selectEl.value || (currentTimesheetMode === 'para' && selectEl.value === 'Paraprofessional'))) {
+                alert(`Day ${sourceDay} has no times logged yet. Fill out Time In / Time Out on this row first before copying.`);
                 return;
             }
 
