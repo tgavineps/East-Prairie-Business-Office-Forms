@@ -381,7 +381,6 @@
             const prevMode = currentTimesheetMode;
             captureCurrentState();
 
-            // Clean up unlogged auto-defaults when switching modes
             for (let d = 1; d <= 31; d++) {
                 const st = userFormDataState[d];
                 if (!st) continue;
@@ -492,12 +491,18 @@
                         <td class="p-1 border-r border-gray-200 font-bold text-center bg-slate-50/60 whitespace-nowrap">${dayLabel}</td>
                         
                         <td class="p-1 border-r border-gray-200">
-                            <select id="assign-${d}" onchange="processRowCalculation(${d})" class="select-assignment w-full border border-gray-300 rounded p-0.5 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855]">
-                                ${activeOptions}
-                            </select>
+                            <div class="no-print flex items-center gap-1.5">
+                                <select id="assign-${d}" onchange="processRowCalculation(${d})" class="select-assignment flex-1 border border-gray-300 rounded p-0.5 text-xs bg-transparent focus:bg-white focus:ring-1 focus:ring-[#002855]">
+                                    ${activeOptions}
+                                </select>
+                                <button type="button" id="btn-add-note-${d}" onclick="toggleNoteField(${d}, true)" class="hidden shrink-0 text-[10px] font-medium text-slate-500 hover:text-[#002855] px-1.5 py-0.5 rounded hover:bg-slate-100 transition-colors" title="Add an optional note for this entry">
+                                    + Note
+                                </button>
+                            </div>
                             
-                            <div id="custom-container-${d}" class="hidden no-print flex gap-1 mt-1">
-                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Clarify role/building context..." class="flex-1 border border-slate-300 bg-slate-50/50 rounded px-1.5 py-0.5 text-xs text-slate-800 placeholder-slate-400 focus:ring-1 focus:ring-[#002855] focus:outline-none">
+                            <div id="custom-container-${d}" class="hidden no-print flex items-center gap-1 mt-1">
+                                <input type="text" id="custom-text-${d}" oninput="processRowCalculation(${d})" placeholder="Optional note (e.g., building, teacher covered)..." class="flex-1 border border-slate-300 bg-slate-50/50 rounded px-1.5 py-0.5 text-xs text-slate-800 placeholder-slate-400 focus:ring-1 focus:ring-[#002855] focus:outline-none">
+                                <button type="button" id="btn-remove-note-${d}" onclick="toggleNoteField(${d}, false)" class="text-slate-400 hover:text-red-500 px-1 text-xs font-bold" title="Remove note">&times;</button>
                             </div>
 
                             <div id="assignment-print-mirror-${d}" class="assignment-print-display hidden"></div>
@@ -586,12 +591,32 @@
             return variableRoles.includes(roleText);
         }
 
+        function toggleNoteField(dayNum, show) {
+            const customContainer = document.getElementById('custom-container-' + dayNum);
+            const customTextInput = document.getElementById('custom-text-' + dayNum);
+            const addNoteBtn = document.getElementById('btn-add-note-' + dayNum);
+
+            if (show) {
+                customContainer.classList.remove('hidden');
+                customContainer.dataset.manualOpen = 'true';
+                if (addNoteBtn) addNoteBtn.classList.add('hidden');
+                customTextInput.focus();
+            } else {
+                customTextInput.value = '';
+                customContainer.dataset.manualOpen = 'false';
+                customContainer.classList.add('hidden');
+                processRowCalculation(dayNum);
+            }
+        }
+
         function processRowCalculation(dayNum) {
             const selectEl = document.getElementById(`assign-${dayNum}`);
             if (!selectEl) return;
 
             const customContainer = document.getElementById('custom-container-' + dayNum);
             const customTextInput = document.getElementById('custom-text-' + dayNum);
+            const addNoteBtn = document.getElementById('btn-add-note-' + dayNum);
+            const removeNoteBtn = document.getElementById('btn-remove-note-' + dayNum);
             const printMirror = document.getElementById('assignment-print-mirror-' + dayNum);
             const lunchCheckbox = document.getElementById('lunch-' + dayNum);
             const lunchPrintMirror = document.getElementById('lunch-print-mirror-' + dayNum);
@@ -610,20 +635,39 @@
             let hourlyRate = 40.44; 
 
             const isVariableRateType = isVariableRateRole(selectedText);
+            const requiresNote = (selectedText === "Other");
+            const hasNoteText = customTextInput.value.trim().length > 0;
+            const isManuallyOpened = customContainer.dataset.manualOpen === 'true';
 
-            if (isVariableRateType) {
+            if (requiresNote) {
                 customContainer.classList.remove('hidden');
-                let explanationText = customTextInput.value.trim();
-                let outputDisplayName = selectedText;
-                
-                if (explanationText) {
-                    outputDisplayName = `${selectedText} — ${explanationText}`;
-                }
-                printMirror.innerText = outputDisplayName;
+                customTextInput.placeholder = "Please specify custom role or activity...";
+                if (addNoteBtn) addNoteBtn.classList.add('hidden');
+                if (removeNoteBtn) removeNoteBtn.classList.add('hidden');
+            } else if (hasNoteText || isManuallyOpened) {
+                customContainer.classList.remove('hidden');
+                customTextInput.placeholder = "Optional note (e.g., building, teacher covered)...";
+                if (addNoteBtn) addNoteBtn.classList.add('hidden');
+                if (removeNoteBtn) removeNoteBtn.classList.remove('hidden');
             } else {
                 customContainer.classList.add('hidden');
-                printMirror.innerText = selectedText;
-                
+                if (addNoteBtn) {
+                    if (selectedText) {
+                        addNoteBtn.classList.remove('hidden');
+                    } else {
+                        addNoteBtn.classList.add('hidden');
+                    }
+                }
+            }
+
+            let explanationText = customTextInput.value.trim();
+            let outputDisplayName = selectedText;
+            if (selectedText && explanationText) {
+                outputDisplayName = `${selectedText} — ${explanationText}`;
+            }
+            printMirror.innerText = outputDisplayName;
+
+            if (!isVariableRateType) {
                 const lowerText = selectedText.toLowerCase();
                 if (lowerText.includes('supervisor') || lowerText.includes('substitution')) {
                     hourlyRate = 31.11;
@@ -731,6 +775,9 @@
                     
                     const textEl = document.getElementById(`custom-text-${d}`);
                     if (textEl) textEl.value = "";
+                    
+                    const customContainer = document.getElementById(`custom-container-${d}`);
+                    if (customContainer) customContainer.dataset.manualOpen = 'false';
                     
                     const inEl = document.getElementById(`in-${d}`);
                     if (inEl) inEl.value = "";
