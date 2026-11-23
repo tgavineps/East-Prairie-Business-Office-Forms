@@ -134,14 +134,14 @@
         <div class="no-print mb-5 bg-slate-100 p-2 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-2">
             <div class="px-2">
                 <span class="text-xs font-bold text-[#002855] uppercase tracking-wide block">Select Timesheet Type:</span>
-                <span class="text-[11px] text-slate-500">Switch to Paraprofessional mode to track 30-minute unpaid/worked lunches.</span>
+                <span class="text-[11px] text-slate-500">Switch to Paraprofessional mode to auto-select Paraprofessional and track 30-minute lunches.</span>
             </div>
             <div class="flex items-center bg-white p-1 rounded-lg border border-slate-200 shadow-sm w-full sm:w-auto">
                 <button type="button" onclick="setTimesheetMode('extraduty')" id="btn-mode-extraduty" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-[#002855] text-white shadow-sm">
                     Extra Duty / Stipend
                 </button>
                 <button type="button" onclick="setTimesheetMode('para')" id="btn-mode-para" class="flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all">
-                    Paraprofessional
+                    Paraprofessional (Includes Lunch)
                 </button>
             </div>
         </div>
@@ -366,9 +366,9 @@
         `;
 
         const paraOptionsMarkup = `
-            <option value="" selected>— Leave Blank / No Work Logged —</option>
+            <option value="">— Leave Blank / No Work Logged —</option>
             <optgroup label="Paraprofessional & Hourly Roles (Business Office Verified)">
-                <option value="Paraprofessional">Paraprofessional</option>
+                <option value="Paraprofessional" selected>Paraprofessional</option>
                 <option value="Substitute Teacher">Substitute Teacher</option>
                 <option value="Professional Development">Professional Development</option>
                 <option value="Other">Other (Specify Custom Role Below)...</option>
@@ -388,6 +388,20 @@
         let activeCopySourceDay = null;
 
         function setTimesheetMode(mode) {
+            const prevMode = currentTimesheetMode;
+            captureCurrentState();
+
+            // Clean up unlogged auto-defaults when switching modes
+            for (let d = 1; d <= 31; d++) {
+                const st = userFormDataState[d];
+                if (!st) continue;
+                if (mode === 'para' && !st.assignment && !st.inTime && !st.outTime) {
+                    st.assignment = "Paraprofessional";
+                } else if (mode === 'extraduty' && prevMode === 'para' && st.assignment === "Paraprofessional" && !st.inTime && !st.outTime && !st.customText) {
+                    st.assignment = "";
+                }
+            }
+
             currentTimesheetMode = mode;
             const btnExtra = document.getElementById('btn-mode-extraduty');
             const btnPara = document.getElementById('btn-mode-para');
@@ -407,7 +421,7 @@
 
                 printSubtitle.innerText = "Paraprofessional & Hourly Staff Timesheet";
                 summaryFootnote.innerText = "* Rounded to 1/4 hr. 30-min unpaid lunch is automatically deducted unless 'Worked Thru Lunch' is checked.";
-                helperText.innerHTML = `Leave <strong>Worked Thru Lunch</strong> unchecked to deduct 30 mins automatically. Check the box if paid lunch applies.`;
+                helperText.innerHTML = `Leave <strong>Worked Thru Lunch</strong> unchecked to deduct 30 mins automatically. Days without Time In/Out will hide when printing.`;
             } else {
                 btnExtra.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-bold transition-all bg-[#002855] text-white shadow-sm";
                 btnPara.className = "flex-1 sm:flex-none px-4 py-1.5 rounded-md text-xs font-medium text-slate-600 hover:text-slate-900 transition-all";
@@ -421,16 +435,18 @@
                 helperText.innerHTML = `Fill in a row and click <strong class="text-[#002855]">Copy</strong> to duplicate across days. Blank rows hide when printing.`;
             }
 
-            generateCalendarRows();
+            generateCalendarRows(true);
         }
 
-        function generateCalendarRows() {
+        function generateCalendarRows(skipCapture = false) {
             const yearInput = parseInt(document.getElementById('tsYearSelect').value) || new Date().getFullYear();
             const monthInput = parseInt(document.getElementById('tsMonthSelect').value);
             const showWeekends = document.getElementById('toggleWeekends').checked;
             const isParaMode = (currentTimesheetMode === 'para');
             
-            captureCurrentState();
+            if (!skipCapture) {
+                captureCurrentState();
+            }
 
             const daysInMonth = new Date(yearInput, monthInput + 1, 0).getDate();
             const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -445,7 +461,7 @@
                 
                 if (isWeekend && !showWeekends) {
                     const state = userFormDataState[d] || {};
-                    if (!state.assignment && !state.inTime && !state.outTime) {
+                    if (!state.inTime && !state.outTime && (!state.assignment || (isParaMode && state.assignment === "Paraprofessional"))) {
                         continue; 
                     }
                 }
@@ -453,8 +469,9 @@
                 const dayLabel = `${d}-${dayNames[dayOfWeek]}`;
                 const rowBg = isWeekend ? 'bg-amber-50/40 text-amber-900' : 'bg-white';
                 
+                const defaultAssignment = isParaMode ? "Paraprofessional" : "";
                 const savedState = userFormDataState[d] || { 
-                    assignment: "", 
+                    assignment: defaultAssignment, 
                     customText: "", 
                     inTime: "", 
                     outTime: "", 
@@ -511,9 +528,14 @@
             ledgerBody.innerHTML = tableMarkup;
 
             for (let d = 1; d <= daysInMonth; d++) {
-                if (userFormDataState[d] && document.getElementById(`assign-${d}`)) {
-                    document.getElementById(`assign-${d}`).value = userFormDataState[d].assignment;
-                    document.getElementById(`custom-text-${d}`).value = userFormDataState[d].customText;
+                const assignEl = document.getElementById(`assign-${d}`);
+                if (assignEl) {
+                    if (userFormDataState[d]) {
+                        assignEl.value = userFormDataState[d].assignment;
+                        document.getElementById(`custom-text-${d}`).value = userFormDataState[d].customText;
+                    } else if (isParaMode) {
+                        assignEl.value = "Paraprofessional";
+                    }
                     processRowCalculation(d);
                 }
             }
@@ -600,11 +622,15 @@
                 }
             }
 
-            if (!selectEl.value && !inTimeVal && !outTimeVal) {
+            // Treat row as unlogged (and hidden on print) if no times are entered AND either assignment is empty or it's just the unedited Para default
+            const isDefaultParaOnly = (isParaMode && selectedText === "Paraprofessional" && !customTextInput.value.trim() && !inTimeVal && !outTimeVal);
+            const isCompletelyBlank = (!selectEl.value && !inTimeVal && !outTimeVal);
+
+            if (isCompletelyBlank || isDefaultParaOnly) {
                 hoursCell.innerText = "—";
                 rateCell.innerText = "—";
                 grossCell.innerText = "—";
-                printMirror.innerText = "";
+                if (isCompletelyBlank) printMirror.innerText = "";
                 if (lunchPrintMirror) lunchPrintMirror.innerText = "";
                 rowElement.classList.add('unlogged-day-row');
                 recalculateGrandTotals();
@@ -690,9 +716,10 @@
         function clearAllRows() {
             if (confirm("Are you sure you want to clear out all logs?")) {
                 userFormDataState = {};
+                const defaultAssignment = (currentTimesheetMode === 'para') ? "Paraprofessional" : "";
                 for (let d = 1; d <= 31; d++) {
                     const selectEl = document.getElementById(`assign-${d}`);
-                    if (selectEl) selectEl.value = "";
+                    if (selectEl) selectEl.value = defaultAssignment;
                     
                     const textEl = document.getElementById(`custom-text-${d}`);
                     if (textEl) textEl.value = "";
@@ -706,7 +733,7 @@
                     const lunchEl = document.getElementById(`lunch-${d}`);
                     if (lunchEl) lunchEl.checked = false;
                 }
-                generateCalendarRows();
+                generateCalendarRows(true);
             }
         }
 
